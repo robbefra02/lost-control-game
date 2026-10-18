@@ -1,0 +1,41 @@
+# Lost Control (working title)
+
+Prototype for KdG MCT2, 2.1 Principles of Game Design.
+
+You are a servicedesk agent handling virus tickets from many PCs at once. You can only see the ticket you are connected to; every other ticket goes stale. The prototype tests whether that hidden information makes players feel torn between tickets.
+
+## Unity version
+
+**Unity 6.3 LTS - 6000.3.7f1** (pinned). Open the project with exactly this version through Unity Hub.
+
+## Project layout
+
+```
+Assets/
+  Scripts/
+    Model/      Pure C# simulation (tickets, viruses), no MonoBehaviours
+    View/       uGUI views that only read model state
+    Config/     ScriptableObject types (LevelConfig, TicketDefinition)
+  ScriptableObjects/  Config assets with all tunable values (Level1Config)
+  Audio/        Placeholder audio cues
+  Scenes/       The single game scene
+```
+
+All tunable values live in `Assets/ScriptableObjects/Level1Config.asset`. Select it to edit them in the Inspector; fields marked `[ASSUMPTION]` in their tooltip are defaults still to be confirmed by the designer.
+
+## Status
+
+Building level 1 step by step. Milestone 2 deadline: 2026-10-21.
+
+- [x] Step 0 - Project setup
+- [x] Step 1 - Config data
+- [ ] Step 2 - Greybox layout
+- [ ] Step 3 - One virus, one motherboard
+- [ ] Step 4 - Damage
+- [ ] Step 5 - Tickets and list
+- [ ] Step 6 - Connecting and stale view
+- [ ] Step 7 - Win / lose / restart
+
+## Build
+
+Windows build link will be added here (step 10).
