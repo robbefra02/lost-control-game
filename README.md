@@ -30,7 +30,7 @@ Building level 1 step by step. Milestone 2 deadline: 2026-10-21.
 - [x] Step 0 - Project setup
 - [x] Step 1 - Config data
 - [x] Step 2 - Greybox layout
-- [ ] Step 3 - One virus, one motherboard
+- [x] Step 3 - One virus, one motherboard
 - [ ] Step 4 - Damage
 - [ ] Step 5 - Tickets and list
 - [ ] Step 6 - Connecting and stale view

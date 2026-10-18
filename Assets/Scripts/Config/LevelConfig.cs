@@ -52,6 +52,9 @@ namespace LostControl.Config
         [Tooltip("[ASSUMPTION] Max dots per component. Spreading stops here and the damage countdown starts.")]
         [Min(1)] public int dotCap = 30;
 
+        [Tooltip("[ASSUMPTION] Dot size on screen, in canvas pixels at 1920x1080. Bigger dots are easier to click.")]
+        [Min(1f)] public float dotDiameter = 28f;
+
         [Header("Damage")]
         [Tooltip("Seconds continuously at cap for +1 damage level.")]
         [Min(0.1f)] public float damageInterval = 20f;

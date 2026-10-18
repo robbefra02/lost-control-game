@@ -75,6 +75,7 @@ MonoBehaviour:
   spreadInterval: 2
   spreadDistance: 0.05
   dotCap: 30
+  dotDiameter: 28
   damageInterval: 20
   countdownBelowCap: 0
   payoutFine: 100
