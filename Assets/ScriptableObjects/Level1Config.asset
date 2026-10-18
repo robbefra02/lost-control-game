@@ -70,10 +70,10 @@ MonoBehaviour:
       height: 0.3
   connectionTime: 2.5
   hiddenDamageCue: 1
-  startDotsMin: 8
-  startDotsMax: 9
-  spreadInterval: 2
-  spreadDistance: 0.05
+  startDotsMin: 3
+  startDotsMax: 6
+  spreadInterval: 5
+  spreadDistance: 0.2
   dotCap: 30
   dotDiameter: 28
   damageInterval: 20
