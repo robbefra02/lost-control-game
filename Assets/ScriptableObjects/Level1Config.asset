@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07430a959cea9784e8f1699cd5b0656d, type: 3}
+  m_Name: Level1Config
+  m_EditorClassIdentifier: Assembly-CSharp::LostControl.Config.LevelConfig
+  randomSeed: 12345
+  tickets:
+  - description: PC acts strange
+    arrivalTime: 0
+    threat: 0
+    infectedArea:
+      serializedVersion: 2
+      x: 0.05
+      y: 0.55
+      width: 0.3
+      height: 0.35
+  - description: Virus warning shown
+    arrivalTime: 8
+    threat: 0
+    infectedArea:
+      serializedVersion: 2
+      x: 0.6
+      y: 0.6
+      width: 0.3
+      height: 0.3
+  - description: Computer is really slow
+    arrivalTime: 20
+    threat: 0
+    infectedArea:
+      serializedVersion: 2
+      x: 0.35
+      y: 0.1
+      width: 0.3
+      height: 0.3
+  - description: Pop-ups everywhere
+    arrivalTime: 30
+    threat: 0
+    infectedArea:
+      serializedVersion: 2
+      x: 0.05
+      y: 0.1
+      width: 0.25
+      height: 0.35
+  - description: Files won't open
+    arrivalTime: 45
+    threat: 0
+    infectedArea:
+      serializedVersion: 2
+      x: 0.65
+      y: 0.1
+      width: 0.3
+      height: 0.35
+  - description: Fan is very loud
+    arrivalTime: 55
+    threat: 0
+    infectedArea:
+      serializedVersion: 2
+      x: 0.38
+      y: 0.5
+      width: 0.25
+      height: 0.3
+  connectionTime: 2.5
+  hiddenDamageCue: 1
+  startDotsMin: 8
+  startDotsMax: 9
+  spreadInterval: 2
+  spreadDistance: 0.05
+  dotCap: 30
+  damageInterval: 20
+  countdownBelowCap: 0
+  payoutFine: 100
+  payoutSlightlyBroken: 75
+  payoutMoreBroken: 50
+  payoutBlackout: 0
+  startingVirusContainers: 2
+  virusContainerDuration: 10
+  shopEnabled: 1
+  virusContainerPrice: 100
+  lostUsersToLose: 2
