@@ -6,7 +6,7 @@ using UnityEngine;
 namespace LostControl.View
 {
     /// <summary>
-    /// Draws the virus dots on the motherboard panel and passes dot clicks to the model.
+    /// Draws the ticket's virus dots and damage state on the motherboard panel and passes dot clicks to the model.
     /// It only mirrors model state: dots are added or removed here when the model's dot list changes.
     /// </summary>
     public class MotherboardView : MonoBehaviour
@@ -14,11 +14,23 @@ namespace LostControl.View
         [SerializeField] GameController game;
         [Tooltip("Area that maps to normalized motherboard coordinates (0-1).")]
         [SerializeField] RectTransform board;
+        [Tooltip("Board background, tinted by damage level.")]
+        [SerializeField] UnityEngine.UI.Image boardImage;
         [Tooltip("Outline of the infected component, stretched to the virus area.")]
         [SerializeField] RectTransform componentOutline;
         [SerializeField] TMP_Text statusLabel;
+        [SerializeField] TMP_Text damageLabel;
         [SerializeField] Sprite dotSprite;
         [SerializeField] Color dotColor = new Color(0.9f, 0.15f, 0.15f);
+
+        [Tooltip("Board tint per damage level: Fine, Slightly broken, More broken, Blackout.")]
+        [SerializeField] Color[] damageTints =
+        {
+            new Color32(0x25, 0x28, 0x2E, 0xFF),
+            new Color32(0x3A, 0x36, 0x22, 0xFF),
+            new Color32(0x45, 0x26, 0x1F, 0xFF),
+            new Color32(0x08, 0x08, 0x0A, 0xFF),
+        };
 
         readonly Dictionary<int, DotView> dotViews = new Dictionary<int, DotView>();
         readonly HashSet<int> liveIds = new HashSet<int>();
@@ -26,7 +38,7 @@ namespace LostControl.View
 
         void Start()
         {
-            var area = game.Simulation.Virus.Area;
+            var area = game.Simulation.Ticket.Virus.Area;
             componentOutline.anchorMin = area.min;
             componentOutline.anchorMax = area.max;
             componentOutline.offsetMin = Vector2.zero;
@@ -35,9 +47,23 @@ namespace LostControl.View
 
         void LateUpdate()
         {
-            var virus = game.Simulation.Virus;
+            var ticket = game.Simulation.Ticket;
+            var virus = ticket.Virus;
             SyncDots(virus);
             statusLabel.text = virus.IsCleared ? "Resolved" : $"Dots {virus.DotCount} / {virus.Cap}";
+            damageLabel.text = DamageName(ticket.Damage);
+            boardImage.color = damageTints[(int)ticket.Damage];
+        }
+
+        static string DamageName(DamageLevel level)
+        {
+            switch (level)
+            {
+                case DamageLevel.Fine: return "Fine";
+                case DamageLevel.SlightlyBroken: return "Slightly broken";
+                case DamageLevel.MoreBroken: return "More broken";
+                default: return "Blackout";
+            }
         }
 
         void SyncDots(VirusModel virus)
@@ -84,7 +110,7 @@ namespace LostControl.View
 
         void OnDotClicked(int id)
         {
-            game.Simulation.Virus.RemoveDot(id);
+            game.Simulation.Ticket.Virus.RemoveDot(id);
         }
     }
 }
