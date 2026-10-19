@@ -36,6 +36,11 @@ namespace LostControl.Config
                  "Not confirmed by the designer yet.")]
         public bool hiddenDamageCue = true;
 
+        [Tooltip("[ASSUMPTION] Off: a ticket's list entry only updates while that ticket is connected, " +
+                 "so the list is also stale before the first connection and after a resolve. " +
+                 "On: with no session at all, every entry shows live state.")]
+        public bool liveListWhenDisconnected = false;
+
         [Header("Virus")]
         [Tooltip("Fewest dots a virus starts with.")]
         [Min(1)] public int startDotsMin = 8;

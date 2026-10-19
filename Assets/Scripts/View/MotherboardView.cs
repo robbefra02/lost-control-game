@@ -64,12 +64,14 @@ namespace LostControl.View
 
         void LateUpdate()
         {
-            // Step 5: always shows the first ticket. Step 6 shows the connected ticket instead.
-            if (Ticket == null && game.Simulation.Tickets.Count > 0) Show(game.Simulation.Tickets[0]);
+            // Only a fully connected ticket can be seen and worked on.
+            var connection = game.Simulation.Connection;
+            var connected = connection.State == ConnectionState.Connected ? connection.Target : null;
+            if (connected != Ticket) Show(connected);
 
             if (Ticket == null)
             {
-                statusLabel.text = "";
+                statusLabel.text = connection.State == ConnectionState.Connecting ? "Connecting..." : "";
                 damageLabel.text = "";
                 boardImage.color = damageTints[0];
                 return;

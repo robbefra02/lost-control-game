@@ -34,7 +34,7 @@ Building level 1 step by step. Milestone 2 deadline: 2026-10-21.
 - [x] Step 3 - One virus, one motherboard
 - [x] Step 4 - Damage
 - [x] Step 5 - Tickets and list
-- [ ] Step 6 - Connecting and stale view
+- [x] Step 6 - Connecting and stale view
 - [ ] Step 7 - Win / lose / restart
 
 ## Build

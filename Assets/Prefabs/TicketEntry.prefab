@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2291840106880937637}
   - component: {fileID: 5112854099338975206}
   - component: {fileID: 3917913826610801974}
+  - component: {fileID: 2790865518964373058}
   m_Layer: 5
   m_Name: TicketEntry
   m_TagString: Untagged
@@ -112,14 +113,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a11535e43c6c8345a8d63ed4a9f9aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LostControl.View.TicketEntryView
+  background: {fileID: 2291840106880937637}
+  canvasGroup: {fileID: 2790865518964373058}
   titleLabel: {fileID: 1017020189083585711}
   damageLabel: {fileID: 2796434630533834272}
   statusLabel: {fileID: 6225299768466858408}
+  normalColor: {r: 0.21960784, g: 0.23529412, b: 0.26666668, a: 1}
+  connectedColor: {r: 0.20392157, g: 0.30588236, b: 0.47058824, a: 1}
+  flashColor: {r: 0.6039216, g: 0.17254902, b: 0.17254902, a: 1}
+  flashDuration: 1
+  staleAlpha: 0.55
   damageColors:
   - {r: 0.6039216, g: 0.6392157, b: 0.6862745, a: 1}
   - {r: 0.8784314, g: 0.7647059, b: 0.25490198, a: 1}
   - {r: 0.9098039, g: 0.5137255, b: 0.22745098, a: 1}
   - {r: 0.8980392, g: 0.28235295, b: 0.3019608, a: 1}
+--- !u!225 &2790865518964373058
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755858560127966296}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3102102606401113537
 GameObject:
   m_ObjectHideFlags: 0

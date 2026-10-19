@@ -1,3 +1,4 @@
+using System;
 using LostControl.Config;
 
 namespace LostControl.Model
@@ -25,6 +26,8 @@ namespace LostControl.Model
 
         public bool IsResolved => Virus.IsCleared;
         public bool IsBlackout => Damage == DamageLevel.Blackout;
+
+        public event Action<TicketModel> DamageIncreased;
 
         public TicketModel(int id, TicketDefinition definition, LevelConfig config, SeededRandom random, float arrivedAt)
         {
@@ -60,6 +63,7 @@ namespace LostControl.Model
             {
                 DamageTimer -= damageInterval;
                 Damage++;
+                DamageIncreased?.Invoke(this);
             }
             if (IsBlackout) DamageTimer = 0f;
         }

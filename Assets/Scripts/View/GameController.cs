@@ -17,11 +17,18 @@ namespace LostControl.View
         {
             Simulation = new GameSimulation(config);
             Simulation.TicketArrived += _ => audioManager.Play(AudioCue.NewTicket);
+            Simulation.TicketDamaged += OnTicketDamaged;
         }
 
         void Update()
         {
             Simulation.Tick(Time.deltaTime);
+        }
+
+        void OnTicketDamaged(TicketModel ticket)
+        {
+            if (config.hiddenDamageCue && Simulation.IsStale(ticket))
+                audioManager.Play(AudioCue.HiddenDamage);
         }
     }
 }

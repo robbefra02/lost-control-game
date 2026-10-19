@@ -4,5 +4,8 @@ namespace LostControl.View
     public enum AudioCue
     {
         NewTicket = 0,
+
+        /// <summary>A ticket the player cannot see gained a damage level.</summary>
+        HiddenDamage = 1,
     }
 }
