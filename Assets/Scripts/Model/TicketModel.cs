@@ -11,9 +11,14 @@ namespace LostControl.Model
         readonly float damageInterval;
         readonly CountdownBelowCap countdownBelowCap;
 
+        /// <summary>Index of this ticket's definition in the level config.</summary>
+        public int Id { get; }
         public TicketDefinition Definition { get; }
         public VirusModel Virus { get; }
         public DamageLevel Damage { get; private set; } = DamageLevel.Fine;
+
+        /// <summary>Level time at which this ticket arrived.</summary>
+        public float ArrivedAt { get; }
 
         /// <summary>Seconds at cap counted toward the next damage level.</summary>
         public float DamageTimer { get; private set; }
@@ -21,9 +26,11 @@ namespace LostControl.Model
         public bool IsResolved => Virus.IsCleared;
         public bool IsBlackout => Damage == DamageLevel.Blackout;
 
-        public TicketModel(TicketDefinition definition, LevelConfig config, SeededRandom random)
+        public TicketModel(int id, TicketDefinition definition, LevelConfig config, SeededRandom random, float arrivedAt)
         {
+            Id = id;
             Definition = definition;
+            ArrivedAt = arrivedAt;
             damageInterval = config.damageInterval;
             countdownBelowCap = config.countdownBelowCap;
 

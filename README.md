@@ -17,7 +17,8 @@ Assets/
     View/       uGUI views that only read model state
     Config/     ScriptableObject types (LevelConfig, TicketDefinition)
   ScriptableObjects/  Config assets with all tunable values (Level1Config)
-  Audio/        Placeholder audio cues
+  Prefabs/      UI pieces created at runtime (ticket list entry)
+  Audio/        Sound files per cue (none yet: missing cues play a placeholder beep)
   Scenes/       The single game scene
 ```
 
@@ -32,7 +33,7 @@ Building level 1 step by step. Milestone 2 deadline: 2026-10-21.
 - [x] Step 2 - Greybox layout
 - [x] Step 3 - One virus, one motherboard
 - [x] Step 4 - Damage
-- [ ] Step 5 - Tickets and list
+- [x] Step 5 - Tickets and list
 - [ ] Step 6 - Connecting and stale view
 - [ ] Step 7 - Win / lose / restart
 

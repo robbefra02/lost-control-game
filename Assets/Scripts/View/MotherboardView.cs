@@ -6,7 +6,7 @@ using UnityEngine;
 namespace LostControl.View
 {
     /// <summary>
-    /// Draws the ticket's virus dots and damage state on the motherboard panel and passes dot clicks to the model.
+    /// Draws one ticket's virus dots and damage state on the motherboard panel and passes dot clicks to the model.
     /// It only mirrors model state: dots are added or removed here when the model's dot list changes.
     /// </summary>
     public class MotherboardView : MonoBehaviour
@@ -36,34 +36,50 @@ namespace LostControl.View
         readonly HashSet<int> liveIds = new HashSet<int>();
         readonly List<int> staleIds = new List<int>();
 
-        void Start()
+        /// <summary>The ticket on the board, or null for an empty board.</summary>
+        public TicketModel Ticket { get; private set; }
+
+        void Awake()
         {
-            var area = game.Simulation.Ticket.Virus.Area;
-            componentOutline.anchorMin = area.min;
-            componentOutline.anchorMax = area.max;
-            componentOutline.offsetMin = Vector2.zero;
-            componentOutline.offsetMax = Vector2.zero;
+            Show(null);
+        }
+
+        /// <summary>Switches the board to another ticket (or null to empty it).</summary>
+        public void Show(TicketModel ticket)
+        {
+            Ticket = ticket;
+            foreach (var view in dotViews.Values) Destroy(view.gameObject);
+            dotViews.Clear();
+
+            componentOutline.gameObject.SetActive(ticket != null);
+            if (ticket != null)
+            {
+                var area = ticket.Virus.Area;
+                componentOutline.anchorMin = area.min;
+                componentOutline.anchorMax = area.max;
+                componentOutline.offsetMin = Vector2.zero;
+                componentOutline.offsetMax = Vector2.zero;
+            }
         }
 
         void LateUpdate()
         {
-            var ticket = game.Simulation.Ticket;
-            var virus = ticket.Virus;
+            // Step 5: always shows the first ticket. Step 6 shows the connected ticket instead.
+            if (Ticket == null && game.Simulation.Tickets.Count > 0) Show(game.Simulation.Tickets[0]);
+
+            if (Ticket == null)
+            {
+                statusLabel.text = "";
+                damageLabel.text = "";
+                boardImage.color = damageTints[0];
+                return;
+            }
+
+            var virus = Ticket.Virus;
             SyncDots(virus);
             statusLabel.text = virus.IsCleared ? "Resolved" : $"Dots {virus.DotCount} / {virus.Cap}";
-            damageLabel.text = DamageName(ticket.Damage);
-            boardImage.color = damageTints[(int)ticket.Damage];
-        }
-
-        static string DamageName(DamageLevel level)
-        {
-            switch (level)
-            {
-                case DamageLevel.Fine: return "Fine";
-                case DamageLevel.SlightlyBroken: return "Slightly broken";
-                case DamageLevel.MoreBroken: return "More broken";
-                default: return "Blackout";
-            }
+            damageLabel.text = DamageLevelText.Name(Ticket.Damage);
+            boardImage.color = damageTints[(int)Ticket.Damage];
         }
 
         void SyncDots(VirusModel virus)
@@ -110,7 +126,7 @@ namespace LostControl.View
 
         void OnDotClicked(int id)
         {
-            game.Simulation.Ticket.Virus.RemoveDot(id);
+            Ticket?.Virus.RemoveDot(id);
         }
     }
 }
