@@ -35,7 +35,7 @@ Building level 1 step by step. Milestone 2 deadline: 2026-10-21.
 - [x] Step 4 - Damage
 - [x] Step 5 - Tickets and list
 - [x] Step 6 - Connecting and stale view
-- [ ] Step 7 - Win / lose / restart
+- [x] Step 7 - Win / lose / restart
 
 ## Build
 

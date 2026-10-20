@@ -1,6 +1,7 @@
 using LostControl.Config;
 using LostControl.Model;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace LostControl.View
 {
@@ -23,6 +24,12 @@ namespace LostControl.View
         void Update()
         {
             Simulation.Tick(Time.deltaTime);
+        }
+
+        /// <summary>Starts the level over by reloading the scene, so every model and view starts fresh.</summary>
+        public void Restart()
+        {
+            SceneManager.LoadScene(gameObject.scene.name);
         }
 
         void OnTicketDamaged(TicketModel ticket)

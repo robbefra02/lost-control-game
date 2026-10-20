@@ -23,10 +23,38 @@ namespace LostControl.Model
 
         public ConnectionModel Connection { get; }
 
+        public GameOutcome Outcome { get; private set; } = GameOutcome.Playing;
+
+        /// <summary>Arrived tickets that are resolved.</summary>
+        public int ResolvedCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (var ticket in tickets) if (ticket.IsResolved) count++;
+                return count;
+            }
+        }
+
+        /// <summary>Users lost: tickets that reached Blackout, resolved or not.</summary>
+        public int LostUsers
+        {
+            get
+            {
+                int count = 0;
+                foreach (var ticket in tickets) if (ticket.IsBlackout) count++;
+                return count;
+            }
+        }
+
+        public int LostUsersToLose => config.lostUsersToLose;
+
         public event Action<TicketModel> TicketArrived;
 
         /// <summary>Any ticket gained a damage level, whether or not the player can see it.</summary>
         public event Action<TicketModel> TicketDamaged;
+
+        public event Action<GameOutcome> GameOver;
 
         public GameSimulation(LevelConfig config)
         {
@@ -44,6 +72,7 @@ namespace LostControl.Model
 
         public void Connect(TicketModel ticket)
         {
+            if (Outcome != GameOutcome.Playing) return;
             Connection.Connect(ticket);
         }
 
@@ -58,8 +87,11 @@ namespace LostControl.Model
             return true;
         }
 
+        /// <summary>Advances the level. Does nothing once the level is won or lost.</summary>
         public void Tick(float deltaTime)
         {
+            if (Outcome != GameOutcome.Playing) return;
+
             Time += deltaTime;
             foreach (var ticket in tickets) ticket.Tick(deltaTime);
             Connection.Tick(deltaTime);
@@ -73,6 +105,21 @@ namespace LostControl.Model
                 tickets.Add(ticket);
                 TicketArrived?.Invoke(ticket);
             }
+
+            CheckOutcome();
+        }
+
+        // Losing wins ties: if the last resolve and the deciding Blackout land on the same tick, the level is lost.
+        void CheckOutcome()
+        {
+            if (LostUsers >= config.lostUsersToLose) End(GameOutcome.Lost);
+            else if (nextArrival >= arrivalOrder.Count && ResolvedCount == TotalTickets) End(GameOutcome.Won);
+        }
+
+        void End(GameOutcome outcome)
+        {
+            Outcome = outcome;
+            GameOver?.Invoke(outcome);
         }
     }
 }
