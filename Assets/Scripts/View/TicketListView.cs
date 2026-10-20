@@ -7,7 +7,7 @@ namespace LostControl.View
 {
     /// <summary>
     /// Shows one entry per arrived ticket, oldest at the top. Clicking an entry connects to its ticket.
-    /// The header shows a pause icon while the list is paused (stale) and a disconnect button.
+    /// The header has a disconnect button.
     /// </summary>
     public class TicketListView : MonoBehaviour
     {
@@ -15,9 +15,6 @@ namespace LostControl.View
         [Tooltip("Parent of the entries; its layout group stacks them.")]
         [SerializeField] RectTransform entryParent;
         [SerializeField] TicketEntryView entryPrefab;
-
-        [Tooltip("Shown while at least one open ticket in the list is stale.")]
-        [SerializeField] GameObject pausedIcon;
 
         [SerializeField] Button disconnectButton;
         [SerializeField] CanvasGroup disconnectGroup;
@@ -47,14 +44,8 @@ namespace LostControl.View
                 entries.Add(entry);
             }
 
-            bool anyStale = false;
             foreach (var entry in entries)
-            {
-                bool stale = simulation.IsStale(entry.Ticket);
-                anyStale |= stale;
-                entry.Refresh(stale, simulation.Connection);
-            }
-            pausedIcon.SetActive(anyStale);
+                entry.Refresh(simulation.IsStale(entry.Ticket), simulation.Connection);
 
             bool canDisconnect = simulation.Outcome == GameOutcome.Playing
                 && simulation.Connection.State == ConnectionState.Connected;

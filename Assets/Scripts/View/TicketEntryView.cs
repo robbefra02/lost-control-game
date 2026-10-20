@@ -24,7 +24,7 @@ namespace LostControl.View
         [SerializeField] Color flashColor = new Color32(0x9A, 0x2C, 0x2C, 0xFF);
         [SerializeField] float flashDuration = 1f;
         [Range(0f, 1f)]
-        [SerializeField] float staleAlpha = 0.35f;
+        [SerializeField] float staleAlpha = 0.2f;
 
         [Tooltip("Damage label colour per level: Fine, Slightly broken, More broken, Blackout.")]
         [SerializeField] Color[] damageColors =
