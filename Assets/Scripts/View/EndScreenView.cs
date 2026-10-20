@@ -13,6 +13,8 @@ namespace LostControl.View
         [SerializeField] GameObject overlay;
         [SerializeField] TMP_Text titleLabel;
         [SerializeField] TMP_Text summaryLabel;
+        [Tooltip("Hint shown above the restart button after a loss only.")]
+        [SerializeField] GameObject lossTip;
         [SerializeField] Button restartButton;
 
         void Awake()
@@ -27,6 +29,8 @@ namespace LostControl.View
             bool over = simulation.Outcome != GameOutcome.Playing;
             if (overlay.activeSelf != over) overlay.SetActive(over);
             if (!over) return;
+
+            lossTip.SetActive(simulation.Outcome == GameOutcome.Lost);
 
             if (simulation.Outcome == GameOutcome.Lost) titleLabel.text = $"{simulation.LostUsers} users lost";
             else titleLabel.text = simulation.LostUsers == 0 ? "All tickets resolved" : "All tickets closed";
