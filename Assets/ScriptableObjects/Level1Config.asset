@@ -68,9 +68,9 @@ MonoBehaviour:
       y: 0.5
       width: 0.25
       height: 0.3
-  connectionTime: 2.5
+  connectionTime: 3
   hiddenDamageCue: 1
-  liveListWhenDisconnected: 0
+  liveListWhenDisconnected: 1
   startDotsMin: 3
   startDotsMax: 6
   spreadInterval: 5

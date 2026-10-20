@@ -76,6 +76,12 @@ namespace LostControl.Model
             Connection.Connect(ticket);
         }
 
+        public void Disconnect()
+        {
+            if (Outcome != GameOutcome.Playing) return;
+            Connection.Disconnect();
+        }
+
         /// <summary>True when the player is not looking at this ticket: it is not the connected ticket.</summary>
         public bool IsHidden(TicketModel ticket)
         {

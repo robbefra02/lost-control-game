@@ -56,6 +56,18 @@ namespace LostControl.Model
             if (connectionTime <= 0f) Complete();
         }
 
+        /// <summary>Ends a connected session at once (no wait). Ignored while still connecting or without a session.</summary>
+        public void Disconnect()
+        {
+            if (State != ConnectionState.Connected) return;
+
+            Disconnected?.Invoke(Target);
+            KickedFrom = null;
+            Target = null;
+            State = ConnectionState.None;
+            elapsed = 0f;
+        }
+
         /// <summary>Closes the session if it is on this ticket (connecting or connected).</summary>
         public void Kick(TicketModel ticket)
         {

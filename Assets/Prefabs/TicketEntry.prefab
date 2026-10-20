@@ -122,7 +122,7 @@ MonoBehaviour:
   connectedColor: {r: 0.20392157, g: 0.30588236, b: 0.47058824, a: 1}
   flashColor: {r: 0.6039216, g: 0.17254902, b: 0.17254902, a: 1}
   flashDuration: 1
-  staleAlpha: 0.55
+  staleAlpha: 0.35
   damageColors:
   - {r: 0.6039216, g: 0.6392157, b: 0.6862745, a: 1}
   - {r: 0.8784314, g: 0.7647059, b: 0.25490198, a: 1}
