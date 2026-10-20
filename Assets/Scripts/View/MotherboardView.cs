@@ -79,7 +79,7 @@ namespace LostControl.View
 
             var virus = Ticket.Virus;
             SyncDots(virus);
-            statusLabel.text = virus.IsCleared ? "Resolved" : $"Dots {virus.DotCount} / {virus.Cap}";
+            statusLabel.text = Ticket.IsResolved ? "Resolved" : $"Dots {virus.DotCount} / {virus.Cap}";
             damageLabel.text = DamageLevelText.Name(Ticket.Damage);
             boardImage.color = damageTints[(int)Ticket.Damage];
         }

@@ -63,6 +63,7 @@ namespace LostControl.View
 
             bool isTarget = connection.Target == Ticket;
             if (Ticket.IsResolved) statusLabel.text = "Resolved";
+            else if (Ticket.IsBlackout) statusLabel.text = "Lost";
             else if (isTarget && connection.State == ConnectionState.Connecting) statusLabel.text = $"Connecting {Mathf.RoundToInt(connection.Progress * 100f)}%";
             else if (isTarget && connection.State == ConnectionState.Connected) statusLabel.text = "Connected";
             else statusLabel.text = stale ? "Stale" : "Open";

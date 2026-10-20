@@ -37,7 +37,7 @@ namespace LostControl.View
         // Hidden degradation cue: flash the row of a ticket the player cannot see.
         void OnTicketDamaged(TicketModel ticket)
         {
-            if (!game.Config.hiddenDamageCue || !game.Simulation.IsStale(ticket)) return;
+            if (!game.Config.hiddenDamageCue || !game.Simulation.IsHidden(ticket)) return;
             foreach (var entry in entries)
                 if (entry.Ticket == ticket) entry.Flash();
         }

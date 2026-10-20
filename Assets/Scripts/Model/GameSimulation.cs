@@ -76,15 +76,21 @@ namespace LostControl.Model
             Connection.Connect(ticket);
         }
 
+        /// <summary>True when the player is not looking at this ticket: it is not the connected ticket.</summary>
+        public bool IsHidden(TicketModel ticket)
+        {
+            if (Connection.IsConnectedTo(ticket)) return false;
+            if (config.liveListWhenDisconnected && Connection.State == ConnectionState.None) return false;
+            return true;
+        }
+
         /// <summary>
-        /// True when the player cannot see this ticket's current state: it is open and not the connected ticket.
-        /// Resolved tickets are closed and never change, so they are never stale.
+        /// True when the list may only show this ticket's last-known state: it is open and hidden.
+        /// Closed tickets (resolved or lost) never change again, so they are never stale.
         /// </summary>
         public bool IsStale(TicketModel ticket)
         {
-            if (ticket.IsResolved || Connection.IsConnectedTo(ticket)) return false;
-            if (config.liveListWhenDisconnected && Connection.State == ConnectionState.None) return false;
-            return true;
+            return !ticket.IsClosed && IsHidden(ticket);
         }
 
         /// <summary>Advances the level. Does nothing once the level is won or lost.</summary>
@@ -101,7 +107,7 @@ namespace LostControl.Model
                 int id = arrivalOrder[nextArrival++];
                 // Each ticket gets its own random stream, so one ticket's dots never change another's.
                 var ticket = new TicketModel(id, config.tickets[id], config, new SeededRandom(config.randomSeed + id), Time);
-                ticket.DamageIncreased += t => TicketDamaged?.Invoke(t);
+                ticket.DamageIncreased += OnTicketDamaged;
                 tickets.Add(ticket);
                 TicketArrived?.Invoke(ticket);
             }
@@ -109,11 +115,25 @@ namespace LostControl.Model
             CheckOutcome();
         }
 
-        // Losing wins ties: if the last resolve and the deciding Blackout land on the same tick, the level is lost.
+        // Listeners hear about the damage while the session is still open, then a blacked-out ticket kicks the player out.
+        void OnTicketDamaged(TicketModel ticket)
+        {
+            TicketDamaged?.Invoke(ticket);
+            if (ticket.IsBlackout) Connection.Kick(ticket);
+        }
+
+        // Lost as soon as enough users are lost; otherwise the level ends once every ticket is closed.
+        // Losing wins ties: if the last close and the deciding Blackout land on the same tick, the level is lost.
         void CheckOutcome()
         {
-            if (LostUsers >= config.lostUsersToLose) End(GameOutcome.Lost);
-            else if (nextArrival >= arrivalOrder.Count && ResolvedCount == TotalTickets) End(GameOutcome.Won);
+            if (LostUsers >= config.lostUsersToLose)
+            {
+                End(GameOutcome.Lost);
+                return;
+            }
+            if (nextArrival < arrivalOrder.Count) return;
+            foreach (var ticket in tickets) if (!ticket.IsClosed) return;
+            End(GameOutcome.Won);
         }
 
         void End(GameOutcome outcome)

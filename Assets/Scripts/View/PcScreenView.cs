@@ -34,8 +34,9 @@ namespace LostControl.View
                         : $"Connected - {DamageLevelText.Name(ticket.Damage)}";
                     break;
                 default:
-                    titleLabel.text = "No remote session";
-                    infoLabel.text = "Click a ticket to connect.";
+                    var kicked = connection.KickedFrom;
+                    titleLabel.text = kicked != null ? $"#{kicked.Id + 1} blacked out" : "No remote session";
+                    infoLabel.text = kicked != null ? "Session closed: this user is lost. Click another ticket." : "Click a ticket to connect.";
                     break;
             }
         }

@@ -28,9 +28,8 @@ namespace LostControl.View
             if (overlay.activeSelf != over) overlay.SetActive(over);
             if (!over) return;
 
-            titleLabel.text = simulation.Outcome == GameOutcome.Won
-                ? "All tickets resolved"
-                : $"{simulation.LostUsers} users lost";
+            if (simulation.Outcome == GameOutcome.Lost) titleLabel.text = $"{simulation.LostUsers} users lost";
+            else titleLabel.text = simulation.LostUsers == 0 ? "All tickets resolved" : "All tickets closed";
             summaryLabel.text =
                 $"Resolved {simulation.ResolvedCount} / {simulation.TotalTickets}    " +
                 $"Lost users {simulation.LostUsers} / {simulation.LostUsersToLose}    " +

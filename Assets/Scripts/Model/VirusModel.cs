@@ -68,6 +68,12 @@ namespace LostControl.Model
             return false;
         }
 
+        /// <summary>Removes every dot at once (the PC blacked out).</summary>
+        public void Clear()
+        {
+            dots.Clear();
+        }
+
         // Every existing dot copies itself once, in random order, until the cap is reached.
         void Spread()
         {
@@ -83,16 +89,29 @@ namespace LostControl.Model
             foreach (int index in spreadOrder)
             {
                 if (IsAtCap) return;
-                float angle = random.Range(0f, 2f * Mathf.PI);
-                float distance = random.Range(0f, spreadDistance);
-                Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
-                AddDot(ClampToArea(dots[index].position + offset));
+                AddDot(NearbyPosition(dots[index].position));
             }
         }
 
         void AddDot(Vector2 position)
         {
             dots.Add(new Dot { id = nextId++, position = position });
+        }
+
+        // A random spot within spreadDistance of the parent. Spots outside the component are re-rolled,
+        // so copies do not pile up on its edges; clamping is only the fallback after many misses.
+        Vector2 NearbyPosition(Vector2 parent)
+        {
+            const int attempts = 10;
+            Vector2 candidate = parent;
+            for (int i = 0; i < attempts; i++)
+            {
+                float angle = random.Range(0f, 2f * Mathf.PI);
+                float distance = random.Range(0f, spreadDistance);
+                candidate = parent + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+                if (Area.Contains(candidate)) return candidate;
+            }
+            return ClampToArea(candidate);
         }
 
         Vector2 ClampToArea(Vector2 position)

@@ -5,7 +5,8 @@ namespace LostControl.Model
 {
     /// <summary>
     /// One user's PC with one problem. Owns the virus and the PC's damage level.
-    /// Damage only builds up while the virus is at its cap.
+    /// Damage only builds up while the virus is at its cap. At Blackout the user is lost:
+    /// the virus is gone with the PC and the ticket closes without being resolved.
     /// </summary>
     public class TicketModel
     {
@@ -24,8 +25,14 @@ namespace LostControl.Model
         /// <summary>Seconds at cap counted toward the next damage level.</summary>
         public float DamageTimer { get; private set; }
 
-        public bool IsResolved => Virus.IsCleared;
+        /// <summary>The user is lost. A blacked-out ticket is closed but never counts as resolved.</summary>
         public bool IsBlackout => Damage == DamageLevel.Blackout;
+
+        /// <summary>The player removed every dot before Blackout.</summary>
+        public bool IsResolved => !IsBlackout && Virus.IsCleared;
+
+        /// <summary>Resolved or lost: the ticket no longer simulates and cannot be connected to.</summary>
+        public bool IsClosed => IsResolved || IsBlackout;
 
         public event Action<TicketModel> DamageIncreased;
 
@@ -43,15 +50,13 @@ namespace LostControl.Model
 
         public void Tick(float deltaTime)
         {
-            if (IsResolved) return;
+            if (IsClosed) return;
             Virus.Tick(deltaTime);
             TickDamage(deltaTime);
         }
 
         void TickDamage(float deltaTime)
         {
-            if (IsBlackout) return;
-
             if (!Virus.IsAtCap)
             {
                 if (countdownBelowCap == CountdownBelowCap.Reset) DamageTimer = 0f;
@@ -63,9 +68,13 @@ namespace LostControl.Model
             {
                 DamageTimer -= damageInterval;
                 Damage++;
+                if (IsBlackout)
+                {
+                    DamageTimer = 0f;
+                    Virus.Clear();
+                }
                 DamageIncreased?.Invoke(this);
             }
-            if (IsBlackout) DamageTimer = 0f;
         }
     }
 }

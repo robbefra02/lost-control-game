@@ -34,7 +34,7 @@ namespace LostControl.View
 
         void OnTicketDamaged(TicketModel ticket)
         {
-            if (config.hiddenDamageCue && Simulation.IsStale(ticket))
+            if (config.hiddenDamageCue && Simulation.IsHidden(ticket))
                 audioManager.Play(AudioCue.HiddenDamage);
         }
     }
