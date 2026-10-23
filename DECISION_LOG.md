@@ -194,6 +194,68 @@ Recreated on 2026-10-22 from the original in `G:\My Drive\Courses\2.1 Principles
 - Reason to be written by designer.
 - Trade-off: the rule is only explained after a failure, and it is stated outright instead of discovered.
 
+## 2026-10-23 - After the first playtest: minigames replace the virus (BUILD_PLAN_2.md)
+
+Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
+
+**D37 - The virus dots are cut.**
+- Alternatives: rework the spread (a fixed number of new dots per interval instead of doubling, which removes the point where it becomes impossible); keep the dots as one of several ticket types.
+- Evidence (designer's own playtest of 5d63510): clearing the starting dots is quick, but after a few doublings it takes more than 15 clicks in a few seconds. The game was too easy and too hard at once.
+- Reason for cutting instead of reworking: to be written by designer.
+- Trade-off: the tuned virus (D26) and the link to the virus theme (D01) are gone; every replacement minigame must be balanced from zero.
+
+**D38 - Four new minigames: Maze, Match the colors, Find the off-folder, Extinguish the firewall. All four are built before the next playtest.**
+- Alternatives: one new minigame as the single Milestone 3 change; the smallest fix for the dots plus logging, then a playtest.
+- Reason (stated): the game needs more and different types of minigames.
+- Trade-off: a much larger build before the next test with other players; Milestone 3 asks for one evidence-based change, so the write-up has to present D37 and D38 as one change (remove the dots, replace them with variety).
+
+**D39 - One pressure meter per ticket replaces the virus cap.**
+- Each minigame fills the meter in its own way (fire size, a clock, wrong clicks). A full meter runs the damage countdown (+1 level per 20 s; it pauses below full, as in D18).
+- Alternatives: a plain damage timer per ticket from arrival; a fail moment per minigame that adds +1 damage level each time.
+- Reason to be written by designer.
+- Trade-off: one rule to learn across all minigames, but the meter hides how differently the games build up pressure.
+
+**D40 - Tickets need several rounds. Finished rounds are kept, the round in progress keeps getting worse while the player is away, and finishing a round empties the meter. The round count is set per minigame.**
+- Alternatives:
+  - the current round resets when the player leaves
+  - all progress can decay
+  - a finished round lowers the meter by a fixed chunk
+  - only the last round matters
+  - one global round count, or a count per ticket
+- Reason (stated): repeating a minigame gives the player moments to check in with other tickets.
+- Trade-off: rounds create safe exit points, which may make leaving cheaper than intended; this is what the suggested Milestone 3 question tests.
+
+**D41 - A handbook replaces the PC screen in the upper panel. Reference only for now; puzzles that depend on it come later.**
+- Alternatives: merge the PC screen into the minigame area for more space; keep the PC screen; build puzzles that need the handbook straight away.
+- Reason (stated): no ideas for challenges inside an emulated OS; a handbook helps the player learn the game and gives them something to look things up in. Later it could become a core concept with puzzles that only make sense with the handbook.
+- Trade-off: the minigames keep the smaller bottom panel. Risk: puzzles solved with a manual are the core of Keep Talking and Nobody Explodes; the ECTS sheet fails games that present large parts of existing games as their own, so the later step must stay clearly different.
+
+**D42 - The maze is steered with the keyboard (WASD/arrows).**
+- Alternatives: hold the mouse button and the dot follows the cursor; the dot always follows the cursor.
+- Reason to be written by designer.
+- Trade-off: the game is no longer mouse-only; going from the ticket list (mouse) to the maze (keys) costs a hand movement.
+
+**D43 - Match the colors is a memory game: face-down cards, the second pick must match the first or both flip back.**
+- Alternatives: all cards face-up with close shades; cards that reshuffle every few seconds.
+- Reason to be written by designer.
+- Trade-off: leaving a ticket mid-round costs what the player remembered about the cards.
+
+**D44 - A wrong click in Find the off-folder adds a chunk to the pressure meter.**
+- Problem (raised by the coding agent): without a cost, clicking every folder is the fastest strategy (a degenerate strategy, Session 10).
+- Alternatives: a new grid after a wrong click; a short lockout.
+- Reason for this option to be written by designer.
+- Trade-off: careless clicks can start damage on their own; the size of the chunk needs playtesting.
+
+**D45 - One minigame seed drives all minigame randomness, including the maze layouts. Each round is generated from the seed, the ticket and the round number, so a restart replays the same level.**
+- Alternative: a handmade set of maze layouts.
+- Reason (stated): the seed must be usable by every minigame for randomness and progressive generation.
+- Trade-off: generated content needs checks (e.g. every maze must be solvable); difficulty per round still has to be defined (BUILD_PLAN_2 open question 1).
+
+**D46 - The shop item becomes a "pause token" (working name): it pauses one ticket's pressure and damage countdown for 10 s, and keeps running after disconnect. Cash payout and the shop stay.**
+- Alternatives: an item that empties the meter once; an item that skips a round.
+- Reason to be written by designer.
+- Trade-off: same as the virus container (D16): the token buys time, not progress.
+
 ---
 
 ## Open questions (from the build plan)
