@@ -2,7 +2,7 @@
 
 Prototype for KdG MCT2, 2.1 Principles of Game Design.
 
-You are a servicedesk agent handling virus tickets from many PCs at once. You can only see the ticket you are connected to; every other ticket goes stale. The prototype tests whether that hidden information makes players feel torn between tickets.
+You are a servicedesk agent handling tickets from many PCs at once; each PC has a minigame to fix it. You can only see the ticket you are connected to; every other ticket goes stale. The prototype tests whether that hidden information makes players feel torn between tickets.
 
 ## Unity version
 
@@ -13,11 +13,11 @@ You are a servicedesk agent handling virus tickets from many PCs at once. You ca
 ```
 Assets/
   Scripts/
-    Model/      Pure C# simulation (tickets, viruses), no MonoBehaviours
-    View/       uGUI views that only read model state
-    Config/     ScriptableObject types (LevelConfig, TicketDefinition)
+    Model/      Pure C# simulation (tickets, minigames, connection), no MonoBehaviours
+    View/       uGUI views that only read model state and pass input to it
+    Config/     ScriptableObject types (LevelConfig, TicketDefinition, minigame settings)
   ScriptableObjects/  Config assets with all tunable values (Level1Config)
-  Prefabs/      UI pieces created at runtime (ticket list entry)
+  Prefabs/      UI pieces created at runtime (ticket list entry, folder icon)
   Audio/        Sound files per cue (none yet: missing cues play a placeholder beep)
   Scenes/       The single game scene
 ```
@@ -37,6 +37,16 @@ Building level 1 step by step. Milestone 2 deadline: 2026-10-21.
 - [x] Step 6 - Connecting and stale view
 - [x] Step 7 - Win / lose / restart
 
+After the first playtest the virus was replaced by minigames ([BUILD_PLAN_2.md](BUILD_PLAN_2.md)):
+
+- [x] Step 11 - Minigame framework + Find the off-folder
+- [ ] Step 12 - Playtest logging
+- [ ] Step 13 - Handbook panel
+- [ ] Step 14 - Match the colors
+- [ ] Step 15 - Extinguish the firewall
+- [ ] Step 16 - Maze
+- [ ] Step 17 - Economy
+
 ## Build
 
-Windows build link will be added here (step 10).
+No build is linked here: Build Plan 2 dropped the old step 10 (Windows build).

@@ -12,73 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07430a959cea9784e8f1699cd5b0656d, type: 3}
   m_Name: Level1Config
   m_EditorClassIdentifier: Assembly-CSharp::LostControl.Config.LevelConfig
-  randomSeed: 12345
+  minigameSeed: 12345
   tickets:
   - description: PC acts strange
     arrivalTime: 0
-    threat: 0
-    infectedArea:
-      serializedVersion: 2
-      x: 0.05
-      y: 0.55
-      width: 0.3
-      height: 0.35
+    minigame: 0
   - description: Virus warning shown
     arrivalTime: 8
-    threat: 0
-    infectedArea:
-      serializedVersion: 2
-      x: 0.6
-      y: 0.6
-      width: 0.3
-      height: 0.3
+    minigame: 0
   - description: Computer is really slow
     arrivalTime: 20
-    threat: 0
-    infectedArea:
-      serializedVersion: 2
-      x: 0.35
-      y: 0.1
-      width: 0.3
-      height: 0.3
+    minigame: 0
   - description: Pop-ups everywhere
     arrivalTime: 30
-    threat: 0
-    infectedArea:
-      serializedVersion: 2
-      x: 0.05
-      y: 0.1
-      width: 0.25
-      height: 0.35
+    minigame: 0
   - description: Files won't open
     arrivalTime: 45
-    threat: 0
-    infectedArea:
-      serializedVersion: 2
-      x: 0.65
-      y: 0.1
-      width: 0.3
-      height: 0.35
+    minigame: 0
   - description: Fan is very loud
     arrivalTime: 55
-    threat: 0
-    infectedArea:
-      serializedVersion: 2
-      x: 0.38
-      y: 0.5
-      width: 0.25
-      height: 0.3
+    minigame: 0
   connectionTime: 3
   hiddenDamageCue: 1
   liveListWhenDisconnected: 1
-  startDotsMin: 3
-  startDotsMax: 6
-  spreadInterval: 5
-  spreadDistance: 0.2
-  dotCap: 30
-  dotDiameter: 28
   damageInterval: 20
-  countdownBelowCap: 0
+  countdownBelowFull: 0
+  offFolder:
+    rounds: 3
+    columns: 6
+    rows: 6
+    meterFillTime: 30
+    wrongClickPressure: 0.2
+    differences: 0000000001000000020000000300000004000000
+    shadeDifference: 0.15
+    rotationDifference: 10
+    sizeDifference: 0.12
+    differenceScalePerRound:
+    - 1
   payoutFine: 100
   payoutSlightlyBroken: 75
   payoutMoreBroken: 50

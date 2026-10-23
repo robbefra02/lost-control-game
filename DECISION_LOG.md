@@ -266,10 +266,8 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 ## Assumptions still to confirm
 Values the coding agent chose because the build plan left them open. All are in `Assets/ScriptableObjects/Level1Config.asset` unless noted.
 - Ticket arrival times 0, 8, 20, 30, 45, 55 s; descriptions for tickets #3-#6 are placeholders.
-- Infected component area per ticket (a rectangle on the motherboard; the virus stays inside it).
-- Dot size 28 px at 1920×1080.
-- Spreads run on a fixed clock: removing a dot just before a spread lets it refill right away (code).
 - After resolving a ticket the player stays connected to it until they disconnect or connect elsewhere (code).
+- Minigame values (rounds, meter speed, wrong-click cost, ways the off-folder differs): every `[ASSUMPTION]` in `BUILD_PLAN_2.md` section 3, also marked in the Level1Config tooltips. Built so far: Find the off-folder (step 11). The virus-only assumptions (infected areas, dot size, spread clock) went with the dots (D37).
 
 ---
 

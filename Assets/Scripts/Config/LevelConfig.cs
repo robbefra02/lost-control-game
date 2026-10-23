@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using LostControl.Model;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LostControl.Config
 {
@@ -12,20 +14,22 @@ namespace LostControl.Config
     public class LevelConfig : ScriptableObject
     {
         [Header("Randomness")]
-        [Tooltip("Seed for all randomness in the level, so a playtest can be replayed exactly.")]
-        public int randomSeed = 12345;
+        [Tooltip("The minigame seed: every minigame generates its rounds from it, so a playtest can be replayed exactly.")]
+        [FormerlySerializedAs("randomSeed")]
+        public int minigameSeed = 12345;
 
         [Header("Tickets")]
         [Tooltip("All tickets in this level. The level is won when every one is resolved. " +
-                 "[ASSUMPTION] Arrival times 0, 8, 20, 30, 45, 55s; descriptions and infected areas are placeholders.")]
+                 "[ASSUMPTION] Arrival times 0, 8, 20, 30, 45, 55s; descriptions are placeholders. " +
+                 "Every ticket uses Find the off-folder until the other minigames exist.")]
         public List<TicketDefinition> tickets = new List<TicketDefinition>
         {
-            new TicketDefinition("PC acts strange", 0f, new Rect(0.05f, 0.55f, 0.30f, 0.35f)),
-            new TicketDefinition("Virus warning shown", 8f, new Rect(0.60f, 0.60f, 0.30f, 0.30f)),
-            new TicketDefinition("Computer is really slow", 20f, new Rect(0.35f, 0.10f, 0.30f, 0.30f)),
-            new TicketDefinition("Pop-ups everywhere", 30f, new Rect(0.05f, 0.10f, 0.25f, 0.35f)),
-            new TicketDefinition("Files won't open", 45f, new Rect(0.65f, 0.10f, 0.30f, 0.35f)),
-            new TicketDefinition("Fan is very loud", 55f, new Rect(0.38f, 0.50f, 0.25f, 0.30f)),
+            new TicketDefinition("PC acts strange", 0f, MinigameType.OffFolder),
+            new TicketDefinition("Virus warning shown", 8f, MinigameType.OffFolder),
+            new TicketDefinition("Computer is really slow", 20f, MinigameType.OffFolder),
+            new TicketDefinition("Pop-ups everywhere", 30f, MinigameType.OffFolder),
+            new TicketDefinition("Files won't open", 45f, MinigameType.OffFolder),
+            new TicketDefinition("Fan is very loud", 55f, MinigameType.OffFolder),
         };
 
         [Header("Connecting")]
@@ -41,31 +45,16 @@ namespace LostControl.Config
                  "On: with no session at all, every entry shows live state.")]
         public bool liveListWhenDisconnected = false;
 
-        [Header("Virus")]
-        [Tooltip("Fewest dots a virus starts with.")]
-        [Min(1)] public int startDotsMin = 8;
-
-        [Tooltip("Most dots a virus starts with.")]
-        [Min(1)] public int startDotsMax = 9;
-
-        [Tooltip("Seconds between spreads. Each spread, every dot copies itself to a nearby position.")]
-        [Min(0.1f)] public float spreadInterval = 2f;
-
-        [Tooltip("[ASSUMPTION] Max distance between a dot and its copy, in normalized motherboard units.")]
-        [Min(0f)] public float spreadDistance = 0.05f;
-
-        [Tooltip("[ASSUMPTION] Max dots per component. Spreading stops here and the damage countdown starts.")]
-        [Min(1)] public int dotCap = 30;
-
-        [Tooltip("[ASSUMPTION] Dot size on screen, in canvas pixels at 1920x1080. Bigger dots are easier to click.")]
-        [Min(1f)] public float dotDiameter = 28f;
-
         [Header("Damage")]
-        [Tooltip("Seconds continuously at cap for +1 damage level.")]
+        [Tooltip("Seconds with a full pressure meter for +1 damage level.")]
         [Min(0.1f)] public float damageInterval = 20f;
 
-        [Tooltip("[ASSUMPTION] Pause by default. Reset allows clicking one dot every interval to block all damage.")]
-        public CountdownBelowCap countdownBelowCap = CountdownBelowCap.Pause;
+        [Tooltip("What the damage countdown does when the meter drops below full: pause (keep the time) or reset.")]
+        [FormerlySerializedAs("countdownBelowCap")]
+        public CountdownBelowFull countdownBelowFull = CountdownBelowFull.Pause;
+
+        [Header("Find the off-folder")]
+        public OffFolderSettings offFolder = new OffFolderSettings();
 
         [Header("Economy")]
         [Tooltip("Cash paid when a ticket is resolved at Fine.")]
@@ -108,10 +97,20 @@ namespace LostControl.Config
             }
         }
 
+        /// <summary>Rounds a ticket with this minigame needs before it is resolved.</summary>
+        public int GetRounds(MinigameType type)
+        {
+            switch (type)
+            {
+                case MinigameType.OffFolder: return offFolder.rounds;
+                default: throw new ArgumentOutOfRangeException(nameof(type), type, "No settings for this minigame.");
+            }
+        }
+
         void OnValidate()
         {
-            if (startDotsMax < startDotsMin) startDotsMax = startDotsMin;
-            if (dotCap < startDotsMax) dotCap = startDotsMax;
+            // The off-folder needs at least one other folder to hide among.
+            if (offFolder.columns * offFolder.rows < 2) offFolder.columns = 2;
         }
     }
 }

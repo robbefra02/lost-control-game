@@ -8,7 +8,7 @@ namespace LostControl.View
 {
     /// <summary>
     /// One row in the ticket list. While its ticket is stale it keeps showing the last-known damage level
-    /// and is dimmed; clicking it asks to connect to the ticket.
+    /// and round, and is dimmed; clicking it asks to connect to the ticket.
     /// </summary>
     public class TicketEntryView : MonoBehaviour, IPointerClickHandler
     {
@@ -34,9 +34,12 @@ namespace LostControl.View
             new Color32(0xE8, 0x83, 0x3A, 0xFF),
             new Color32(0xE5, 0x48, 0x4D, 0xFF),
         };
+        [Tooltip("Colour of the round count behind the damage level.")]
+        [SerializeField] Color roundColor = new Color32(0x9A, 0xA3, 0xAF, 0xFF);
 
         Action<TicketModel> clicked;
         DamageLevel shownDamage;
+        int shownRoundsDone;
         float flashTimer;
 
         public TicketModel Ticket { get; private set; }
@@ -46,6 +49,7 @@ namespace LostControl.View
             Ticket = ticket;
             clicked = onClicked;
             shownDamage = ticket.Damage;
+            shownRoundsDone = ticket.RoundsDone;
             titleLabel.text = $"#{ticket.Id + 1}  {ticket.Definition.description}";
         }
 
@@ -54,11 +58,17 @@ namespace LostControl.View
             flashTimer = flashDuration;
         }
 
-        /// <summary>Updates the row. A stale row keeps its last-known damage level.</summary>
+        /// <summary>Updates the row. A stale row keeps its last-known damage level and round.</summary>
         public void Refresh(bool stale, ConnectionModel connection)
         {
-            if (!stale) shownDamage = Ticket.Damage;
-            damageLabel.text = DamageLevelText.Name(shownDamage);
+            if (!stale)
+            {
+                shownDamage = Ticket.Damage;
+                shownRoundsDone = Ticket.RoundsDone;
+            }
+            damageLabel.text = Ticket.IsClosed
+                ? DamageLevelText.Name(shownDamage)
+                : $"{DamageLevelText.Name(shownDamage)}  <color=#{ColorUtility.ToHtmlStringRGB(roundColor)}>Round {shownRoundsDone + 1}/{Ticket.RoundsNeeded}</color>";
             damageLabel.color = damageColors[(int)shownDamage];
 
             bool isTarget = connection.Target == Ticket;

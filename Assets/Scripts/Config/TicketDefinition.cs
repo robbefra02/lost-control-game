@@ -14,20 +14,16 @@ namespace LostControl.Config
         [Tooltip("Seconds after level start that this ticket arrives.")]
         [Min(0f)] public float arrivalTime;
 
-        [Tooltip("Kind of problem on this ticket. Level 1 has viruses only.")]
-        public ThreatType threat = ThreatType.Virus;
-
-        [Tooltip("Area of the infected component in normalized motherboard coordinates (0-1). " +
-                 "[ASSUMPTION] The virus starts and spreads only inside this area.")]
-        public Rect infectedArea = new Rect(0.1f, 0.1f, 0.3f, 0.3f);
+        [Tooltip("The minigame the player plays to fix this PC.")]
+        public MinigameType minigame = MinigameType.OffFolder;
 
         public TicketDefinition() { }
 
-        public TicketDefinition(string description, float arrivalTime, Rect infectedArea)
+        public TicketDefinition(string description, float arrivalTime, MinigameType minigame)
         {
             this.description = description;
             this.arrivalTime = arrivalTime;
-            this.infectedArea = infectedArea;
+            this.minigame = minigame;
         }
     }
 }

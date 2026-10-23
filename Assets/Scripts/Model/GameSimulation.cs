@@ -8,6 +8,7 @@ namespace LostControl.Model
     public class GameSimulation
     {
         readonly LevelConfig config;
+        readonly MinigameSeed minigameSeed;
         readonly List<TicketModel> tickets = new List<TicketModel>();
         readonly List<int> arrivalOrder = new List<int>();
         int nextArrival;
@@ -59,6 +60,7 @@ namespace LostControl.Model
         public GameSimulation(LevelConfig config)
         {
             this.config = config;
+            minigameSeed = new MinigameSeed(config.minigameSeed);
             Connection = new ConnectionModel(config.connectionTime);
 
             for (int i = 0; i < config.tickets.Count; i++) arrivalOrder.Add(i);
@@ -105,14 +107,13 @@ namespace LostControl.Model
             if (Outcome != GameOutcome.Playing) return;
 
             Time += deltaTime;
-            foreach (var ticket in tickets) ticket.Tick(deltaTime);
+            foreach (var ticket in tickets) ticket.Tick(deltaTime, Connection.IsConnectedTo(ticket));
             Connection.Tick(deltaTime);
 
             while (nextArrival < arrivalOrder.Count && config.tickets[arrivalOrder[nextArrival]].arrivalTime <= Time)
             {
                 int id = arrivalOrder[nextArrival++];
-                // Each ticket gets its own random stream, so one ticket's dots never change another's.
-                var ticket = new TicketModel(id, config.tickets[id], config, new SeededRandom(config.randomSeed + id), Time);
+                var ticket = new TicketModel(id, config.tickets[id], config, minigameSeed, Time);
                 ticket.DamageIncreased += OnTicketDamaged;
                 tickets.Add(ticket);
                 TicketArrived?.Invoke(ticket);
