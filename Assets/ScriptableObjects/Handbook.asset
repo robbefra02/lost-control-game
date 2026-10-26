@@ -112,26 +112,27 @@ MonoBehaviour:
       speed until every pair is matched. Each match pushes it back down.'
   - title: Packet filter
     body: 'Data packets travel along the cable into this PC, each with a port number
-      on it. Every round, the rule above the cable says which port to block.
+      on it. The rule above the cable says which port to block.
 
 
       <b>Blocking</b>
 
       Click
       a packet to block it. Block the packets on the blocked port and let the others
-      through. Blocking enough bad packets finishes the round.
+      through. Every bad packet you block lowers the pressure; blocking enough of
+      them fixes the PC.
 
 
       <b>Mistakes</b>
 
-      Blocking
-      a good packet adds pressure.
+      Blocking a good packet adds
+      pressure.
 
 
       <b>Leaks</b>
 
-      Every bad packet that
-      reaches the PC adds pressure, also while you are working on another PC.
+      Every bad packet that reaches the PC
+      adds pressure, also while you are working on another PC.
 
 
       <b>Pressure</b>

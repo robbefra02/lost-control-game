@@ -6,9 +6,9 @@ namespace LostControl.Model
 {
     /// <summary>
     /// Packet filter (D53): packets travel along one cable into the PC, each carrying a port number. Every round a rule
-    /// blocks one or more ports. Clicking a packet blocks it: a bad one counts towards the round, a good one adds
-    /// pressure. A bad packet that reaches the PC adds pressure; the stream keeps flowing while the player is away.
-    /// The round ends once enough bad packets are blocked. Only leaks and mistakes fill the meter.
+    /// blocks one or more ports. Clicking a packet blocks it: a bad one counts towards the round and takes some pressure
+    /// off, a good one adds pressure. A bad packet that reaches the PC adds pressure; the stream keeps flowing while the
+    /// player is away. The round ends once enough bad packets are blocked. Only leaks and mistakes fill the meter.
     /// </summary>
     public class PacketFilterModel : MinigameModel
     {
@@ -62,6 +62,7 @@ namespace LostControl.Model
             packets.RemoveAt(index);
             if (IsBlocked(port))
             {
+                AddPressure(-settings.blockPressureRelief);
                 BlockedCount++;
                 if (BlockedCount >= settings.blocksPerRound) CompleteRound();
                 return;

@@ -321,6 +321,21 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Lost (blacked-out) tickets keep the full row with their damage and "Lost".
 - Reason to be written by designer.
 - Trade-off: open tickets stand out more and the list holds more tickets, but a resolved ticket no longer shows the damage it was fixed at.
+- **Update:** blacked-out tickets get the same short row (D59).
+
+**D57 - The packet filter runs once, its packets move slower, and every blocked bad packet takes 15% off the meter.**
+- One round of 8 blocks (was 2 rounds); packets take 6 s to cross (was 4 s; the exact value is a coding-agent assumption).
+- Reason to be written by designer.
+- Trade-off: a perfect player clears it in about 17 s (was about 30 s) and good play actively lowers the pressure. Ignored, it still hurts fast: damage at about 16, 26 and 38 s, since the leak pressure was left as it was.
+
+**D58 - The ticket list updates every time the player switches to a ticket.**
+- When the player starts connecting to a ticket, every entry takes the current state of its ticket once, then stays stale again. Before this, a stale entry only updated while its ticket was connected or while the player had no session (D34). It can be switched off in Level1Config (`refreshListOnSwitch`).
+- Reason to be written by designer.
+- Trade-off: switching now doubles as a free check of all tickets, so the list is never older than the last switch; the hidden information (D10) is weaker.
+
+**D59 - A blacked-out ticket also shrinks to the short row, with "Blackout" as its status (was "Lost").**
+- Reason to be written by designer.
+- Trade-off: closed tickets look alike apart from one word; the end screen and the "lost users" counter still show the losses.
 
 ---
 

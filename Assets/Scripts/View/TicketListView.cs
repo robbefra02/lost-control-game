@@ -7,7 +7,8 @@ namespace LostControl.View
 {
     /// <summary>
     /// Shows one entry per arrived ticket, oldest at the top. Clicking an entry connects to its ticket.
-    /// The header has a disconnect button.
+    /// The header has a disconnect button. Each time the player switches to a ticket, every entry takes the
+    /// current state of its ticket once (if refreshListOnSwitch is on) and then stays stale again.
     /// </summary>
     public class TicketListView : MonoBehaviour
     {
@@ -31,6 +32,7 @@ namespace LostControl.View
         void Start()
         {
             game.Simulation.TicketDamaged += OnTicketDamaged;
+            game.Simulation.Connection.ConnectStarted += OnSwitch;
         }
 
         void LateUpdate()
@@ -51,6 +53,12 @@ namespace LostControl.View
                 && simulation.Connection.State == ConnectionState.Connected;
             disconnectButton.interactable = canDisconnect;
             disconnectGroup.alpha = canDisconnect ? 1f : disabledAlpha;
+        }
+
+        void OnSwitch(TicketModel target)
+        {
+            if (!game.Config.refreshListOnSwitch) return;
+            foreach (var entry in entries) entry.Snapshot();
         }
 
         // Hidden degradation cue: flash the row of a ticket the player cannot see.

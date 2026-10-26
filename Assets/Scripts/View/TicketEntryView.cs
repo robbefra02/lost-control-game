@@ -8,8 +8,8 @@ namespace LostControl.View
 {
     /// <summary>
     /// One row in the ticket list. While its ticket is stale it keeps showing the last-known damage level
-    /// and round, and is dimmed; clicking it asks to connect to the ticket. A resolved ticket shrinks to one
-    /// line with only its number, title and "Resolved".
+    /// and round, and is dimmed; clicking it asks to connect to the ticket. A closed ticket shrinks to one
+    /// line with only its number, title and "Resolved" or "Blackout".
     /// </summary>
     [RequireComponent(typeof(UnityEngine.UI.LayoutElement))]
     public class TicketEntryView : MonoBehaviour, IPointerClickHandler
@@ -19,7 +19,7 @@ namespace LostControl.View
         [SerializeField] TMP_Text titleLabel;
         [SerializeField] TMP_Text damageLabel;
         [SerializeField] TMP_Text statusLabel;
-        [Tooltip("Row height once the ticket is resolved, in canvas pixels.")]
+        [Tooltip("Row height once the ticket is closed (resolved or blacked out), in canvas pixels.")]
         [SerializeField] float resolvedHeight = 48f;
 
         [SerializeField] Color normalColor = new Color32(0x38, 0x3C, 0x44, 0xFF);
@@ -49,7 +49,7 @@ namespace LostControl.View
         bool compact;
         float fullHeight;
         float titleY;
-        float titleAnchorRight;
+        float titleRight;
         float statusY;
 
         public TicketModel Ticket { get; private set; }
@@ -59,7 +59,7 @@ namespace LostControl.View
             layoutElement = GetComponent<UnityEngine.UI.LayoutElement>();
             fullHeight = layoutElement.preferredHeight;
             titleY = titleLabel.rectTransform.anchoredPosition.y;
-            titleAnchorRight = titleLabel.rectTransform.anchorMax.x;
+            titleRight = titleLabel.rectTransform.offsetMax.x;
             statusY = statusLabel.rectTransform.anchoredPosition.y;
         }
 
@@ -77,15 +77,17 @@ namespace LostControl.View
             flashTimer = flashDuration;
         }
 
+        /// <summary>Takes the ticket's current damage level and round as the last-known state, even while stale.</summary>
+        public void Snapshot()
+        {
+            shownDamage = Ticket.Damage;
+            shownRoundsDone = Ticket.RoundsDone;
+        }
+
         /// <summary>Updates the row. A stale row keeps its last-known damage level and round.</summary>
         public void Refresh(bool stale, ConnectionModel connection)
         {
-            SetCompact(Ticket.IsResolved);
-            if (!stale)
-            {
-                shownDamage = Ticket.Damage;
-                shownRoundsDone = Ticket.RoundsDone;
-            }
+            if (!stale) Snapshot();
             damageLabel.text = Ticket.IsClosed
                 ? DamageLevelText.Name(shownDamage)
                 : $"{DamageLevelText.Name(shownDamage)}  <color=#{ColorUtility.ToHtmlStringRGB(roundColor)}>Round {shownRoundsDone + 1}/{Ticket.RoundsNeeded}</color>";
@@ -93,10 +95,11 @@ namespace LostControl.View
 
             bool isTarget = connection.Target == Ticket;
             if (Ticket.IsResolved) statusLabel.text = "Resolved";
-            else if (Ticket.IsBlackout) statusLabel.text = "Lost";
+            else if (Ticket.IsBlackout) statusLabel.text = "Blackout";
             else if (isTarget && connection.State == ConnectionState.Connecting) statusLabel.text = $"Connecting {Mathf.RoundToInt(connection.Progress * 100f)}%";
             else if (isTarget && connection.State == ConnectionState.Connected) statusLabel.text = "Connected";
             else statusLabel.text = stale ? "Stale" : "Open";
+            SetCompact(Ticket.IsClosed);
 
             Color color = isTarget && connection.State == ConnectionState.Connected ? connectedColor : normalColor;
             if (flashTimer > 0f)
@@ -113,8 +116,8 @@ namespace LostControl.View
             clicked?.Invoke(Ticket);
         }
 
-        // Compact: half height, no damage line, title and status side by side on one centred line.
-        // The title is anchored to the top of the row and the status to the bottom.
+        // Compact: half height, no damage line, title and status side by side on one centred line. The title is
+        // anchored to the top of the row and the status to the bottom; the title stops just before the status text.
         void SetCompact(bool value)
         {
             if (compact == value) return;
@@ -124,8 +127,9 @@ namespace LostControl.View
             damageLabel.gameObject.SetActive(!value);
 
             var title = titleLabel.rectTransform;
+            float statusWidth = statusLabel.GetPreferredValues(statusLabel.text).x;
+            title.offsetMax = new Vector2(value ? titleRight - statusWidth - 12f : titleRight, title.offsetMax.y);
             title.anchoredPosition = new Vector2(title.anchoredPosition.x, value ? -resolvedHeight / 2f : titleY);
-            title.anchorMax = new Vector2(value ? statusLabel.rectTransform.anchorMin.x : titleAnchorRight, title.anchorMax.y);
             var status = statusLabel.rectTransform;
             status.anchoredPosition = new Vector2(status.anchoredPosition.x, value ? resolvedHeight / 2f : statusY);
         }

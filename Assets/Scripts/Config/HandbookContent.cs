@@ -53,10 +53,10 @@ namespace LostControl.Config
                 "The meter fills at a steady speed until every pair is matched. Each match pushes it back down."),
             new HandbookPage("Packet filter",
                 "Data packets travel along the cable into this PC, each with a port number on it. " +
-                "Every round, the rule above the cable says which port to block.\n\n" +
+                "The rule above the cable says which port to block.\n\n" +
                 "<b>Blocking</b>\n" +
                 "Click a packet to block it. Block the packets on the blocked port and let the others through. " +
-                "Blocking enough bad packets finishes the round.\n\n" +
+                "Every bad packet you block lowers the pressure; blocking enough of them fixes the PC.\n\n" +
                 "<b>Mistakes</b>\n" +
                 "Blocking a good packet adds pressure.\n\n" +
                 "<b>Leaks</b>\n" +

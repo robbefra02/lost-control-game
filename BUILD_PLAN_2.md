@@ -64,7 +64,8 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 ### Tickets (unchanged unless listed)
 - Six tickets, arriving at 0, 8, 20, 30, 45 and 55 s. Plus the existing rules for connecting, the stale view, the hidden damage cue, Disconnect, and win/lose/restart.
 - Resolving a ticket ends its session automatically (D51).
-- A resolved ticket's list entry shrinks to half height and shows only its number, title and "Resolved" (D56).
+- A closed ticket's list entry shrinks to half height and shows only its number, title and "Resolved" or "Blackout" (D56, D59).
+- Each time the player switches to a ticket (starts connecting), every list entry takes its ticket's current state once, then stays stale (D58, `refreshListOnSwitch`).
 - `TicketDefinition.threat` and `infectedArea` are replaced by `minigame` (a `MinigameType`).
 - `[ASSUMPTION]` Level 1 mix: #1 Off-folder, #2 Match the colors, #3 Packet filter, #4 Maze, #5 Off-folder, #6 Packet filter.
 - `[ASSUMPTION]` The ticket descriptions are placeholders that hint at the minigame. The designer writes the final text.
@@ -122,11 +123,12 @@ Both firewall versions (step 15 and the D52 redesign) are removed.
 - Clicking a packet blocks it (removes it).
   - A bad packet (blocked port) counts towards the round.
   - A good packet adds pressure. `[ASSUMPTION]` +0.2.
+- A blocked bad packet also takes 15% off the meter (D57).
 - A bad packet that reaches the PC adds pressure (`[ASSUMPTION]` +0.15) and the PC flashes red. Good packets pass harmlessly.
 - Only leaks and wrong blocks fill the meter, with no clock. The stream keeps flowing while the player is away, so bad packets leak in. Damage uses the normal rule (D47).
 - The round is done after N bad packets are blocked; leaked ones don't count, so a ticket never fixes itself.
-  - `[ASSUMPTION]` 8 per round, 2 rounds (D54: denser stream, more blocks).
-- `[ASSUMPTION]` Stream: a packet enters every 0.75 s (never faster), 35% are bad, and crossing takes 4 s (D54).
+  - `[ASSUMPTION]` 8 per round (D54: denser stream, more blocks). One round only (D57).
+- `[ASSUMPTION]` Stream: a packet enters every 0.75 s (never faster), 35% are bad (D54), and crossing takes 6 s (slower, D57).
 - `[ASSUMPTION]` A new round starts with an empty cable and the first packet entering at once. The board shows "Blocked n / N".
 
 ### Maze

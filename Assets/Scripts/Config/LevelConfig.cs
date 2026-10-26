@@ -45,6 +45,10 @@ namespace LostControl.Config
                  "On: with no session at all, every entry shows live state.")]
         public bool liveListWhenDisconnected = false;
 
+        [Tooltip("Each time the player starts connecting to a ticket, every list entry shows its ticket's state " +
+                 "at that moment once, then stays stale again.")]
+        public bool refreshListOnSwitch = true;
+
         [Header("Damage")]
         [Tooltip("When a ticket's pressure meter fills, the PC takes one damage level and the meter drops back to this level (0-1).")]
         [Range(0f, 0.95f)] public float pressureAfterDamage = 0.5f;

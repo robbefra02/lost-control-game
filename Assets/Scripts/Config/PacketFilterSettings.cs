@@ -7,8 +7,8 @@ namespace LostControl.Config
     [Serializable]
     public class PacketFilterSettings
     {
-        [Tooltip("[ASSUMPTION] Rounds a ticket with this minigame needs before it is resolved.")]
-        [Min(1)] public int rounds = 2;
+        [Tooltip("Rounds a ticket with this minigame needs before it is resolved. One: the filter runs once.")]
+        [Min(1)] public int rounds = 1;
 
         [Tooltip("[ASSUMPTION] Port numbers packets can carry. Each round's rule blocks some of them.")]
         public int[] ports = { 20, 21, 22, 23, 25, 53, 80, 110, 143, 443, 3389 };
@@ -26,7 +26,10 @@ namespace LostControl.Config
         [Range(0f, 1f)] public float badChance = 0.35f;
 
         [Tooltip("[ASSUMPTION] Seconds a packet needs to travel the cable into the PC.")]
-        [Min(0.1f)] public float travelTime = 4f;
+        [Min(0.1f)] public float travelTime = 6f;
+
+        [Tooltip("Pressure removed when the player blocks a bad packet (0.15 = 15% of the meter).")]
+        [Range(0f, 1f)] public float blockPressureRelief = 0.15f;
 
         [Tooltip("[ASSUMPTION] Pressure added when a bad packet reaches the PC (1 = the whole meter).")]
         [Range(0f, 1f)] public float leakPressure = 0.15f;
