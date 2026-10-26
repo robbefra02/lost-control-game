@@ -79,3 +79,32 @@ MonoBehaviour:
 
       The
       meter fills at a steady speed while the round is unsolved.'
+  - title: Match the colors
+    body: 'All cards start face down, and every colour is on exactly two cards. Click
+      a card to see its colour, then click the card with the same colour. Match every
+      pair to finish the round.
+
+
+      <b>Match</b>
+
+      Both cards stay face
+      up.
+
+
+      <b>No match</b>
+
+      Both cards show for a moment, then turn
+      face down again. A wrong pair costs nothing extra.
+
+
+      <b>Leaving</b>
+
+      Matched
+      pairs stay when you leave this PC. A card you picked but did not match turns
+      face down again.
+
+
+      <b>Pressure</b>
+
+      The meter fills at a steady
+      speed while the round is unsolved.'

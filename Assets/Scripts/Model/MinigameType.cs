@@ -4,5 +4,6 @@ namespace LostControl.Model
     public enum MinigameType
     {
         OffFolder = 0,
+        MatchColors = 1,
     }
 }

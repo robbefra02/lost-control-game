@@ -19,7 +19,7 @@ MonoBehaviour:
     minigame: 0
   - description: Virus warning shown
     arrivalTime: 8
-    minigame: 0
+    minigame: 1
   - description: Computer is really slow
     arrivalTime: 20
     minigame: 0
@@ -47,6 +47,12 @@ MonoBehaviour:
     sizeDifference: 0.12
     differenceScalePerRound:
     - 1
+  matchColors:
+    rounds: 2
+    columns: 4
+    rows: 4
+    meterFillTime: 30
+    mismatchRevealTime: 0.75
   payoutFine: 100
   payoutSlightlyBroken: 75
   payoutMoreBroken: 50

@@ -37,24 +37,10 @@ namespace LostControl.View
             if (model == null) return;
 
             grid.gameObject.SetActive(model.IsRoundOpen);
-            FitCells();
+            GridCells.FitSquare(grid, model.Columns, model.Rows);
             if (model.Round == shownRound) return;
             shownRound = model.Round;
             for (int i = 0; i < model.FolderCount; i++) icons[i].SetLook(model.GetLook(i));
-        }
-
-        // Square cells, as large as the grid area allows for the model's columns and rows. Runs every frame
-        // so the grid follows window resizes; the layout only rebuilds when the size actually changes.
-        void FitCells()
-        {
-            var size = ((RectTransform)grid.transform).rect.size;
-            var spacing = grid.spacing;
-            float width = (size.x - spacing.x * (model.Columns - 1)) / model.Columns;
-            float height = (size.y - spacing.y * (model.Rows - 1)) / model.Rows;
-            float cell = Mathf.Max(Mathf.Min(width, height), 1f);
-            grid.cellSize = new Vector2(cell, cell);
-            grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            grid.constraintCount = model.Columns;
         }
 
         FolderIconView CreateIcon(int index)

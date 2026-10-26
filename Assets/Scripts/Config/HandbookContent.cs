@@ -40,6 +40,17 @@ namespace LostControl.Config
                 "Clicking a folder that is not the different one adds pressure.\n\n" +
                 "<b>Pressure</b>\n" +
                 "The meter fills at a steady speed while the round is unsolved."),
+            new HandbookPage("Match the colors",
+                "All cards start face down, and every colour is on exactly two cards. Click a card to see its colour, " +
+                "then click the card with the same colour. Match every pair to finish the round.\n\n" +
+                "<b>Match</b>\n" +
+                "Both cards stay face up.\n\n" +
+                "<b>No match</b>\n" +
+                "Both cards show for a moment, then turn face down again. A wrong pair costs nothing extra.\n\n" +
+                "<b>Leaving</b>\n" +
+                "Matched pairs stay when you leave this PC. A card you picked but did not match turns face down again.\n\n" +
+                "<b>Pressure</b>\n" +
+                "The meter fills at a steady speed while the round is unsolved."),
         };
     }
 }

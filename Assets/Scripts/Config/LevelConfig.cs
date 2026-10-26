@@ -21,11 +21,11 @@ namespace LostControl.Config
         [Header("Tickets")]
         [Tooltip("All tickets in this level. The level is won when every one is resolved. " +
                  "[ASSUMPTION] Arrival times 0, 8, 20, 30, 45, 55s; descriptions are placeholders. " +
-                 "Every ticket uses Find the off-folder until the other minigames exist.")]
+                 "Tickets without their planned minigame use Find the off-folder until it exists.")]
         public List<TicketDefinition> tickets = new List<TicketDefinition>
         {
             new TicketDefinition("PC acts strange", 0f, MinigameType.OffFolder),
-            new TicketDefinition("Virus warning shown", 8f, MinigameType.OffFolder),
+            new TicketDefinition("Virus warning shown", 8f, MinigameType.MatchColors),
             new TicketDefinition("Computer is really slow", 20f, MinigameType.OffFolder),
             new TicketDefinition("Pop-ups everywhere", 30f, MinigameType.OffFolder),
             new TicketDefinition("Files won't open", 45f, MinigameType.OffFolder),
@@ -51,6 +51,9 @@ namespace LostControl.Config
 
         [Header("Find the off-folder")]
         public OffFolderSettings offFolder = new OffFolderSettings();
+
+        [Header("Match the colors")]
+        public MatchColorsSettings matchColors = new MatchColorsSettings();
 
         [Header("Economy")]
         [Tooltip("Cash paid when a ticket is resolved at Fine.")]
@@ -99,6 +102,7 @@ namespace LostControl.Config
             switch (type)
             {
                 case MinigameType.OffFolder: return offFolder.rounds;
+                case MinigameType.MatchColors: return matchColors.rounds;
                 default: throw new ArgumentOutOfRangeException(nameof(type), type, "No settings for this minigame.");
             }
         }
@@ -107,6 +111,8 @@ namespace LostControl.Config
         {
             // The off-folder needs at least one other folder to hide among.
             if (offFolder.columns * offFolder.rows < 2) offFolder.columns = 2;
+            // Match the colors needs at least one pair.
+            if (matchColors.columns * matchColors.rows < 2) matchColors.columns = 2;
         }
     }
 }

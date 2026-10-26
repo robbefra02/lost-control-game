@@ -10,6 +10,7 @@ namespace LostControl.View
             switch (type)
             {
                 case MinigameType.OffFolder: return "Find the off-folder";
+                case MinigameType.MatchColors: return "Match the colors";
                 default: return type.ToString();
             }
         }
