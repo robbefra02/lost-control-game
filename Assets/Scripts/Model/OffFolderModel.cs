@@ -18,8 +18,6 @@ namespace LostControl.Model
             /// <summary>File glyph shape, 0 to GlyphCount - 1.</summary>
             public int glyph;
             public bool tabRight;
-            /// <summary>-1 to 1: darker below 0, lighter above 0.</summary>
-            public float shade;
             /// <summary>Degrees.</summary>
             public float rotation;
             /// <summary>1 is normal size.</summary>
@@ -86,7 +84,7 @@ namespace LostControl.Model
                 ? differences[random.RangeInclusive(0, differences.Length - 1)]
                 : FolderDifference.Glyph;
 
-            // Continuous differences can shrink or grow per round; the sign is random so lighter and darker both occur.
+            // Continuous differences can shrink or grow per round; the sign is random so both directions occur.
             float strength = settings.DifferenceScale(round) * (random.RangeInclusive(0, 1) == 1 ? 1f : -1f);
             oddLook = baseLook;
             switch (Difference)
@@ -96,9 +94,6 @@ namespace LostControl.Model
                     break;
                 case FolderDifference.TabSide:
                     oddLook.tabRight = !baseLook.tabRight;
-                    break;
-                case FolderDifference.Shade:
-                    oddLook.shade = strength * settings.shadeDifference;
                     break;
                 case FolderDifference.Rotation:
                     oddLook.rotation = strength * settings.rotationDifference;

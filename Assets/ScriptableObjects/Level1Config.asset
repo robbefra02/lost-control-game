@@ -42,8 +42,7 @@ MonoBehaviour:
     rows: 6
     meterFillTime: 30
     wrongClickPressure: 0.2
-    differences: 0000000001000000020000000300000004000000
-    shadeDifference: 0.15
+    differences: 00000000010000000300000004000000
     rotationDifference: 10
     sizeDifference: 0.12
     differenceScalePerRound:

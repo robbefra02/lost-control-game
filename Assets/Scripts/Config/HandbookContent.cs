@@ -34,7 +34,7 @@ namespace LostControl.Config
             new HandbookPage("Find the off-folder",
                 "One folder in the grid looks slightly different from the others. Click it to finish the round.\n\n" +
                 "<b>What can be different</b>\n" +
-                "The file on the folder, the side of the tab, the colour (a little lighter or darker), a small tilt, or the size. " +
+                "The file on the folder, the side of the tab, a small tilt, or the size. " +
                 "In each round only one of these is different.\n\n" +
                 "<b>Careful</b>\n" +
                 "Clicking a folder that is not the different one adds pressure.\n\n" +

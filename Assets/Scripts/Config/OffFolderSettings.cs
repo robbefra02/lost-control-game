@@ -23,18 +23,14 @@ namespace LostControl.Config
         [Tooltip("[ASSUMPTION] Pressure added by clicking a folder that is not the off-folder (1 = the whole meter).")]
         [Range(0f, 1f)] public float wrongClickPressure = 0.2f;
 
-        [Tooltip("[ASSUMPTION] Ways the off-folder can differ. Each round picks one at random from this list.")]
+        [Tooltip("Ways the off-folder can differ, all about the icon's shape. Each round picks one at random from this list.")]
         public FolderDifference[] differences =
         {
             FolderDifference.Glyph,
             FolderDifference.TabSide,
-            FolderDifference.Shade,
             FolderDifference.Rotation,
             FolderDifference.Size,
         };
-
-        [Tooltip("[ASSUMPTION] How much lighter or darker the off-folder is (0-1).")]
-        [Range(0f, 1f)] public float shadeDifference = 0.15f;
 
         [Tooltip("[ASSUMPTION] How far the off-folder is tilted, in degrees.")]
         [Range(0f, 45f)] public float rotationDifference = 10f;
@@ -42,11 +38,11 @@ namespace LostControl.Config
         [Tooltip("[ASSUMPTION] How much bigger or smaller the off-folder is (0.1 = 10%).")]
         [Range(0f, 0.5f)] public float sizeDifference = 0.12f;
 
-        [Tooltip("[ASSUMPTION] Multiplier on the shade, rotation and size differences per round, round 1 first. " +
+        [Tooltip("[ASSUMPTION] Multiplier on the rotation and size differences per round, round 1 first. " +
                  "The last value repeats. All 1 = no difficulty ramp.")]
         public float[] differenceScalePerRound = { 1f };
 
-        /// <summary>Multiplier on the continuous differences for a round (from 0).</summary>
+        /// <summary>Multiplier on the rotation and size differences for a round (from 0).</summary>
         public float DifferenceScale(int round)
         {
             if (differenceScalePerRound == null || differenceScalePerRound.Length == 0) return 1f;

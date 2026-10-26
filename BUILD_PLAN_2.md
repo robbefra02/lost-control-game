@@ -91,13 +91,12 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 
 ### Find the off-folder
 - A 6x6 grid of greybox folder icons, each with a file glyph. Exactly one icon differs in one attribute. Click it to finish the round.
-- `[ASSUMPTION]` The attribute that differs is picked from the seed:
+- The attribute that differs is picked from the seed. It is always about the icon's shape, never its colour (D49):
   - file glyph shape
   - tab side
-  - color shade
   - small rotation
   - size
-- `[ASSUMPTION]` How strong the difference is can be set per round (e.g. the shade difference).
+- `[ASSUMPTION]` How strong the difference is can be set per round (the rotation and size differences).
 - A wrong click adds a chunk to the meter. `[ASSUMPTION]` +0.2, and the clicked folder flashes red.
 - `[ASSUMPTION]` The meter fills on a clock: empty to full in 30 s.
 

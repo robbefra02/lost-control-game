@@ -270,6 +270,12 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Reason to be written by designer.
 - Trade-off: playtests before step 12 give only observation, no CSV data.
 
+**D49 - The off-folder never differs in colour, only in shape: file glyph, tab side, tilt or size.**
+- Removed: a slightly lighter or darker folder (one of the five differences built in step 11).
+- Kept on purpose: the similar file glyph shapes (e.g. a tall page next to a wide sheet).
+- Reason (stated): finding the off-folder should be about the icon's shape, not its colour.
+- Trade-off: one less kind of round, so each remaining kind comes up more often.
+
 ---
 
 ## Open questions (from the build plan)

@@ -50,11 +50,8 @@ namespace LostControl.View
         {
             icon.localEulerAngles = new Vector3(0f, 0f, look.rotation);
             icon.localScale = new Vector3(look.scale, look.scale, 1f);
-
-            var shadeTarget = look.shade > 0f ? Color.white : Color.black;
-            float shade = Mathf.Abs(look.shade);
-            body.color = Color.Lerp(folderColor, shadeTarget, shade);
-            tab.color = Color.Lerp(tabColor, shadeTarget, shade);
+            body.color = folderColor;
+            tab.color = tabColor;
 
             var tabRect = tab.rectTransform;
             tabRect.anchorMin = new Vector2(look.tabRight ? 0.58f : 0.08f, tabRect.anchorMin.y);
