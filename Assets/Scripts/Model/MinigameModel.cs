@@ -45,8 +45,11 @@ namespace LostControl.Model
             IsRoundOpen = false;
         }
 
-        /// <summary>Drops the meter to this level if it is higher. The ticket calls it after a full meter cost a damage level.</summary>
-        public void LowerPressure(float level)
+        /// <summary>
+        /// Drops the meter to this level if it is higher. The ticket calls it after a full meter cost a damage level.
+        /// A minigame whose meter follows its own state (the firewall's fire) overrides this to shrink that state.
+        /// </summary>
+        public virtual void LowerPressure(float level)
         {
             Pressure = Math.Min(Pressure, level);
         }

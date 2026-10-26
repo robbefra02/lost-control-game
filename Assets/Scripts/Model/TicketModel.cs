@@ -69,6 +69,7 @@ namespace LostControl.Model
             {
                 case MinigameType.OffFolder: return new OffFolderModel(config.offFolder, seed, ticketId);
                 case MinigameType.MatchColors: return new MatchColorsModel(config.matchColors, seed, ticketId);
+                case MinigameType.Firewall: return new FirewallModel(config.firewall, seed, ticketId);
                 default: throw new ArgumentOutOfRangeException(nameof(type), type, "No model for this minigame.");
             }
         }

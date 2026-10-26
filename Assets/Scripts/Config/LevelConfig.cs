@@ -26,10 +26,10 @@ namespace LostControl.Config
         {
             new TicketDefinition("PC acts strange", 0f, MinigameType.OffFolder),
             new TicketDefinition("Virus warning shown", 8f, MinigameType.MatchColors),
-            new TicketDefinition("Computer is really slow", 20f, MinigameType.OffFolder),
+            new TicketDefinition("Computer is really slow", 20f, MinigameType.Firewall),
             new TicketDefinition("Pop-ups everywhere", 30f, MinigameType.OffFolder),
             new TicketDefinition("Files won't open", 45f, MinigameType.OffFolder),
-            new TicketDefinition("Fan is very loud", 55f, MinigameType.OffFolder),
+            new TicketDefinition("Fan is very loud", 55f, MinigameType.Firewall),
         };
 
         [Header("Connecting")]
@@ -54,6 +54,9 @@ namespace LostControl.Config
 
         [Header("Match the colors")]
         public MatchColorsSettings matchColors = new MatchColorsSettings();
+
+        [Header("Extinguish the firewall")]
+        public FirewallSettings firewall = new FirewallSettings();
 
         [Header("Economy")]
         [Tooltip("Cash paid when a ticket is resolved at Fine.")]
@@ -103,6 +106,7 @@ namespace LostControl.Config
             {
                 case MinigameType.OffFolder: return offFolder.rounds;
                 case MinigameType.MatchColors: return matchColors.rounds;
+                case MinigameType.Firewall: return firewall.rounds;
                 default: throw new ArgumentOutOfRangeException(nameof(type), type, "No settings for this minigame.");
             }
         }
@@ -113,6 +117,7 @@ namespace LostControl.Config
             if (offFolder.columns * offFolder.rows < 2) offFolder.columns = 2;
             // Match the colors needs at least one pair.
             if (matchColors.columns * matchColors.rows < 2) matchColors.columns = 2;
+            if (firewall.startFiresMax < firewall.startFiresMin) firewall.startFiresMax = firewall.startFiresMin;
         }
     }
 }

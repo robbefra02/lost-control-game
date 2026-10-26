@@ -123,7 +123,8 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
   - `[ASSUMPTION]` The stream is thin (about a third of a cell high) and long enough to reach the wall from anywhere in the panel.
   - It lowers the intensity of the cells it touches.
 - All cells at 0 = round done.
-- The meter is the fire itself: total intensity / maximum intensity.
+- The meter is the fire itself: total intensity / maximum intensity. When a full meter costs a damage level (D47), the whole fire shrinks evenly to half.
+- `[ASSUMPTION]` Per row it touches, the stream puts out only the first burning spot to the right of the nozzle.
 - `[ASSUMPTION]` Spray width, intensity growth, spread delay and spray strength are tunables.
 
 ### Maze

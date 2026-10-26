@@ -110,3 +110,28 @@ MonoBehaviour:
 
       The meter fills at a steady
       speed until every pair is matched. Each match pushes it back down.'
+  - title: Extinguish the firewall
+    body: 'The firewall is on fire. Over this PC''s screen your cursor becomes a
+      hose: hold the left mouse button to spray a thin stream of water to the right.
+      Put out all the fire to finish the round.
+
+
+      <b>Water</b>
+
+      The stream
+      puts out the first burning spot in its path. Move up and down to reach every
+      row.
+
+
+      <b>Fire</b>
+
+      Fire that gets no water keeps growing, also
+      while you are working on another PC. Spots that burn at full strength set the
+      spots next to them alight.
+
+
+      <b>Pressure</b>
+
+      The meter shows how
+      much of the firewall is burning. When it is full, the PC takes damage and the
+      fire dies down to half.'

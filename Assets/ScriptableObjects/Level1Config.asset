@@ -22,7 +22,7 @@ MonoBehaviour:
     minigame: 1
   - description: Computer is really slow
     arrivalTime: 20
-    minigame: 0
+    minigame: 2
   - description: Pop-ups everywhere
     arrivalTime: 30
     minigame: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     minigame: 0
   - description: Fan is very loud
     arrivalTime: 55
-    minigame: 0
+    minigame: 2
   connectionTime: 3
   hiddenDamageCue: 1
   liveListWhenDisconnected: 1
@@ -54,6 +54,24 @@ MonoBehaviour:
     meterFillTime: 30
     matchPressureRelief: 0.25
     mismatchRevealTime: 0.75
+  firewall:
+    rounds: 2
+    wallArea:
+      serializedVersion: 2
+      x: 0.62
+      y: 0.05
+      width: 0.33
+      height: 0.9
+    rows: 8
+    columns: 3
+    startFiresMin: 3
+    startFiresMax: 5
+    startIntensity: 0.5
+    growthPerSecond: 0.05
+    spreadDelay: 4
+    spreadIntensity: 0.2
+    waterPerSecond: 0.6
+    streamHeight: 0.04
   payoutFine: 100
   payoutSlightlyBroken: 75
   payoutMoreBroken: 50
