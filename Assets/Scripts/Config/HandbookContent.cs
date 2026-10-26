@@ -61,6 +61,15 @@ namespace LostControl.Config
                 "The fire starts at the foot of the wall and grows upwards and away from it, also while you are working on another PC.\n\n" +
                 "<b>Pressure</b>\n" +
                 "The meter shows how big the fire is. While it is full, the fire is too big and the PC takes damage every few seconds."),
+            new HandbookPage("Maze",
+                "Steer the dot with WASD or the arrow keys from the start (bottom left) to the green exit (top right). " +
+                "Reach the exit to finish the round.\n\n" +
+                "<b>Walls</b>\n" +
+                "Touching a wall sends the dot back to the start of the same maze.\n\n" +
+                "<b>Leaving</b>\n" +
+                "Whenever you are not steering (no key held, or you are working on another PC), the dot slowly slides back the way it came.\n\n" +
+                "<b>Pressure</b>\n" +
+                "The meter fills at a steady speed while the round is unsolved."),
         };
     }
 }

@@ -306,7 +306,7 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 ## Assumptions still to confirm
 Values the coding agent chose because the build plan left them open. All are in `Assets/ScriptableObjects/Level1Config.asset` unless noted.
 - Ticket arrival times 0, 8, 20, 30, 45, 55 s; descriptions for tickets #3-#6 are placeholders.
-- Minigame values (rounds, meter speed, wrong-click cost, ways the off-folder differs): every `[ASSUMPTION]` in `BUILD_PLAN_2.md` section 3, also marked in the Level1Config tooltips. Built so far: Find the off-folder (step 11), Match the colors (step 14, ticket #2), Extinguish the firewall (step 15, tickets #3 and #6).
+- Minigame values (rounds, meter speed, wrong-click cost, ways the off-folder differs): every `[ASSUMPTION]` in `BUILD_PLAN_2.md` section 3, also marked in the Level1Config tooltips. Built so far: Find the off-folder (step 11), Match the colors (step 14, ticket #2), Extinguish the firewall (step 15, tickets #3 and #6), Maze (step 16, ticket #4).
 - Handbook text in `Assets/ScriptableObjects/Handbook.asset` is a draft by the coding agent (step 13), written to avoid exact numbers so it stays true when values are tuned. To be rewritten by the designer.
 - The minigame panel now holds the session messages of the old PC screen ("No remote session", "Connecting to #n...", "Ticket resolved", "#n blacked out") in the middle of the board, with the connection progress bar (step 13).
 - The virus-only assumptions (infected areas, dot size, spread clock) went with the dots (D37).

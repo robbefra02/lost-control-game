@@ -6,5 +6,6 @@ namespace LostControl.Model
         OffFolder = 0,
         MatchColors = 1,
         Firewall = 2,
+        Maze = 3,
     }
 }

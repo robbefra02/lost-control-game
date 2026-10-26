@@ -21,13 +21,13 @@ namespace LostControl.Config
         [Header("Tickets")]
         [Tooltip("All tickets in this level. The level is won when every one is resolved. " +
                  "[ASSUMPTION] Arrival times 0, 8, 20, 30, 45, 55s; descriptions are placeholders. " +
-                 "Tickets without their planned minigame use Find the off-folder until it exists.")]
+                 "[ASSUMPTION] Minigame mix: off-folder, colors, firewall, maze, off-folder, firewall.")]
         public List<TicketDefinition> tickets = new List<TicketDefinition>
         {
             new TicketDefinition("PC acts strange", 0f, MinigameType.OffFolder),
             new TicketDefinition("Virus warning shown", 8f, MinigameType.MatchColors),
             new TicketDefinition("Computer is really slow", 20f, MinigameType.Firewall),
-            new TicketDefinition("Pop-ups everywhere", 30f, MinigameType.OffFolder),
+            new TicketDefinition("Pop-ups everywhere", 30f, MinigameType.Maze),
             new TicketDefinition("Files won't open", 45f, MinigameType.OffFolder),
             new TicketDefinition("Fan is very loud", 55f, MinigameType.Firewall),
         };
@@ -57,6 +57,9 @@ namespace LostControl.Config
 
         [Header("Extinguish the firewall")]
         public FirewallSettings firewall = new FirewallSettings();
+
+        [Header("Maze")]
+        public MazeSettings maze = new MazeSettings();
 
         [Header("Economy")]
         [Tooltip("Cash paid when a ticket is resolved at Fine.")]
@@ -107,6 +110,7 @@ namespace LostControl.Config
                 case MinigameType.OffFolder: return offFolder.rounds;
                 case MinigameType.MatchColors: return matchColors.rounds;
                 case MinigameType.Firewall: return firewall.rounds;
+                case MinigameType.Maze: return maze.rounds;
                 default: throw new ArgumentOutOfRangeException(nameof(type), type, "No settings for this minigame.");
             }
         }

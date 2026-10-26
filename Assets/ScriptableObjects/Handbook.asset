@@ -135,3 +135,25 @@ MonoBehaviour:
       The
       meter shows how big the fire is. While it is full, the fire is too big and
       the PC takes damage every few seconds.'
+  - title: Maze
+    body: 'Steer the dot with WASD or the arrow keys from the start (bottom left)
+      to the green exit (top right). Reach the exit to finish the round.
+
+
+      <b>Walls</b>
+
+      Touching
+      a wall sends the dot back to the start of the same maze.
+
+
+      <b>Leaving</b>
+
+      Whenever
+      you are not steering (no key held, or you are working on another PC), the dot
+      slowly slides back the way it came.
+
+
+      <b>Pressure</b>
+
+      The meter
+      fills at a steady speed while the round is unsolved.'
