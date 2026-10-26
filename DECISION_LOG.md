@@ -282,6 +282,12 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Reason to be written by designer.
 - Trade-off: the 8 pairs can remove up to two full meters, so a player who keeps matching (one pair every 7.5 s with the 30 s meter) holds the meter level. A player who leaves mid-grid keeps the matched pairs but gets no relief while away.
 
+**D51 - Resolving a ticket ends its session automatically.**
+- The board shows "#n resolved", and with no session the whole ticket list shows live again (D34).
+- Replaces: the player stayed connected to a resolved ticket until they disconnected or connected elsewhere (a coding-agent default from step 7).
+- Reason to be written by designer.
+- Trade-off: every fix gives a free live overview of all tickets; staying on a fixed PC is no longer possible.
+
 ---
 
 ## Open questions (from the build plan)
@@ -292,7 +298,6 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 ## Assumptions still to confirm
 Values the coding agent chose because the build plan left them open. All are in `Assets/ScriptableObjects/Level1Config.asset` unless noted.
 - Ticket arrival times 0, 8, 20, 30, 45, 55 s; descriptions for tickets #3-#6 are placeholders.
-- After resolving a ticket the player stays connected to it until they disconnect or connect elsewhere (code).
 - Minigame values (rounds, meter speed, wrong-click cost, ways the off-folder differs): every `[ASSUMPTION]` in `BUILD_PLAN_2.md` section 3, also marked in the Level1Config tooltips. Built so far: Find the off-folder (step 11), Match the colors (step 14, ticket #2).
 - Handbook text in `Assets/ScriptableObjects/Handbook.asset` is a draft by the coding agent (step 13), written to avoid exact numbers so it stays true when values are tuned. To be rewritten by the designer.
 - The minigame panel now holds the session messages of the old PC screen ("No remote session", "Connecting to #n...", "Ticket resolved", "#n blacked out") in the middle of the board, with the connection progress bar (step 13).

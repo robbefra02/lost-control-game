@@ -115,6 +115,7 @@ namespace LostControl.Model
                 int id = arrivalOrder[nextArrival++];
                 var ticket = new TicketModel(id, config.tickets[id], config, minigameSeed, Time);
                 ticket.DamageIncreased += OnTicketDamaged;
+                ticket.Resolved += OnTicketResolved;
                 tickets.Add(ticket);
                 TicketArrived?.Invoke(ticket);
             }
@@ -127,6 +128,12 @@ namespace LostControl.Model
         {
             TicketDamaged?.Invoke(ticket);
             if (ticket.IsBlackout) Connection.Kick(ticket);
+        }
+
+        // A fixed PC closes its session by itself, so the player is back at the ticket list at once.
+        void OnTicketResolved(TicketModel ticket)
+        {
+            Connection.Kick(ticket);
         }
 
         // Lost as soon as enough users are lost; otherwise the level ends once every ticket is closed.

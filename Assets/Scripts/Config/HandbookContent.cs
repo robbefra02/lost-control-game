@@ -18,7 +18,7 @@ namespace LostControl.Config
                 "Users send a ticket when their PC has a problem. Fix every PC before too many users are lost.\n\n" +
                 "<b>Connecting</b>\n" +
                 "Click a ticket in the list to connect to that PC. Connecting takes a few seconds, and you can only work on one PC at a time. " +
-                "Disconnect with the button above the list.\n\n" +
+                "Disconnect with the button above the list. When you fix a PC, its session closes by itself.\n\n" +
                 "<b>The list goes stale</b>\n" +
                 "While you are connecting or connected, the other tickets stop updating: they are dimmed and only show what you last saw. " +
                 "When a PC you can't see takes damage, you hear a beep and its ticket flashes red. Disconnect to see every ticket live again.\n\n" +

@@ -6,8 +6,8 @@ namespace LostControl.View
 {
     /// <summary>
     /// The minigame panel: the remote session. The header shows the connected ticket, its damage, minigame, round
-    /// and pressure meter; the board shows its minigame. Without a playable minigame (no session, connecting,
-    /// resolved, kicked out) the board shows a session message instead, with the connection progress bar.
+    /// and pressure meter; the board shows its minigame. Without a session (none yet, connecting, or closed because
+    /// the ticket was resolved or blacked out) the board shows a session message instead, with the connection progress bar.
     /// </summary>
     public class MinigamePanelView : MonoBehaviour
     {
@@ -73,7 +73,7 @@ namespace LostControl.View
             if (connected != Ticket) Show(connected);
 
             progressBar.SetActive(connection.State == ConnectionState.Connecting);
-            sessionMessage.SetActive(Ticket == null || Ticket.IsResolved);
+            sessionMessage.SetActive(Ticket == null);
 
             if (Ticket == null)
             {
@@ -89,20 +89,9 @@ namespace LostControl.View
             headerLabel.text = $"#{Ticket.Id + 1}  {Ticket.Definition.description}";
             damageLabel.text = DamageLevelText.Name(Ticket.Damage);
             boardImage.color = damageTints[(int)Ticket.Damage];
-            meter.SetActive(!Ticket.IsResolved);
+            meter.SetActive(true);
             meterFill.anchorMax = new Vector2(Ticket.Pressure, 1f);
-
-            string minigame = MinigameText.Name(Ticket.Minigame.Type);
-            if (Ticket.IsResolved)
-            {
-                statusLabel.text = $"{minigame}   Resolved";
-                sessionTitle.text = "Ticket resolved";
-                sessionInfo.text = "Pick the next ticket.";
-            }
-            else
-            {
-                statusLabel.text = $"{minigame}   Round {Ticket.RoundsDone + 1} / {Ticket.RoundsNeeded}";
-            }
+            statusLabel.text = $"{MinigameText.Name(Ticket.Minigame.Type)}   Round {Ticket.RoundsDone + 1} / {Ticket.RoundsNeeded}";
         }
 
         void ShowSessionMessage(ConnectionModel connection)
@@ -117,8 +106,21 @@ namespace LostControl.View
             }
 
             var kicked = connection.KickedFrom;
-            sessionTitle.text = kicked != null ? $"#{kicked.Id + 1} blacked out" : "No remote session";
-            sessionInfo.text = kicked != null ? "Session closed: this user is lost. Click another ticket." : "Click a ticket to connect.";
+            if (kicked == null)
+            {
+                sessionTitle.text = "No remote session";
+                sessionInfo.text = "Click a ticket to connect.";
+            }
+            else if (kicked.IsBlackout)
+            {
+                sessionTitle.text = $"#{kicked.Id + 1} blacked out";
+                sessionInfo.text = "Session closed: this user is lost. Click another ticket.";
+            }
+            else
+            {
+                sessionTitle.text = $"#{kicked.Id + 1} resolved";
+                sessionInfo.text = "Session closed: this PC is fixed. Click another ticket.";
+            }
         }
     }
 }

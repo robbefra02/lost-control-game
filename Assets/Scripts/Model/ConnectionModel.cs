@@ -17,7 +17,7 @@ namespace LostControl.Model
         /// <summary>The ticket being connected to or connected to; null when there is no session.</summary>
         public TicketModel Target { get; private set; }
 
-        /// <summary>The ticket whose session was closed under the player (it blacked out); null after the next connect.</summary>
+        /// <summary>The ticket whose session was closed under the player (it blacked out or was resolved); null after the next connect.</summary>
         public TicketModel KickedFrom { get; private set; }
 
         /// <summary>0-1 progress of the current connection attempt; 1 once connected.</summary>
@@ -68,7 +68,7 @@ namespace LostControl.Model
             elapsed = 0f;
         }
 
-        /// <summary>Closes the session if it is on this ticket (connecting or connected).</summary>
+        /// <summary>Closes the session if it is on this ticket (connecting or connected), e.g. because the ticket closed.</summary>
         public void Kick(TicketModel ticket)
         {
             if (ticket == null || Target != ticket) return;

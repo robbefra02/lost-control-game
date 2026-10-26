@@ -38,6 +38,9 @@ namespace LostControl.Model
 
         public event Action<TicketModel> DamageIncreased;
 
+        /// <summary>The player finished the last round.</summary>
+        public event Action<TicketModel> Resolved;
+
         public TicketModel(int id, TicketDefinition definition, LevelConfig config, MinigameSeed seed, float arrivedAt)
         {
             Id = id;
@@ -75,6 +78,7 @@ namespace LostControl.Model
         {
             RoundsDone++;
             if (RoundsDone < RoundsNeeded) minigame.StartRound(RoundsDone);
+            else Resolved?.Invoke(this);
         }
 
         // One damage level, then the meter drops back so the next level takes the rest of the meter to arrive.
