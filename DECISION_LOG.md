@@ -317,6 +317,11 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Reason (stated): the maze was too big, and the wall hit should bounce the dot back rather than reset it.
 - Trade-off: a wall hit is now a small setback, so most of the maze's pressure comes from the drift while the player is away.
 
+**D56 - A resolved ticket shrinks to a half-height row in the ticket list, showing only its number, title and "Resolved".**
+- Lost (blacked-out) tickets keep the full row with their damage and "Lost".
+- Reason to be written by designer.
+- Trade-off: open tickets stand out more and the list holds more tickets, but a resolved ticket no longer shows the damage it was fixed at.
+
 ---
 
 ## Open questions (from the build plan)

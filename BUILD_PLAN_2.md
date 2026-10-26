@@ -64,6 +64,7 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 ### Tickets (unchanged unless listed)
 - Six tickets, arriving at 0, 8, 20, 30, 45 and 55 s. Plus the existing rules for connecting, the stale view, the hidden damage cue, Disconnect, and win/lose/restart.
 - Resolving a ticket ends its session automatically (D51).
+- A resolved ticket's list entry shrinks to half height and shows only its number, title and "Resolved" (D56).
 - `TicketDefinition.threat` and `infectedArea` are replaced by `minigame` (a `MinigameType`).
 - `[ASSUMPTION]` Level 1 mix: #1 Off-folder, #2 Match the colors, #3 Packet filter, #4 Maze, #5 Off-folder, #6 Packet filter.
 - `[ASSUMPTION]` The ticket descriptions are placeholders that hint at the minigame. The designer writes the final text.

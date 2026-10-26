@@ -8,8 +8,10 @@ namespace LostControl.View
 {
     /// <summary>
     /// One row in the ticket list. While its ticket is stale it keeps showing the last-known damage level
-    /// and round, and is dimmed; clicking it asks to connect to the ticket.
+    /// and round, and is dimmed; clicking it asks to connect to the ticket. A resolved ticket shrinks to one
+    /// line with only its number, title and "Resolved".
     /// </summary>
+    [RequireComponent(typeof(UnityEngine.UI.LayoutElement))]
     public class TicketEntryView : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] UnityEngine.UI.Image background;
@@ -17,6 +19,8 @@ namespace LostControl.View
         [SerializeField] TMP_Text titleLabel;
         [SerializeField] TMP_Text damageLabel;
         [SerializeField] TMP_Text statusLabel;
+        [Tooltip("Row height once the ticket is resolved, in canvas pixels.")]
+        [SerializeField] float resolvedHeight = 48f;
 
         [SerializeField] Color normalColor = new Color32(0x38, 0x3C, 0x44, 0xFF);
         [SerializeField] Color connectedColor = new Color32(0x34, 0x4E, 0x78, 0xFF);
@@ -41,8 +45,23 @@ namespace LostControl.View
         DamageLevel shownDamage;
         int shownRoundsDone;
         float flashTimer;
+        UnityEngine.UI.LayoutElement layoutElement;
+        bool compact;
+        float fullHeight;
+        float titleY;
+        float titleAnchorRight;
+        float statusY;
 
         public TicketModel Ticket { get; private set; }
+
+        void Awake()
+        {
+            layoutElement = GetComponent<UnityEngine.UI.LayoutElement>();
+            fullHeight = layoutElement.preferredHeight;
+            titleY = titleLabel.rectTransform.anchoredPosition.y;
+            titleAnchorRight = titleLabel.rectTransform.anchorMax.x;
+            statusY = statusLabel.rectTransform.anchoredPosition.y;
+        }
 
         public void Bind(TicketModel ticket, Action<TicketModel> onClicked)
         {
@@ -61,6 +80,7 @@ namespace LostControl.View
         /// <summary>Updates the row. A stale row keeps its last-known damage level and round.</summary>
         public void Refresh(bool stale, ConnectionModel connection)
         {
+            SetCompact(Ticket.IsResolved);
             if (!stale)
             {
                 shownDamage = Ticket.Damage;
@@ -91,6 +111,23 @@ namespace LostControl.View
         public void OnPointerClick(PointerEventData eventData)
         {
             clicked?.Invoke(Ticket);
+        }
+
+        // Compact: half height, no damage line, title and status side by side on one centred line.
+        // The title is anchored to the top of the row and the status to the bottom.
+        void SetCompact(bool value)
+        {
+            if (compact == value) return;
+            compact = value;
+
+            layoutElement.preferredHeight = value ? resolvedHeight : fullHeight;
+            damageLabel.gameObject.SetActive(!value);
+
+            var title = titleLabel.rectTransform;
+            title.anchoredPosition = new Vector2(title.anchoredPosition.x, value ? -resolvedHeight / 2f : titleY);
+            title.anchorMax = new Vector2(value ? statusLabel.rectTransform.anchorMin.x : titleAnchorRight, title.anchorMax.y);
+            var status = statusLabel.rectTransform;
+            status.anchoredPosition = new Vector2(status.anchoredPosition.x, value ? resolvedHeight / 2f : statusY);
         }
     }
 }
