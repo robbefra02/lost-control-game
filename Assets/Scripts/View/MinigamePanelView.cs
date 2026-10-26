@@ -5,25 +5,36 @@ using UnityEngine;
 namespace LostControl.View
 {
     /// <summary>
-    /// The minigame panel: shows the connected ticket's minigame, its round, pressure meter and damage state.
-    /// Only a fully connected ticket is shown; the minigame views draw the game and handle its input.
+    /// The minigame panel: the remote session. The header shows the connected ticket, its damage, minigame, round
+    /// and pressure meter; the board shows its minigame. Without a playable minigame (no session, connecting,
+    /// resolved, kicked out) the board shows a session message instead, with the connection progress bar.
     /// </summary>
     public class MinigamePanelView : MonoBehaviour
     {
         [SerializeField] GameController game;
-        [Tooltip("Panel title; names the connected ticket's minigame.")]
+        [Tooltip("Panel title; the connected ticket's number and description.")]
         [SerializeField] TMP_Text headerLabel;
         [SerializeField] string emptyHeader = "Remote PC";
         [Tooltip("Board background, tinted by damage level.")]
         [SerializeField] UnityEngine.UI.Image boardImage;
+        [Tooltip("Minigame name and round.")]
         [SerializeField] TMP_Text statusLabel;
         [SerializeField] TMP_Text damageLabel;
-        [Tooltip("Pressure meter, shown while connected.")]
+        [Tooltip("Pressure meter, shown while a connected ticket is open.")]
         [SerializeField] GameObject meter;
         [Tooltip("Fill of the pressure meter; its right anchor follows the ticket's pressure.")]
         [SerializeField] RectTransform meterFill;
         [Tooltip("One view per minigame type.")]
         [SerializeField] MinigameView[] minigameViews;
+
+        [Header("Session message")]
+        [Tooltip("Shown on the board whenever there is no minigame to play.")]
+        [SerializeField] GameObject sessionMessage;
+        [SerializeField] TMP_Text sessionTitle;
+        [SerializeField] TMP_Text sessionInfo;
+        [SerializeField] GameObject progressBar;
+        [Tooltip("Fill of the progress bar; its right anchor follows the connection progress.")]
+        [SerializeField] RectTransform progressFill;
 
         [Tooltip("Board tint per damage level: Fine, Slightly broken, More broken, Blackout.")]
         [SerializeField] Color[] damageTints =
@@ -61,22 +72,53 @@ namespace LostControl.View
             var connected = connection.State == ConnectionState.Connected ? connection.Target : null;
             if (connected != Ticket) Show(connected);
 
+            progressBar.SetActive(connection.State == ConnectionState.Connecting);
+            sessionMessage.SetActive(Ticket == null || Ticket.IsResolved);
+
             if (Ticket == null)
             {
                 headerLabel.text = emptyHeader;
-                statusLabel.text = connection.State == ConnectionState.Connecting ? "Connecting..." : "";
+                statusLabel.text = "";
                 damageLabel.text = "";
                 meter.SetActive(false);
                 boardImage.color = damageTints[0];
+                ShowSessionMessage(connection);
                 return;
             }
 
-            headerLabel.text = MinigameText.Name(Ticket.Minigame.Type);
-            statusLabel.text = Ticket.IsResolved ? "Resolved" : $"Round {Ticket.RoundsDone + 1} / {Ticket.RoundsNeeded}";
+            headerLabel.text = $"#{Ticket.Id + 1}  {Ticket.Definition.description}";
             damageLabel.text = DamageLevelText.Name(Ticket.Damage);
-            meter.SetActive(true);
-            meterFill.anchorMax = new Vector2(Ticket.Pressure, 1f);
             boardImage.color = damageTints[(int)Ticket.Damage];
+            meter.SetActive(!Ticket.IsResolved);
+            meterFill.anchorMax = new Vector2(Ticket.Pressure, 1f);
+
+            string minigame = MinigameText.Name(Ticket.Minigame.Type);
+            if (Ticket.IsResolved)
+            {
+                statusLabel.text = $"{minigame}   Resolved";
+                sessionTitle.text = "Ticket resolved";
+                sessionInfo.text = "Pick the next ticket.";
+            }
+            else
+            {
+                statusLabel.text = $"{minigame}   Round {Ticket.RoundsDone + 1} / {Ticket.RoundsNeeded}";
+            }
+        }
+
+        void ShowSessionMessage(ConnectionModel connection)
+        {
+            var target = connection.Target;
+            if (connection.State == ConnectionState.Connecting)
+            {
+                sessionTitle.text = $"Connecting to #{target.Id + 1}...";
+                sessionInfo.text = target.Definition.description;
+                progressFill.anchorMax = new Vector2(connection.Progress, 1f);
+                return;
+            }
+
+            var kicked = connection.KickedFrom;
+            sessionTitle.text = kicked != null ? $"#{kicked.Id + 1} blacked out" : "No remote session";
+            sessionInfo.text = kicked != null ? "Session closed: this user is lost. Click another ticket." : "Click a ticket to connect.";
         }
     }
 }
