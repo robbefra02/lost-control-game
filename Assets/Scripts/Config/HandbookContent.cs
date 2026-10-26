@@ -67,7 +67,7 @@ namespace LostControl.Config
                 "Steer the dot with WASD or the arrow keys from the start (bottom left) to the green exit (top right). " +
                 "Reach the exit to finish the round.\n\n" +
                 "<b>Walls</b>\n" +
-                "Touching a wall sends the dot back to the start of the same maze.\n\n" +
+                "Touching a wall bounces the dot back a little, the way it came.\n\n" +
                 "<b>Leaving</b>\n" +
                 "Whenever you are not steering (no key held, or you are working on another PC), the dot slowly slides back the way it came.\n\n" +
                 "<b>Pressure</b>\n" +

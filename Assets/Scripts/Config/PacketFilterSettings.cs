@@ -17,10 +17,10 @@ namespace LostControl.Config
         public int[] blockedPortsPerRound = { 1 };
 
         [Tooltip("[ASSUMPTION] Bad packets the player must block to finish a round. Packets that leak through do not count.")]
-        [Min(1)] public int blocksPerRound = 4;
+        [Min(1)] public int blocksPerRound = 8;
 
         [Tooltip("[ASSUMPTION] Seconds between two packets entering the cable. The stream never speeds up.")]
-        [Min(0.1f)] public float spawnInterval = 1.5f;
+        [Min(0.1f)] public float spawnInterval = 0.75f;
 
         [Tooltip("[ASSUMPTION] Chance (0-1) that a new packet carries a blocked port.")]
         [Range(0f, 1f)] public float badChance = 0.35f;

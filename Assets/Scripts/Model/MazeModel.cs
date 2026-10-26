@@ -7,8 +7,8 @@ namespace LostControl.Model
 {
     /// <summary>
     /// The Maze: steer a dot with the keyboard from the start cell (bottom left) to the exit cell (top right).
-    /// Each round's maze is generated from the minigame seed. Touching a wall sends the dot back to the start;
-    /// whenever nobody steers it (no key held, or the player is on another PC) it slides back along the path it came.
+    /// Each round's maze is generated from the minigame seed. Touching a wall bounces the dot back a short way along
+    /// the path it came; whenever nobody steers it (no key held, or the player is on another PC) it slides back that way too.
     /// Positions are in cells: (0, 0) is the bottom-left corner of the maze. The meter fills on a clock.
     /// </summary>
     public class MazeModel : MinigameModel
@@ -21,6 +21,7 @@ namespace LostControl.Model
         bool[,] eastWalls = new bool[0, 0];
         bool[,] northWalls = new bool[0, 0];
         Vector2 moveDirection;
+        float bounceLeft;
 
         public override MinigameType Type => MinigameType.Maze;
         public int Columns { get; private set; }
@@ -29,7 +30,7 @@ namespace LostControl.Model
         public float DotRadius => settings.dotRadius;
         public Vector2 DotPosition { get; private set; }
 
-        /// <summary>The dot touched a wall and went back to the start.</summary>
+        /// <summary>The dot touched a wall and bounces back.</summary>
         public event Action WallHit;
 
         public MazeModel(MazeSettings settings, MinigameSeed seed, int ticketId) : base(seed, ticketId)
@@ -59,8 +60,16 @@ namespace LostControl.Model
         {
             AddPressure(deltaTime / settings.meterFillTime);
 
+            if (bounceLeft > 0f)
+            {
+                float step = Math.Min(bounceLeft, settings.bounceSpeed * deltaTime);
+                // At the start of the path there is nothing left to bounce back along.
+                bounceLeft = Retrace(step) < step ? 0f : bounceLeft - step;
+                return;
+            }
+
             var direction = connected ? moveDirection : Vector2.zero;
-            if (direction == Vector2.zero) DriftBack(deltaTime);
+            if (direction == Vector2.zero) Retrace(settings.driftSpeed * deltaTime);
             else MoveForward(direction.normalized, deltaTime);
         }
 
@@ -116,7 +125,7 @@ namespace LostControl.Model
             var next = DotPosition + direction * settings.dotSpeed * deltaTime;
             if (TouchesWall(next))
             {
-                ResetDot();
+                bounceLeft = settings.bounceDistance;
                 WallHit?.Invoke();
                 return;
             }
@@ -126,24 +135,26 @@ namespace LostControl.Model
             if (Mathf.FloorToInt(DotPosition.x) == Exit.x && Mathf.FloorToInt(DotPosition.y) == Exit.y) CompleteRound();
         }
 
-        // Slides back along the recorded path; the path never touched a wall, so drifting never does either.
-        void DriftBack(float deltaTime)
+        // Moves the dot back along the recorded path (drift and bounce); the path never touched a wall, so this never
+        // does either. Returns the distance actually moved, which is less than asked once the dot is back at the start.
+        float Retrace(float distance)
         {
-            float budget = settings.driftSpeed * deltaTime;
+            float budget = distance;
             while (budget > 0f)
             {
                 var target = trail[trail.Count - 1];
-                float distance = Vector2.Distance(DotPosition, target);
-                if (distance > budget)
+                float gap = Vector2.Distance(DotPosition, target);
+                if (gap > budget)
                 {
                     DotPosition = Vector2.MoveTowards(DotPosition, target, budget);
-                    return;
+                    return distance;
                 }
                 DotPosition = target;
-                budget -= distance;
-                if (trail.Count == 1) return;
+                budget -= gap;
+                if (trail.Count == 1) return distance - budget;
                 trail.RemoveAt(trail.Count - 1);
             }
+            return distance;
         }
 
         void ResetDot()
@@ -151,6 +162,7 @@ namespace LostControl.Model
             DotPosition = new Vector2(0.5f, 0.5f);
             trail.Clear();
             trail.Add(DotPosition);
+            bounceLeft = 0f;
         }
 
         bool TouchesWall(Vector2 position)

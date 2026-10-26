@@ -58,8 +58,8 @@ MonoBehaviour:
     rounds: 2
     ports: 140000001500000016000000170000001900000035000000500000006e0000008f000000bb0100003d0d0000
     blockedPortsPerRound: 01000000
-    blocksPerRound: 4
-    spawnInterval: 1.5
+    blocksPerRound: 8
+    spawnInterval: 0.75
     badChance: 0.35
     travelTime: 4
     leakPressure: 0.15
@@ -67,11 +67,13 @@ MonoBehaviour:
   maze:
     rounds: 2
     sizePerRound:
-    - {x: 9, y: 7}
+    - {x: 6, y: 4}
     meterFillTime: 30
     dotSpeed: 2
     driftSpeed: 0.5
     dotRadius: 0.2
+    bounceDistance: 0.5
+    bounceSpeed: 4
   payoutFine: 100
   payoutSlightlyBroken: 75
   payoutMoreBroken: 50

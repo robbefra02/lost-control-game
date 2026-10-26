@@ -306,6 +306,17 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Trade-off: a round's length is set by how fast bad packets arrive, not by how fast the player is (a perfect player still needs about 15 s per round).
 - Evidence (model run, defaults): ignored, damage at about 24, 45 and 69 s; a perfect bot resolves both rounds in about 30 s with no leaks.
 
+**D54 - Denser packets: twice as many on the cable, and twice as many bad packets to block per round.**
+- A packet every 0.75 s instead of 1.5 s; 8 blocks per round instead of 4. The exact numbers are coding-agent assumptions; the designer asked for "more dense" with more blocks needed.
+- Reason (stated): the stream was too sparse.
+- Trade-off: an ignored packet filter now leaks twice as fast. In a model run it takes damage at about 14, 24 and 36 s (was 24, 45 and 69 s), much faster than the 30 s clock games. A perfect player still needs about 30 s for both rounds.
+
+**D55 - Smaller maze, and a wall hit bounces the dot back instead of sending it to the start.**
+- 6x4 cells instead of 9x7; the route is about 11 cells and a perfect run takes about 11 s for both rounds (was about 38 s).
+- Wall hit: the dot bounces 0.5 cells back along the path it came (the cell count and speed are coding-agent assumptions). It replaces "touching a wall restarts the maze" from the first maze description.
+- Reason (stated): the maze was too big, and the wall hit should bounce the dot back rather than reset it.
+- Trade-off: a wall hit is now a small setback, so most of the maze's pressure comes from the drift while the player is away.
+
 ---
 
 ## Open questions (from the build plan)
