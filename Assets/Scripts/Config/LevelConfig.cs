@@ -21,15 +21,15 @@ namespace LostControl.Config
         [Header("Tickets")]
         [Tooltip("All tickets in this level. The level is won when every one is resolved. " +
                  "[ASSUMPTION] Arrival times 0, 8, 20, 30, 45, 55s; descriptions are placeholders. " +
-                 "[ASSUMPTION] Minigame mix: off-folder, colors, firewall, maze, off-folder, firewall.")]
+                 "[ASSUMPTION] Minigame mix: off-folder, colors, packet filter, maze, off-folder, packet filter.")]
         public List<TicketDefinition> tickets = new List<TicketDefinition>
         {
             new TicketDefinition("PC acts strange", 0f, MinigameType.OffFolder),
             new TicketDefinition("Virus warning shown", 8f, MinigameType.MatchColors),
-            new TicketDefinition("Computer is really slow", 20f, MinigameType.Firewall),
+            new TicketDefinition("Computer is really slow", 20f, MinigameType.PacketFilter),
             new TicketDefinition("Pop-ups everywhere", 30f, MinigameType.Maze),
             new TicketDefinition("Files won't open", 45f, MinigameType.OffFolder),
-            new TicketDefinition("Fan is very loud", 55f, MinigameType.Firewall),
+            new TicketDefinition("Fan is very loud", 55f, MinigameType.PacketFilter),
         };
 
         [Header("Connecting")]
@@ -55,8 +55,8 @@ namespace LostControl.Config
         [Header("Match the colors")]
         public MatchColorsSettings matchColors = new MatchColorsSettings();
 
-        [Header("Extinguish the firewall")]
-        public FirewallSettings firewall = new FirewallSettings();
+        [Header("Packet filter")]
+        public PacketFilterSettings packetFilter = new PacketFilterSettings();
 
         [Header("Maze")]
         public MazeSettings maze = new MazeSettings();
@@ -109,7 +109,7 @@ namespace LostControl.Config
             {
                 case MinigameType.OffFolder: return offFolder.rounds;
                 case MinigameType.MatchColors: return matchColors.rounds;
-                case MinigameType.Firewall: return firewall.rounds;
+                case MinigameType.PacketFilter: return packetFilter.rounds;
                 case MinigameType.Maze: return maze.rounds;
                 default: throw new ArgumentOutOfRangeException(nameof(type), type, "No settings for this minigame.");
             }
@@ -121,7 +121,8 @@ namespace LostControl.Config
             if (offFolder.columns * offFolder.rows < 2) offFolder.columns = 2;
             // Match the colors needs at least one pair.
             if (matchColors.columns * matchColors.rows < 2) matchColors.columns = 2;
-            if (firewall.startFiresMax < firewall.startFiresMin) firewall.startFiresMax = firewall.startFiresMin;
+            // The packet filter needs at least one blocked and one allowed port.
+            if (packetFilter.ports == null || packetFilter.ports.Length < 2) packetFilter.ports = new PacketFilterSettings().ports;
         }
     }
 }

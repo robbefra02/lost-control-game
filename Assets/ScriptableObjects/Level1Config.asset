@@ -54,34 +54,16 @@ MonoBehaviour:
     meterFillTime: 30
     matchPressureRelief: 0.25
     mismatchRevealTime: 0.75
-  firewall:
+  packetFilter:
     rounds: 2
-    wallArea:
-      serializedVersion: 2
-      x: 0.8
-      y: 0
-      width: 0.05
-      height: 1
-    fireArea:
-      serializedVersion: 2
-      x: 0.45
-      y: 0
-      width: 0.35
-      height: 0.9
-    columns: 7
-    rows: 8
-    startFiresMin: 1
-    startFiresMax: 2
-    startIntensity: 0.5
-    growthPerSecond: 0.1
-    spreadDelay: 2
-    spreadIntensity: 0.2
-    damageThreshold: 0.3
-    damageInterval: 4
-    dropsPerSecond: 40
-    dropSpeed: 0.9
-    gravity: 2
-    waterPerDrop: 0.03
+    ports: 140000001500000016000000170000001900000035000000500000006e0000008f000000bb0100003d0d0000
+    blockedPortsPerRound: 01000000
+    blocksPerRound: 4
+    spawnInterval: 1.5
+    badChance: 0.35
+    travelTime: 4
+    leakPressure: 0.15
+    wrongBlockPressure: 0.2
   maze:
     rounds: 2
     sizePerRound:

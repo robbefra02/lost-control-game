@@ -48,7 +48,7 @@ namespace LostControl.Model
         /// <summary>
         /// The ticket asks this after every tick: true means the PC takes one damage level now.
         /// Default rule (D47): a full meter costs a level and the meter drops back to pressureAfterDamage.
-        /// A minigame with its own damage rule (the firewall, D52) overrides this.
+        /// A minigame with its own damage rule overrides this.
         /// </summary>
         public virtual bool CheckDamage(float deltaTime, float pressureAfterDamage)
         {

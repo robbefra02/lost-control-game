@@ -43,7 +43,7 @@ After the first playtest the virus was replaced by minigames ([BUILD_PLAN_2.md](
 - [ ] Step 12 - Playtest logging (postponed)
 - [x] Step 13 - Handbook panel
 - [x] Step 14 - Match the colors
-- [x] Step 15 - Extinguish the firewall
+- [x] Step 15 - Packet filter (replaced Extinguish the firewall)
 - [x] Step 16 - Maze
 - [ ] Step 17 - Economy
 

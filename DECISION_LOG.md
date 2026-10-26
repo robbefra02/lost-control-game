@@ -295,6 +295,16 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Reason (stated): the step 15 version was not what the designer had in mind.
 - Trade-off: aiming is now a skill (aim higher the further away the fire is); once the fire passes the threshold, damage comes fast (Blackout 12 s later if nothing is done).
 - Evidence (model run with the default values): an ignored firewall crosses the threshold at about 41 s, takes damage at 45 and 49 s and blacks out at 53 s. A bot with perfect aim clears both rounds in about 3 s when it starts at once, and in about 20 s after 25 s of neglect.
+- **Update 2026-10-26:** replaced by the packet filter (D53).
+
+**D53 - The firewall minigame is replaced by a packet filter.**
+- Packets with port numbers travel along one cable into the PC. Each round's rule (shown above the cable, picked from the seed) names the blocked port. Clicking a packet blocks it.
+- Pressure comes only from bad packets that leak in and from blocking good ones; the stream keeps flowing while the player is away. The round ends after N bad packets are blocked; leaks don't count, so a ticket never fixes itself.
+- Alternatives (proposed by the coding agent): close the ports (whack-a-mole), patch the wall (drag patches over holes), remove the minigame and keep three.
+- Reason (stated): the designer did not like the fire minigame and could not think of a better fit. The packet filter was the recommended alternative: a firewall literally filters traffic, it adds a new skill (sorting decisions), it builds pressure on its own while the player is away, and the rule could later move to the handbook (D41).
+- Risk the designer must be able to explain: real-time clicking again, like the cut virus dots (D37). It differs because the stream never speeds up and every packet asks for a decision (read the port) instead of pure speed.
+- Trade-off: a round's length is set by how fast bad packets arrive, not by how fast the player is (a perfect player still needs about 15 s per round).
+- Evidence (model run, defaults): ignored, damage at about 24, 45 and 69 s; a perfect bot resolves both rounds in about 30 s with no leaks.
 
 ---
 
@@ -306,7 +316,7 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 ## Assumptions still to confirm
 Values the coding agent chose because the build plan left them open. All are in `Assets/ScriptableObjects/Level1Config.asset` unless noted.
 - Ticket arrival times 0, 8, 20, 30, 45, 55 s; descriptions for tickets #3-#6 are placeholders.
-- Minigame values (rounds, meter speed, wrong-click cost, ways the off-folder differs): every `[ASSUMPTION]` in `BUILD_PLAN_2.md` section 3, also marked in the Level1Config tooltips. Built so far: Find the off-folder (step 11), Match the colors (step 14, ticket #2), Extinguish the firewall (step 15, tickets #3 and #6), Maze (step 16, ticket #4).
+- Minigame values (rounds, meter speed, wrong-click cost, ways the off-folder differs): every `[ASSUMPTION]` in `BUILD_PLAN_2.md` section 3, also marked in the Level1Config tooltips. Built so far: Find the off-folder (step 11), Match the colors (step 14, ticket #2), Packet filter (replaced the firewall, D53, tickets #3 and #6), Maze (step 16, ticket #4).
 - Handbook text in `Assets/ScriptableObjects/Handbook.asset` is a draft by the coding agent (step 13), written to avoid exact numbers so it stays true when values are tuned. To be rewritten by the designer.
 - The minigame panel now holds the session messages of the old PC screen ("No remote session", "Connecting to #n...", "Ticket resolved", "#n blacked out") in the middle of the board, with the connection progress bar (step 13).
 - The virus-only assumptions (infected areas, dot size, spread clock) went with the dots (D37).

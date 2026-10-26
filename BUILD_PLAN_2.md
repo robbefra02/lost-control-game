@@ -65,7 +65,7 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 - Six tickets, arriving at 0, 8, 20, 30, 45 and 55 s. Plus the existing rules for connecting, the stale view, the hidden damage cue, Disconnect, and win/lose/restart.
 - Resolving a ticket ends its session automatically (D51).
 - `TicketDefinition.threat` and `infectedArea` are replaced by `minigame` (a `MinigameType`).
-- `[ASSUMPTION]` Level 1 mix: #1 Off-folder, #2 Match the colors, #3 Firewall, #4 Maze, #5 Off-folder, #6 Firewall.
+- `[ASSUMPTION]` Level 1 mix: #1 Off-folder, #2 Match the colors, #3 Packet filter, #4 Maze, #5 Off-folder, #6 Packet filter.
 - `[ASSUMPTION]` The ticket descriptions are placeholders that hint at the minigame. The designer writes the final text.
 - `[ASSUMPTION]` List entries add "Round n/N" next to the damage level. The pressure meter is not shown in the list.
 
@@ -73,15 +73,15 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 | Parameter | Value |
 |---|---|
 | Meter | 0-1 per ticket. Each minigame defines how it fills (see the minigames below). It fills while connected and while away. |
-| Full meter | +1 damage level at once, then the meter drops back to half (`pressureAfterDamage` 0.5). It replaces the 20 s countdown at full (D47, 2026-10-26). Exception: Extinguish the firewall has its own rule (D52). |
+| Full meter | +1 damage level at once, then the meter drops back to half (`pressureAfterDamage` 0.5). It replaces the 20 s countdown at full (D47, 2026-10-26). A minigame can override this rule (`MinigameModel.CheckDamage`); none does at the moment. |
 | Round done | The meter empties to 0. |
 | Blackout | Unchanged: the ticket closes, the user is lost, the player is kicked out. |
 
 ### Rounds
 | Parameter | Value |
 |---|---|
-| Rounds per ticket | Set per minigame. Match the colors 1 (D50). `[ASSUMPTION]` Off-folder 3, Firewall 2, Maze 2. |
-| Progress | Finished rounds stay finished when the player leaves. The round in progress keeps getting worse while they are away: the meter fills, fire grows, the maze dot drifts back. |
+| Rounds per ticket | Set per minigame. Match the colors 1 (D50). `[ASSUMPTION]` Off-folder 3, Packet filter 2, Maze 2. |
+| Progress | Finished rounds stay finished when the player leaves. The round in progress keeps getting worse while they are away: the meter fills, bad packets leak in, the maze dot drifts back. |
 | Next round | Starts immediately after a round is done, with new content from the minigame seed. |
 
 ### Minigame seed
@@ -112,25 +112,21 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 - `[ASSUMPTION]` Matched pairs stay when the player leaves. A single revealed card flips back on disconnect.
 - `[ASSUMPTION]` The meter fills on a clock: empty to full in 30 s.
 
-### Extinguish the firewall
-Redesigned after step 15 (D52). The step 15 version (a straight stream at fire on the wall's face) is replaced.
-- The firewall is a wall on the right side of the fire. Over the panel, the cursor becomes a hose that shoots water sideways to the right. Gravity bends the water down.
-- Fire:
-  - It starts at the foot of the wall and grows upwards and away from it, also while the player is away.
-  - `[ASSUMPTION]` Grid: the fire is a grid of spots in front of the wall (7 columns x 8 rows), each with an intensity of 0-1.
-  - `[ASSUMPTION]` Start: a round starts with 1-2 spots burning at 0.5 in the bottom row, next to the wall.
-  - `[ASSUMPTION]` Growth: burning spots gain 0.1/s.
-  - `[ASSUMPTION]` Spread: a spot at full intensity lights a random unburnt neighbour every 2 s. Neighbours are above, beside or below it; the wall and floor bound the area, so the fire grows up and away from the wall.
-- Water:
-  - When the water touches the fire, the fire starts disappearing.
-  - `[ASSUMPTION]` Spraying: the hose fires 40 drops/s while the left mouse button is held. A drop flies right at 0.9 board widths/s and falls with gravity 2 board heights/s².
-  - `[ASSUMPTION]` Hits: a drop that reaches a burning spot takes 0.03 intensity and is gone. Drops that reach the wall, the floor or the board edge are gone too.
-- Damage (its own rule, not D47):
-  - Damage starts at a certain fire size. Above that threshold, the PC takes a damage level every 4 s the fire is bigger than the threshold.
-  - `[ASSUMPTION]` Threshold: fire size 0.3, where 1 is the whole area at full intensity.
-  - `[ASSUMPTION]` Meter: the pressure meter shows the fire size up to the threshold, so a full meter means damage is coming.
-  - `[ASSUMPTION]` Timer: the 4 s count time above the threshold. The first damage comes 4 s after crossing it, and the count keeps its time when the fire dips below the threshold.
-- All fire out = round done.
+### Packet filter (replaces Extinguish the firewall, D53)
+Both firewall versions (step 15 and the D52 redesign) are removed.
+- Packets travel along one cable from left to right into the PC. Each packet shows a port number.
+- Every round, a rule above the cable names the blocked port, picked from the minigame seed.
+  - `[ASSUMPTION]` Ports: 20, 21, 22, 23, 25, 53, 80, 110, 143, 443, 3389.
+  - `[ASSUMPTION]` One blocked port per round; the count can be set per round.
+- Clicking a packet blocks it (removes it).
+  - A bad packet (blocked port) counts towards the round.
+  - A good packet adds pressure. `[ASSUMPTION]` +0.2.
+- A bad packet that reaches the PC adds pressure (`[ASSUMPTION]` +0.15) and the PC flashes red. Good packets pass harmlessly.
+- Only leaks and wrong blocks fill the meter, with no clock. The stream keeps flowing while the player is away, so bad packets leak in. Damage uses the normal rule (D47).
+- The round is done after N bad packets are blocked; leaked ones don't count, so a ticket never fixes itself.
+  - `[ASSUMPTION]` 4 per round, 2 rounds.
+- `[ASSUMPTION]` Stream: a packet enters every 1.5 s (never faster), 35% are bad, and crossing takes 4 s.
+- `[ASSUMPTION]` A new round starts with an empty cable and the first packet entering at once. The board shows "Blocked n / N".
 
 ### Maze
 - A dot steered through a maze with the keyboard (WASD or the arrow keys). It moves slowly.
@@ -156,7 +152,7 @@ Redesigned after step 15 (D52). The step 15 version (a straight stream at fire o
 | Parameter | Value |
 |---|---|
 | Payout on resolve | Unchanged: 100 (Fine), 75 (Slightly), 50 (More), 0 (Blackout). |
-| Pause token | Replaces the virus container. Pauses the connected ticket's pressure for 10 s: meter clock, fire growth, maze drift and the damage countdown. Keeps running after disconnect. The player starts with 2. |
+| Pause token | Replaces the virus container. Pauses the connected ticket's pressure for 10 s: meter clock, packet leaks, maze drift and the damage countdown. Keeps running after disconnect. The player starts with 2. |
 | Using it | `[ASSUMPTION]` Only while connected (not while connecting), from a button in the game data panel. |
 | Wrong clicks while paused | `[ASSUMPTION]` Still add to the meter: the penalty is separate from time pressure. |
 | Shop | Unchanged: `[ASSUMPTION]` available during the level, one token for 100. |
@@ -192,10 +188,9 @@ MinigameSeed
 
 - **Views:**
   - `MinigamePanelView` owns the header and one child view per `MinigameType`. It shows the view of the connected ticket's minigame only.
-  - The child views are `OffFolderView`, `MatchColorsView`, `FirewallView` and `MazeView`.
+  - The child views are `OffFolderView`, `MatchColorsView`, `PacketFilterView` and `MazeView`.
   - `HandbookView` is the upper right panel.
 - **Input:** clicks go through uGUI, as now.
-  - `FirewallView` reads the pointer position and left button with the Input System.
   - `MazeView` reads `Keyboard.current` (WASD and arrows), only while connected to its ticket.
   - Views pass input to the model. They never change state themselves.
 - **Logging:** a `PlaytestLog` listens to simulation events. Views do not write to it, except handbook page opens.
@@ -228,9 +223,9 @@ Commit and push after every step, on `main`. Do not start the next step before t
 - Ticket #2 uses it.
 - Check: pairs match, mismatches flip back, matched pairs stay after a disconnect, the meter fills, restart gives the same layout.
 
-**Step 15 - Extinguish the firewall**
+**Step 15 - Packet filter** (first built as Extinguish the firewall, replaced by D53)
 - Tickets #3 and #6 use it.
-- Check: fire grows when left alone (connected and away), the hose puts it out, the meter follows the fire, the cursor turns back to normal outside the panel.
+- Check: bad packets leak pressure when left alone (connected and away); blocking a bad packet counts, blocking a good one costs pressure; the round needs N blocks.
 
 **Step 16 - Maze**
 - Ticket #4 uses it.
@@ -246,9 +241,9 @@ Commit and push after every step, on `main`. Do not start the next step before t
 
 ## 6. Open questions for the designer
 
-1. **Progressive generation:** should rounds get harder (a subtler off-folder, a bigger maze, more starting fire)? This plan builds the hooks but keeps the difficulty flat.
+1. **Progressive generation:** should rounds get harder (a subtler off-folder, a bigger maze, more blocked ports)? This plan builds the hooks but keeps the difficulty flat.
 2. **Meter speeds:** 30 s from empty to full for the clock-based games is a placeholder. Should it differ per minigame?
-3. **Firewall:** should the hose spray only while the button is held, or always?
+3. **Packet filter:** should later rounds block more than one port, or use other packet traits?
 4. **Maze:** should the dot drift back along its own path, or straight back to the start?
 5. **Pause token:** the final name, and whether wrong clicks should still count while it runs.
 6. **Ticket list:** should it show the minigame type, or only the description?

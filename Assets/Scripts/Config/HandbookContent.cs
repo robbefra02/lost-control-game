@@ -51,16 +51,18 @@ namespace LostControl.Config
                 "Matched pairs stay when you leave this PC. A card you picked but did not match turns face down again.\n\n" +
                 "<b>Pressure</b>\n" +
                 "The meter fills at a steady speed until every pair is matched. Each match pushes it back down."),
-            new HandbookPage("Extinguish the firewall",
-                "A fire burns in front of the firewall, the wall on the right. Over this PC's screen your cursor becomes a hose: " +
-                "hold the left mouse button to shoot water to the right. Put out all the fire to finish the round.\n\n" +
-                "<b>Water</b>\n" +
-                "The water falls as it flies, so aim above the flames you want to hit, more so the further away they are. " +
-                "Fire that the water touches burns lower until it is gone.\n\n" +
-                "<b>Fire</b>\n" +
-                "The fire starts at the foot of the wall and grows upwards and away from it, also while you are working on another PC.\n\n" +
+            new HandbookPage("Packet filter",
+                "Data packets travel along the cable into this PC, each with a port number on it. " +
+                "Every round, the rule above the cable says which port to block.\n\n" +
+                "<b>Blocking</b>\n" +
+                "Click a packet to block it. Block the packets on the blocked port and let the others through. " +
+                "Blocking enough bad packets finishes the round.\n\n" +
+                "<b>Mistakes</b>\n" +
+                "Blocking a good packet adds pressure.\n\n" +
+                "<b>Leaks</b>\n" +
+                "Every bad packet that reaches the PC adds pressure, also while you are working on another PC.\n\n" +
                 "<b>Pressure</b>\n" +
-                "The meter shows how big the fire is. While it is full, the fire is too big and the PC takes damage every few seconds."),
+                "Only leaks and mistakes fill the meter. When it is full, the PC takes damage and the meter drops back to half."),
             new HandbookPage("Maze",
                 "Steer the dot with WASD or the arrow keys from the start (bottom left) to the green exit (top right). " +
                 "Reach the exit to finish the round.\n\n" +
