@@ -96,6 +96,7 @@ Recreated on 2026-10-22 from the original in `G:\My Drive\Courses\2.1 Principles
 - Reason: "copy once" removed escalation; unlimited spread is uncontrollable. A cap keeps growth readable and bounded.
 - Open: does the countdown pause or reset when the player clicks below cap? Reset would allow clicking one dot every 19s to block all damage (degenerate strategy). Default: pause.
 - **Update 2026-10-19:** both modes built as a config switch (`countdownBelowCap`), default Pause. Simulation evidence: clicking one dot every 19 s for 3 minutes ends in Blackout with Pause, but keeps the PC at Fine with Reset. The degenerate strategy is real; Pause stays the default.
+- **Update 2026-10-26:** the countdown no longer exists. D39 moved damage to a pressure meter and D47 applies damage the moment the meter fills, so the pause/reset switch was removed.
 
 **D19 - Component-based priority deferred until the virus works.**
 - Consequence: in level 1, priority comes only from arrival timing, meetings and cross-PC spread. Risk: if tickets feel identical, the triage choice may feel weak.
@@ -214,6 +215,7 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Alternatives: a plain damage timer per ticket from arrival; a fail moment per minigame that adds +1 damage level each time.
 - Reason to be written by designer.
 - Trade-off: one rule to learn across all minigames, but the meter hides how differently the games build up pressure.
+- **Update 2026-10-26:** a full meter no longer runs a countdown; see D47.
 
 **D40 - Tickets need several rounds. Finished rounds are kept, the round in progress keeps getting worse while the player is away, and finishing a round empties the meter. The round count is set per minigame.**
 - Alternatives:
@@ -255,6 +257,18 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Alternatives: an item that empties the meter once; an item that skips a round.
 - Reason to be written by designer.
 - Trade-off: same as the virus container (D16): the token buys time, not progress.
+
+## 2026-10-26 - After playing step 11
+
+**D47 - A full pressure meter costs one damage level at once, then drops back to half.**
+- Replaces the 20 s countdown at a full meter (D39). With the 30 s meter of Find the off-folder, an ignored ticket now takes damage 30, 45 and 60 s after it arrives (Blackout at 60 s instead of 90 s). An idle player loses at 1:08 instead of 1:50.
+- Alternatives: keep the countdown but shorten it; empty the meter completely after each damage level.
+- Reason (stated): taking damage should be faster.
+- Trade-off: there is no grace time at a full meter, and a wrong click near the top causes damage straight away. Every damage level after the first comes twice as fast as the first.
+
+**D48 - Playtest logging (step 12) is postponed; the handbook (step 13) comes first.**
+- Reason to be written by designer.
+- Trade-off: playtests before step 12 give only observation, no CSV data.
 
 ---
 

@@ -46,12 +46,8 @@ namespace LostControl.Config
         public bool liveListWhenDisconnected = false;
 
         [Header("Damage")]
-        [Tooltip("Seconds with a full pressure meter for +1 damage level.")]
-        [Min(0.1f)] public float damageInterval = 20f;
-
-        [Tooltip("What the damage countdown does when the meter drops below full: pause (keep the time) or reset.")]
-        [FormerlySerializedAs("countdownBelowCap")]
-        public CountdownBelowFull countdownBelowFull = CountdownBelowFull.Pause;
+        [Tooltip("When a ticket's pressure meter fills, the PC takes one damage level and the meter drops back to this level (0-1).")]
+        [Range(0f, 0.95f)] public float pressureAfterDamage = 0.5f;
 
         [Header("Find the off-folder")]
         public OffFolderSettings offFolder = new OffFolderSettings();

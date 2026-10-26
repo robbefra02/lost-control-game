@@ -40,7 +40,7 @@ Building level 1 step by step. Milestone 2 deadline: 2026-10-21.
 After the first playtest the virus was replaced by minigames ([BUILD_PLAN_2.md](BUILD_PLAN_2.md)):
 
 - [x] Step 11 - Minigame framework + Find the off-folder
-- [ ] Step 12 - Playtest logging
+- [ ] Step 12 - Playtest logging (postponed)
 - [ ] Step 13 - Handbook panel
 - [ ] Step 14 - Match the colors
 - [ ] Step 15 - Extinguish the firewall

@@ -5,13 +5,12 @@ namespace LostControl.Model
 {
     /// <summary>
     /// One user's PC with one problem. Owns the minigame, the rounds and the PC's damage level.
-    /// Damage only builds up while the minigame's pressure meter is full. The ticket is resolved after its
-    /// last round; at Blackout the user is lost and the ticket closes without being resolved.
+    /// Every time the minigame's pressure meter fills, the PC takes one damage level and the meter drops back.
+    /// The ticket is resolved after its last round; at Blackout the user is lost and the ticket closes without being resolved.
     /// </summary>
     public class TicketModel
     {
-        readonly float damageInterval;
-        readonly CountdownBelowFull countdownBelowFull;
+        readonly float pressureAfterDamage;
 
         /// <summary>Index of this ticket's definition in the level config.</summary>
         public int Id { get; }
@@ -19,7 +18,7 @@ namespace LostControl.Model
         public MinigameModel Minigame { get; }
         public DamageLevel Damage { get; private set; } = DamageLevel.Fine;
 
-        /// <summary>0-1, filled by the minigame. While full, the damage countdown runs.</summary>
+        /// <summary>0-1, filled by the minigame. A full meter costs one damage level.</summary>
         public float Pressure => Minigame.Pressure;
 
         public int RoundsDone { get; private set; }
@@ -27,9 +26,6 @@ namespace LostControl.Model
 
         /// <summary>Level time at which this ticket arrived.</summary>
         public float ArrivedAt { get; }
-
-        /// <summary>Seconds at a full meter counted toward the next damage level.</summary>
-        public float DamageTimer { get; private set; }
 
         /// <summary>The user is lost. A blacked-out ticket is closed but never counts as resolved.</summary>
         public bool IsBlackout => Damage == DamageLevel.Blackout;
@@ -47,8 +43,7 @@ namespace LostControl.Model
             Id = id;
             Definition = definition;
             ArrivedAt = arrivedAt;
-            damageInterval = config.damageInterval;
-            countdownBelowFull = config.countdownBelowFull;
+            pressureAfterDamage = config.pressureAfterDamage;
             RoundsNeeded = config.GetRounds(definition.minigame);
 
             Minigame = CreateMinigame(definition.minigame, config, seed, id);
@@ -56,12 +51,13 @@ namespace LostControl.Model
             Minigame.StartRound(0);
         }
 
-        /// <summary>Advances the minigame and the damage countdown. Connected = the player is in this ticket's session.</summary>
+        /// <summary>Advances the minigame and applies damage for a full meter. Connected = the player is in this ticket's session.</summary>
         public void Tick(float deltaTime, bool connected)
         {
             if (IsClosed) return;
             Minigame.Tick(deltaTime, connected);
-            TickDamage(deltaTime);
+            // Also catches a meter that a click filled since the last tick.
+            if (Pressure >= 1f) TakeDamage();
         }
 
         static MinigameModel CreateMinigame(MinigameType type, LevelConfig config, MinigameSeed seed, int ticketId)
@@ -80,26 +76,13 @@ namespace LostControl.Model
             if (RoundsDone < RoundsNeeded) minigame.StartRound(RoundsDone);
         }
 
-        void TickDamage(float deltaTime)
+        // One damage level, then the meter drops back so the next level takes the rest of the meter to arrive.
+        void TakeDamage()
         {
-            if (Pressure < 1f)
-            {
-                if (countdownBelowFull == CountdownBelowFull.Reset) DamageTimer = 0f;
-                return;
-            }
-
-            DamageTimer += deltaTime;
-            while (DamageTimer >= damageInterval && !IsBlackout)
-            {
-                DamageTimer -= damageInterval;
-                Damage++;
-                if (IsBlackout)
-                {
-                    DamageTimer = 0f;
-                    Minigame.Stop();
-                }
-                DamageIncreased?.Invoke(this);
-            }
+            Damage++;
+            if (IsBlackout) Minigame.Stop();
+            else Minigame.LowerPressure(pressureAfterDamage);
+            DamageIncreased?.Invoke(this);
         }
     }
 }

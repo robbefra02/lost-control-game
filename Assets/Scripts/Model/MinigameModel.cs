@@ -4,8 +4,8 @@ namespace LostControl.Model
 {
     /// <summary>
     /// The task on one ticket's PC, played in rounds. Each round's content comes from the minigame seed.
-    /// While a round is open the minigame fills its pressure meter (0-1) in its own way; a full meter runs
-    /// the ticket's damage countdown. Finishing a round empties the meter.
+    /// While a round is open the minigame fills its pressure meter (0-1) in its own way; a full meter costs
+    /// the ticket a damage level. Finishing a round empties the meter.
     /// </summary>
     public abstract class MinigameModel
     {
@@ -14,7 +14,7 @@ namespace LostControl.Model
 
         public abstract MinigameType Type { get; }
 
-        /// <summary>0-1. At 1 the ticket's damage countdown runs.</summary>
+        /// <summary>0-1. At 1 the ticket takes a damage level.</summary>
         public float Pressure { get; protected set; }
 
         /// <summary>Index of the current round, from 0. Stays on the last round once the ticket is resolved.</summary>
@@ -43,6 +43,12 @@ namespace LostControl.Model
         public void Stop()
         {
             IsRoundOpen = false;
+        }
+
+        /// <summary>Drops the meter to this level if it is higher. The ticket calls it after a full meter cost a damage level.</summary>
+        public void LowerPressure(float level)
+        {
+            Pressure = Math.Min(Pressure, level);
         }
 
         /// <summary>Advances the open round. Runs whether or not the player is connected to this ticket.</summary>

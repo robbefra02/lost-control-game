@@ -72,8 +72,7 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 | Parameter | Value |
 |---|---|
 | Meter | 0-1 per ticket. Each minigame defines how it fills (see the minigames below). It fills while connected and while away. |
-| Full meter | The damage countdown runs: +1 damage level per `damageInterval` (20 s, unchanged). |
-| Below full | The countdown pauses (existing `countdownBelowCap` setting, renamed `countdownBelowFull`). |
+| Full meter | +1 damage level at once, then the meter drops back to half (`pressureAfterDamage` 0.5). It replaces the 20 s countdown at full (D47, 2026-10-26). |
 | Round done | The meter empties to 0. |
 | Blackout | Unchanged: the ticket closes, the user is lost, the player is kicked out. |
 
@@ -171,7 +170,7 @@ GameSimulation
     Minigame : MinigameModel        pure C#, one subclass per MinigameType
     Pressure  (reads Minigame.Pressure, 0-1)
     RoundsDone / RoundsNeeded
-    Damage    (countdown runs while Pressure >= 1, as with the virus cap now)
+    Damage    (+1 each time Pressure reaches 1; the meter then drops to pressureAfterDamage)
   ConnectionModel                   unchanged
 MinigameModel (abstract)
   StartRound(SeededRandom random, int round)
@@ -206,7 +205,7 @@ Commit and push after every step, on `main`. Do not start the next step before t
 - First minigame: Find the off-folder. All six tickets use it until their own minigame exists.
 - Check: all tickets play; the meter fills while away; a round empties it; damage starts at a full meter; a wrong click raises the meter; a restart gives the same grids.
 
-**Step 12 - Playtest logging (was step 9)**
+**Step 12 - Playtest logging (was step 9)** - postponed by the designer on 2026-10-26; build it later, before the Milestone 3 playtest.
 - Write one CSV per session to `Application.persistentDataPath`, with columns: time, event, ticket, minigame, round, value.
 - Events: `session_start` (seed), `ticket_arrived`, `connect_start`, `connect_done`, `disconnect`, `round_start`, `round_done`, `wrong_click`, `mismatch`, `wall_hit`, `meter_full`, `damage_level_up`, `token_used`, `token_bought`, `handbook_page`, `resolved`, `blackout` and `game_over`.
 - `[ASSUMPTION]` The end screen shows the log file's path in small text, so playtesters can find it.

@@ -22,10 +22,6 @@ namespace LostControl.View
         [SerializeField] GameObject meter;
         [Tooltip("Fill of the pressure meter; its right anchor follows the ticket's pressure.")]
         [SerializeField] RectTransform meterFill;
-        [SerializeField] UnityEngine.UI.Image meterFillImage;
-        [SerializeField] Color meterColor = new Color32(0xE0, 0xC3, 0x41, 0xFF);
-        [Tooltip("Meter colour while full, i.e. while the damage countdown runs.")]
-        [SerializeField] Color meterFullColor = new Color32(0xE5, 0x48, 0x4D, 0xFF);
         [Tooltip("One view per minigame type.")]
         [SerializeField] MinigameView[] minigameViews;
 
@@ -80,7 +76,6 @@ namespace LostControl.View
             damageLabel.text = DamageLevelText.Name(Ticket.Damage);
             meter.SetActive(true);
             meterFill.anchorMax = new Vector2(Ticket.Pressure, 1f);
-            meterFillImage.color = Ticket.Pressure >= 1f ? meterFullColor : meterColor;
             boardImage.color = damageTints[(int)Ticket.Damage];
         }
     }

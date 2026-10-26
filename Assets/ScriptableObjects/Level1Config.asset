@@ -35,8 +35,7 @@ MonoBehaviour:
   connectionTime: 3
   hiddenDamageCue: 1
   liveListWhenDisconnected: 1
-  damageInterval: 20
-  countdownBelowFull: 0
+  pressureAfterDamage: 0.5
   offFolder:
     rounds: 3
     columns: 6
