@@ -52,15 +52,15 @@ namespace LostControl.Config
                 "<b>Pressure</b>\n" +
                 "The meter fills at a steady speed until every pair is matched. Each match pushes it back down."),
             new HandbookPage("Extinguish the firewall",
-                "The firewall is on fire. Over this PC's screen your cursor becomes a hose: hold the left mouse button " +
-                "to spray a thin stream of water to the right. Put out all the fire to finish the round.\n\n" +
+                "A fire burns in front of the firewall, the wall on the right. Over this PC's screen your cursor becomes a hose: " +
+                "hold the left mouse button to shoot water to the right. Put out all the fire to finish the round.\n\n" +
                 "<b>Water</b>\n" +
-                "The stream puts out the first burning spot in its path. Move up and down to reach every row.\n\n" +
+                "The water falls as it flies, so aim above the flames you want to hit, more so the further away they are. " +
+                "Fire that the water touches burns lower until it is gone.\n\n" +
                 "<b>Fire</b>\n" +
-                "Fire that gets no water keeps growing, also while you are working on another PC. " +
-                "Spots that burn at full strength set the spots next to them alight.\n\n" +
+                "The fire starts at the foot of the wall and grows upwards and away from it, also while you are working on another PC.\n\n" +
                 "<b>Pressure</b>\n" +
-                "The meter shows how much of the firewall is burning. When it is full, the PC takes damage and the fire dies down to half."),
+                "The meter shows how big the fire is. While it is full, the fire is too big and the PC takes damage every few seconds."),
         };
     }
 }

@@ -288,6 +288,14 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Reason to be written by designer.
 - Trade-off: every fix gives a free live overview of all tickets; staying on a fixed PC is no longer possible.
 
+**D52 - Extinguish the firewall redesigned: water arcs with gravity, the fire grows from the foot of the wall, and damage comes every 4 s above a fire-size threshold.**
+- The firewall is a wall on the right of the fire. The fire starts at its foot and grows upwards and away from it. The hose shoots water sideways and gravity bends it down; fire the water touches burns lower until it is gone.
+- Damage is the firewall's own rule: above a certain fire size, the PC takes a damage level every 4 s the fire stays above it. There is no "meter drops to half" (D47) for this minigame.
+- Replaces the step 15 build: a straight stream that put out the first burning spot on the wall's face, with the D47 damage rule.
+- Reason (stated): the step 15 version was not what the designer had in mind.
+- Trade-off: aiming is now a skill (aim higher the further away the fire is); once the fire passes the threshold, damage comes fast (Blackout 12 s later if nothing is done).
+- Evidence (model run with the default values): an ignored firewall crosses the threshold at about 41 s, takes damage at 45 and 49 s and blacks out at 53 s. A bot with perfect aim clears both rounds in about 3 s when it starts at once, and in about 20 s after 25 s of neglect.
+
 ---
 
 ## Open questions (from the build plan)

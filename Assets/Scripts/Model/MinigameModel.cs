@@ -5,7 +5,7 @@ namespace LostControl.Model
     /// <summary>
     /// The task on one ticket's PC, played in rounds. Each round's content comes from the minigame seed.
     /// While a round is open the minigame fills its pressure meter (0-1) in its own way; a full meter costs
-    /// the ticket a damage level. Finishing a round empties the meter.
+    /// the ticket damage (see CheckDamage). Finishing a round empties the meter.
     /// </summary>
     public abstract class MinigameModel
     {
@@ -46,12 +46,15 @@ namespace LostControl.Model
         }
 
         /// <summary>
-        /// Drops the meter to this level if it is higher. The ticket calls it after a full meter cost a damage level.
-        /// A minigame whose meter follows its own state (the firewall's fire) overrides this to shrink that state.
+        /// The ticket asks this after every tick: true means the PC takes one damage level now.
+        /// Default rule (D47): a full meter costs a level and the meter drops back to pressureAfterDamage.
+        /// A minigame with its own damage rule (the firewall, D52) overrides this.
         /// </summary>
-        public virtual void LowerPressure(float level)
+        public virtual bool CheckDamage(float deltaTime, float pressureAfterDamage)
         {
-            Pressure = Math.Min(Pressure, level);
+            if (Pressure < 1f) return false;
+            Pressure = Math.Min(Pressure, pressureAfterDamage);
+            return true;
         }
 
         /// <summary>Advances the open round. Runs whether or not the player is connected to this ticket.</summary>

@@ -73,7 +73,7 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 | Parameter | Value |
 |---|---|
 | Meter | 0-1 per ticket. Each minigame defines how it fills (see the minigames below). It fills while connected and while away. |
-| Full meter | +1 damage level at once, then the meter drops back to half (`pressureAfterDamage` 0.5). It replaces the 20 s countdown at full (D47, 2026-10-26). |
+| Full meter | +1 damage level at once, then the meter drops back to half (`pressureAfterDamage` 0.5). It replaces the 20 s countdown at full (D47, 2026-10-26). Exception: Extinguish the firewall has its own rule (D52). |
 | Round done | The meter empties to 0. |
 | Blackout | Unchanged: the ticket closes, the user is lost, the player is kicked out. |
 
@@ -113,19 +113,24 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 - `[ASSUMPTION]` The meter fills on a clock: empty to full in 30 s.
 
 ### Extinguish the firewall
-- The firewall is on the right side of the panel and is on fire. Over the panel, the cursor becomes a hose that sprays a thin stream of water to the right.
+Redesigned after step 15 (D52). The step 15 version (a straight stream at fire on the wall's face) is replaced.
+- The firewall is a wall on the right side of the fire. Over the panel, the cursor becomes a hose that shoots water sideways to the right. Gravity bends the water down.
 - Fire:
-  - `[ASSUMPTION]` A grid of fire cells on the wall (8 rows x 3 columns), each with an intensity of 0-1.
-  - `[ASSUMPTION]` A round starts with a few burning cells, placed from the seed.
-  - Fire grows while it is not being sprayed, including while the player is away. `[ASSUMPTION]` Unsprayed cells gain intensity at a fixed rate. A cell at full intensity sets a neighbouring cell alight after a delay.
-- Spraying:
-  - `[ASSUMPTION]` The hose sprays while the left mouse button is held.
-  - `[ASSUMPTION]` The stream is thin (about a third of a cell high) and long enough to reach the wall from anywhere in the panel.
-  - It lowers the intensity of the cells it touches.
-- All cells at 0 = round done.
-- The meter is the fire itself: total intensity / maximum intensity. When a full meter costs a damage level (D47), the whole fire shrinks evenly to half.
-- `[ASSUMPTION]` Per row it touches, the stream puts out only the first burning spot to the right of the nozzle.
-- `[ASSUMPTION]` Spray width, intensity growth, spread delay and spray strength are tunables.
+  - It starts at the foot of the wall and grows upwards and away from it, also while the player is away.
+  - `[ASSUMPTION]` Grid: the fire is a grid of spots in front of the wall (7 columns x 8 rows), each with an intensity of 0-1.
+  - `[ASSUMPTION]` Start: a round starts with 1-2 spots burning at 0.5 in the bottom row, next to the wall.
+  - `[ASSUMPTION]` Growth: burning spots gain 0.1/s.
+  - `[ASSUMPTION]` Spread: a spot at full intensity lights a random unburnt neighbour every 2 s. Neighbours are above, beside or below it; the wall and floor bound the area, so the fire grows up and away from the wall.
+- Water:
+  - When the water touches the fire, the fire starts disappearing.
+  - `[ASSUMPTION]` Spraying: the hose fires 40 drops/s while the left mouse button is held. A drop flies right at 0.9 board widths/s and falls with gravity 2 board heights/s².
+  - `[ASSUMPTION]` Hits: a drop that reaches a burning spot takes 0.03 intensity and is gone. Drops that reach the wall, the floor or the board edge are gone too.
+- Damage (its own rule, not D47):
+  - Damage starts at a certain fire size. Above that threshold, the PC takes a damage level every 4 s the fire is bigger than the threshold.
+  - `[ASSUMPTION]` Threshold: fire size 0.3, where 1 is the whole area at full intensity.
+  - `[ASSUMPTION]` Meter: the pressure meter shows the fire size up to the threshold, so a full meter means damage is coming.
+  - `[ASSUMPTION]` Timer: the 4 s count time above the threshold. The first damage comes 4 s after crossing it, and the count keeps its time when the fire dips below the threshold.
+- All fire out = round done.
 
 ### Maze
 - A dot steered through a maze with the keyboard (WASD or the arrow keys). It moves slowly.

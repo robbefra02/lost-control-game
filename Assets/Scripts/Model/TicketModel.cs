@@ -5,7 +5,7 @@ namespace LostControl.Model
 {
     /// <summary>
     /// One user's PC with one problem. Owns the minigame, the rounds and the PC's damage level.
-    /// Every time the minigame's pressure meter fills, the PC takes one damage level and the meter drops back.
+    /// The minigame's damage rule decides when the PC takes a damage level (by default: each time its meter fills).
     /// The ticket is resolved after its last round; at Blackout the user is lost and the ticket closes without being resolved.
     /// </summary>
     public class TicketModel
@@ -54,13 +54,13 @@ namespace LostControl.Model
             Minigame.StartRound(0);
         }
 
-        /// <summary>Advances the minigame and applies damage for a full meter. Connected = the player is in this ticket's session.</summary>
+        /// <summary>Advances the minigame and applies its damage rule. Connected = the player is in this ticket's session.</summary>
         public void Tick(float deltaTime, bool connected)
         {
             if (IsClosed) return;
             Minigame.Tick(deltaTime, connected);
             // Also catches a meter that a click filled since the last tick.
-            if (Pressure >= 1f) TakeDamage();
+            if (Minigame.CheckDamage(deltaTime, pressureAfterDamage)) TakeDamage();
         }
 
         static MinigameModel CreateMinigame(MinigameType type, LevelConfig config, MinigameSeed seed, int ticketId)
@@ -82,12 +82,10 @@ namespace LostControl.Model
             else Resolved?.Invoke(this);
         }
 
-        // One damage level, then the meter drops back so the next level takes the rest of the meter to arrive.
         void TakeDamage()
         {
             Damage++;
             if (IsBlackout) Minigame.Stop();
-            else Minigame.LowerPressure(pressureAfterDamage);
             DamageIncreased?.Invoke(this);
         }
     }

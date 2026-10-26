@@ -6,27 +6,31 @@ using UnityEngine.InputSystem;
 namespace LostControl.View
 {
     /// <summary>
-    /// Draws Extinguish the firewall: the wall, its fire spots, the hose and the water stream. Over the board the
-    /// system cursor is hidden and the hose follows the pointer; holding the left mouse button sprays.
+    /// Draws Extinguish the firewall: the wall, the fire in front of it, the hose and its water drops. Over the board
+    /// the system cursor is hidden and the hose follows the pointer; holding the left mouse button sprays.
     /// </summary>
     public class FirewallView : MinigameView
     {
         [Tooltip("Area that maps to normalized board coordinates (0-1).")]
         [SerializeField] RectTransform area;
-        [Tooltip("Background of the firewall, stretched to the wall area.")]
+        [Tooltip("The firewall, stretched to the wall area.")]
         [SerializeField] RectTransform wall;
         [Tooltip("Parent of the fire spots, stretched over the area.")]
         [SerializeField] RectTransform fireLayer;
+        [Tooltip("Parent of the water drops, stretched over the area.")]
+        [SerializeField] RectTransform waterLayer;
         [Tooltip("Hose nozzle; its pivot is the tip, placed at the pointer.")]
         [SerializeField] RectTransform hose;
-        [Tooltip("Water stream, stretched from the nozzle to where the water stops.")]
-        [SerializeField] RectTransform stream;
         [Tooltip("Colour of a spot that just caught fire.")]
         [SerializeField] Color emberColor = new Color32(0x8B, 0x2A, 0x10, 0xFF);
         [Tooltip("Colour of a spot at full intensity.")]
         [SerializeField] Color flameColor = new Color32(0xFF, 0xB0, 0x20, 0xFF);
+        [SerializeField] Color dropColor = new Color32(0x6E, 0xC6, 0xFF, 0xFF);
+        [Tooltip("Size of one water drop, in canvas pixels.")]
+        [SerializeField] float dropSize = 8f;
 
         readonly List<UnityEngine.UI.Image> spots = new List<UnityEngine.UI.Image>();
+        readonly List<RectTransform> drops = new List<RectTransform>();
         FirewallModel model;
 
         public override MinigameType Type => MinigameType.Firewall;
@@ -40,7 +44,7 @@ namespace LostControl.View
 
             Stretch(wall, model.WallArea);
             int count = model.Rows * model.Columns;
-            while (spots.Count < count) spots.Add(CreateSpot(spots.Count));
+            while (spots.Count < count) spots.Add(CreateImage("Fire " + spots.Count, fireLayer));
             for (int i = 0; i < spots.Count; i++) spots[i].gameObject.SetActive(i < count);
             for (int row = 0; row < model.Rows; row++)
                 for (int column = 0; column < model.Columns; column++)
@@ -78,23 +82,30 @@ namespace LostControl.View
                 }
             }
 
-            bool hoseShown = model.HoseOnBoard && model.IsRoundOpen;
-            hose.gameObject.SetActive(hoseShown);
-            if (hoseShown)
+            var positions = model.Drops;
+            while (drops.Count < positions.Count)
             {
-                hose.anchorMin = model.HosePosition;
-                hose.anchorMax = model.HosePosition;
-                hose.anchoredPosition = Vector2.zero;
+                var drop = CreateImage("Drop " + drops.Count, waterLayer);
+                drop.color = dropColor;
+                drop.rectTransform.sizeDelta = new Vector2(dropSize, dropSize);
+                drops.Add(drop.rectTransform);
+            }
+            for (int i = 0; i < drops.Count; i++)
+            {
+                bool shown = i < positions.Count;
+                drops[i].gameObject.SetActive(shown);
+                if (!shown) continue;
+                drops[i].anchorMin = positions[i];
+                drops[i].anchorMax = positions[i];
+                drops[i].anchoredPosition = Vector2.zero;
             }
 
-            bool water = hoseShown && model.IsSpraying;
-            stream.gameObject.SetActive(water);
-            if (water)
-            {
-                float half = model.StreamHeight / 2f;
-                var nozzle = model.HosePosition;
-                Stretch(stream, Rect.MinMaxRect(nozzle.x, nozzle.y - half, Mathf.Max(model.StreamEnd, nozzle.x), nozzle.y + half));
-            }
+            bool hoseShown = model.HoseOnBoard && model.IsRoundOpen;
+            hose.gameObject.SetActive(hoseShown);
+            if (!hoseShown) return;
+            hose.anchorMin = model.HosePosition;
+            hose.anchorMax = model.HosePosition;
+            hose.anchoredPosition = Vector2.zero;
         }
 
         void OnDisable()
@@ -103,11 +114,11 @@ namespace LostControl.View
             model?.SetHose(false, Vector2.zero, false);
         }
 
-        UnityEngine.UI.Image CreateSpot(int index)
+        UnityEngine.UI.Image CreateImage(string name, RectTransform parent)
         {
-            var go = new GameObject("Fire " + index, typeof(RectTransform), typeof(CanvasRenderer), typeof(UnityEngine.UI.Image));
+            var go = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(UnityEngine.UI.Image));
             go.layer = gameObject.layer;
-            go.transform.SetParent(fireLayer, false);
+            go.transform.SetParent(parent, false);
             var image = go.GetComponent<UnityEngine.UI.Image>();
             image.raycastTarget = false;
             return image;
