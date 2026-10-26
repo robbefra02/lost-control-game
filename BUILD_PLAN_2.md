@@ -79,7 +79,7 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 ### Rounds
 | Parameter | Value |
 |---|---|
-| Rounds per ticket | Set per minigame. `[ASSUMPTION]` Off-folder 3, Match the colors 2, Firewall 2, Maze 2. |
+| Rounds per ticket | Set per minigame. Match the colors 1 (D50). `[ASSUMPTION]` Off-folder 3, Firewall 2, Maze 2. |
 | Progress | Finished rounds stay finished when the player leaves. The round in progress keeps getting worse while they are away: the meter fills, fire grows, the maze dot drifts back. |
 | Next round | Starts immediately after a round is done, with new content from the minigame seed. |
 
@@ -105,7 +105,8 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 - Click a card and it shows its color. The second pick:
   - same color: both stay face-up (matched)
   - different color: both stay visible for a moment, then flip back. `[ASSUMPTION]` 0.75 s, and clicks are ignored during that time.
-- All pairs matched = round done.
+- All pairs matched = round done. The grid is solved once: one round per ticket (D50).
+- Every matched pair lowers the meter by a quarter (`matchPressureRelief` 0.25, D50).
 - `[ASSUMPTION]` A mismatch costs nothing extra.
 - `[ASSUMPTION]` Matched pairs stay when the player leaves. A single revealed card flips back on disconnect.
 - `[ASSUMPTION]` The meter fills on a clock: empty to full in 30 s.

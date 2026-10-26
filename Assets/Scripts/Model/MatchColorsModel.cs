@@ -7,7 +7,7 @@ namespace LostControl.Model
     /// Match the colors: a memory game. Every card is face down and has one partner of the same colour.
     /// The first pick turns a card face up; a second pick of the same colour keeps both up, any other colour
     /// shows both for a moment and turns them back. All pairs matched finishes the round. Leaving the PC forgets
-    /// an unfinished pick; matched pairs stay. The meter fills on a clock.
+    /// an unfinished pick; matched pairs stay. The meter fills on a clock, and every match takes some of it away.
     /// </summary>
     public class MatchColorsModel : MinigameModel
     {
@@ -66,6 +66,7 @@ namespace LostControl.Model
                 matched[index] = true;
                 matched[firstPick] = true;
                 firstPick = -1;
+                AddPressure(-settings.matchPressureRelief);
                 if (Array.TrueForAll(matched, m => m)) CompleteRound();
                 return;
             }

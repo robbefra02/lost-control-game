@@ -23,7 +23,7 @@ namespace LostControl.Config
                 "While you are connecting or connected, the other tickets stop updating: they are dimmed and only show what you last saw. " +
                 "When a PC you can't see takes damage, you hear a beep and its ticket flashes red. Disconnect to see every ticket live again.\n\n" +
                 "<b>Rounds</b>\n" +
-                "Each PC is fixed by finishing its minigame a few times. The list and the minigame panel show which round you are on. " +
+                "Each PC is fixed by finishing its minigame, some of them a few times in a row. The list and the minigame panel show which round you are on. " +
                 "Finished rounds stay finished when you leave.\n\n" +
                 "<b>Pressure</b>\n" +
                 "While a round is unsolved, the PC's pressure meter fills, also while you are working on another PC. " +
@@ -42,15 +42,15 @@ namespace LostControl.Config
                 "The meter fills at a steady speed while the round is unsolved."),
             new HandbookPage("Match the colors",
                 "All cards start face down, and every colour is on exactly two cards. Click a card to see its colour, " +
-                "then click the card with the same colour. Match every pair to finish the round.\n\n" +
+                "then click the card with the same colour. Match every pair to fix the PC.\n\n" +
                 "<b>Match</b>\n" +
-                "Both cards stay face up.\n\n" +
+                "Both cards stay face up, and the pressure meter drops.\n\n" +
                 "<b>No match</b>\n" +
                 "Both cards show for a moment, then turn face down again. A wrong pair costs nothing extra.\n\n" +
                 "<b>Leaving</b>\n" +
                 "Matched pairs stay when you leave this PC. A card you picked but did not match turns face down again.\n\n" +
                 "<b>Pressure</b>\n" +
-                "The meter fills at a steady speed while the round is unsolved."),
+                "The meter fills at a steady speed until every pair is matched. Each match pushes it back down."),
         };
     }
 }

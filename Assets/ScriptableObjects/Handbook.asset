@@ -39,24 +39,25 @@ MonoBehaviour:
       <b>Rounds</b>
 
       Each
-      PC is fixed by finishing its minigame a few times. The list and the minigame
-      panel show which round you are on. Finished rounds stay finished when you leave.
+      PC is fixed by finishing its minigame, some of them a few times in a row. The
+      list and the minigame panel show which round you are on. Finished rounds stay
+      finished when you leave.
 
 
       <b>Pressure</b>
 
-      While
-      a round is unsolved, the PC''s pressure meter fills, also while you are working
-      on another PC. When it is full, the PC takes damage and the meter drops back
-      to half. Finishing a round empties it.
+      While a round is unsolved,
+      the PC''s pressure meter fills, also while you are working on another PC. When
+      it is full, the PC takes damage and the meter drops back to half. Finishing
+      a round empties it.
 
 
       <b>Damage</b>
 
-      Fine, Slightly
-      broken, More broken, Blackout. At Blackout the user is lost and the ticket
-      closes. The level ends when every ticket is closed, or when too many users
-      are lost (see Game data).'
+      Fine, Slightly broken, More
+      broken, Blackout. At Blackout the user is lost and the ticket closes. The level
+      ends when every ticket is closed, or when too many users are lost (see Game
+      data).'
   - title: Find the off-folder
     body: 'One folder in the grid looks slightly different from the others. Click
       it to finish the round.
@@ -82,19 +83,19 @@ MonoBehaviour:
   - title: Match the colors
     body: 'All cards start face down, and every colour is on exactly two cards. Click
       a card to see its colour, then click the card with the same colour. Match every
-      pair to finish the round.
+      pair to fix the PC.
 
 
       <b>Match</b>
 
-      Both cards stay face
-      up.
+      Both cards stay face up, and
+      the pressure meter drops.
 
 
       <b>No match</b>
 
-      Both cards show for a moment, then turn
-      face down again. A wrong pair costs nothing extra.
+      Both cards show for
+      a moment, then turn face down again. A wrong pair costs nothing extra.
 
 
       <b>Leaving</b>
@@ -107,4 +108,4 @@ MonoBehaviour:
       <b>Pressure</b>
 
       The meter fills at a steady
-      speed while the round is unsolved.'
+      speed until every pair is matched. Each match pushes it back down.'

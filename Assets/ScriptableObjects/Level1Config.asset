@@ -48,10 +48,11 @@ MonoBehaviour:
     differenceScalePerRound:
     - 1
   matchColors:
-    rounds: 2
+    rounds: 1
     columns: 4
     rows: 4
     meterFillTime: 30
+    matchPressureRelief: 0.25
     mismatchRevealTime: 0.75
   payoutFine: 100
   payoutSlightlyBroken: 75

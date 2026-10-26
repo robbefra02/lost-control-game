@@ -276,6 +276,12 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Reason (stated): finding the off-folder should be about the icon's shape, not its colour.
 - Trade-off: one less kind of round, so each remaining kind comes up more often.
 
+**D50 - Match the colors is solved once (one round), and every matched pair lowers the pressure meter by a quarter.**
+- Replaces the step 14 default of 2 rounds, where progress inside a round did nothing to the meter.
+- Alternatives: several rounds with no relief (step 14); relief only from finishing the grid.
+- Reason to be written by designer.
+- Trade-off: the 8 pairs can remove up to two full meters, so a player who keeps matching (one pair every 7.5 s with the 30 s meter) holds the meter level. A player who leaves mid-grid keeps the matched pairs but gets no relief while away.
+
 ---
 
 ## Open questions (from the build plan)
