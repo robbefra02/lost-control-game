@@ -36,12 +36,13 @@ MonoBehaviour:
   hiddenDamageCue: 1
   liveListWhenDisconnected: 1
   refreshListOnSwitch: 1
+  showIntroduction: 1
   pressureAfterDamage: 0.5
   offFolder:
     rounds: 3
     columns: 6
     rows: 6
-    meterFillTime: 30
+    meterFillTime: 40.6
     wrongClickPressure: 0.2
     differences: 00000000010000000300000004000000
     rotationDifference: 10
@@ -52,7 +53,7 @@ MonoBehaviour:
     rounds: 1
     columns: 4
     rows: 4
-    meterFillTime: 30
+    meterFillTime: 42.4
     matchPressureRelief: 0.25
     mismatchRevealTime: 0.75
   packetFilter:
@@ -61,8 +62,8 @@ MonoBehaviour:
     blockedPortsPerRound: 01000000
     blocksPerRound: 8
     spawnInterval: 0.75
-    badChance: 0.35
-    travelTime: 6
+    badChance: 0.31892693
+    travelTime: 8.71
     blockPressureRelief: 0.15
     leakPressure: 0.15
     wrongBlockPressure: 0.2
@@ -70,7 +71,7 @@ MonoBehaviour:
     rounds: 2
     sizePerRound:
     - {x: 6, y: 4}
-    meterFillTime: 30
+    meterFillTime: 42.1
     dotSpeed: 2
     driftSpeed: 0.5
     dotRadius: 0.2
