@@ -8,7 +8,7 @@ namespace LostControl.View
 {
     /// <summary>
     /// One row in the ticket list. While its ticket is stale it keeps showing the last-known damage level
-    /// and round, and is dimmed; clicking it asks to connect to the ticket. A closed ticket shrinks to one
+    /// and pressure, and is dimmed; clicking it asks to connect to the ticket. A closed ticket shrinks to one
     /// line with only its number, title and "Resolved" or "Blackout".
     /// </summary>
     [RequireComponent(typeof(UnityEngine.UI.LayoutElement))]
@@ -19,6 +19,10 @@ namespace LostControl.View
         [SerializeField] TMP_Text titleLabel;
         [SerializeField] TMP_Text damageLabel;
         [SerializeField] TMP_Text statusLabel;
+        [Tooltip("Small pressure meter next to the damage level (D60); stale rows show the last-known pressure.")]
+        [SerializeField] GameObject pressureBar;
+        [Tooltip("Fill of the pressure meter; its right anchor follows the shown pressure.")]
+        [SerializeField] RectTransform pressureFill;
         [Tooltip("Row height once the ticket is closed (resolved or blacked out), in canvas pixels.")]
         [SerializeField] float resolvedHeight = 48f;
 
@@ -38,12 +42,10 @@ namespace LostControl.View
             new Color32(0xE8, 0x83, 0x3A, 0xFF),
             new Color32(0xE5, 0x48, 0x4D, 0xFF),
         };
-        [Tooltip("Colour of the round count behind the damage level.")]
-        [SerializeField] Color roundColor = new Color32(0x9A, 0xA3, 0xAF, 0xFF);
 
         Action<TicketModel> clicked;
         DamageLevel shownDamage;
-        int shownRoundsDone;
+        float shownPressure;
         float flashTimer;
         UnityEngine.UI.LayoutElement layoutElement;
         bool compact;
@@ -67,8 +69,7 @@ namespace LostControl.View
         {
             Ticket = ticket;
             clicked = onClicked;
-            shownDamage = ticket.Damage;
-            shownRoundsDone = ticket.RoundsDone;
+            Snapshot();
             titleLabel.text = $"#{ticket.Id + 1}  {ticket.Definition.description}";
         }
 
@@ -77,21 +78,20 @@ namespace LostControl.View
             flashTimer = flashDuration;
         }
 
-        /// <summary>Takes the ticket's current damage level and round as the last-known state, even while stale.</summary>
+        /// <summary>Takes the ticket's current damage level and pressure as the last-known state, even while stale.</summary>
         public void Snapshot()
         {
             shownDamage = Ticket.Damage;
-            shownRoundsDone = Ticket.RoundsDone;
+            shownPressure = Ticket.Pressure;
         }
 
-        /// <summary>Updates the row. A stale row keeps its last-known damage level and round.</summary>
+        /// <summary>Updates the row. A stale row keeps its last-known damage level and pressure.</summary>
         public void Refresh(bool stale, ConnectionModel connection)
         {
             if (!stale) Snapshot();
-            damageLabel.text = Ticket.IsClosed
-                ? DamageLevelText.Name(shownDamage)
-                : $"{DamageLevelText.Name(shownDamage)}  <color=#{ColorUtility.ToHtmlStringRGB(roundColor)}>Round {shownRoundsDone + 1}/{Ticket.RoundsNeeded}</color>";
+            damageLabel.text = DamageLevelText.Name(shownDamage);
             damageLabel.color = damageColors[(int)shownDamage];
+            pressureFill.anchorMax = new Vector2(shownPressure, 1f);
 
             bool isTarget = connection.Target == Ticket;
             if (Ticket.IsResolved) statusLabel.text = "Resolved";
@@ -116,7 +116,7 @@ namespace LostControl.View
             clicked?.Invoke(Ticket);
         }
 
-        // Compact: half height, no damage line, title and status side by side on one centred line. The title is
+        // Compact: half height, no damage line or pressure bar, title and status side by side on one centred line. The title is
         // anchored to the top of the row and the status to the bottom; the title stops just before the status text.
         void SetCompact(bool value)
         {
@@ -125,6 +125,7 @@ namespace LostControl.View
 
             layoutElement.preferredHeight = value ? resolvedHeight : fullHeight;
             damageLabel.gameObject.SetActive(!value);
+            pressureBar.SetActive(!value);
 
             var title = titleLabel.rectTransform;
             float statusWidth = statusLabel.GetPreferredValues(statusLabel.text).x;

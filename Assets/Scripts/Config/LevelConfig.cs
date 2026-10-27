@@ -49,6 +49,9 @@ namespace LostControl.Config
                  "at that moment once, then stays stale again.")]
         public bool refreshListOnSwitch = true;
 
+        [Tooltip("Show the introduction before the level starts; the level waits until the player closes it.")]
+        public bool showIntroduction = true;
+
         [Header("Damage")]
         [Tooltip("When a ticket's pressure meter fills, the PC takes one damage level and the meter drops back to this level (0-1).")]
         [Range(0f, 0.95f)] public float pressureAfterDamage = 0.5f;

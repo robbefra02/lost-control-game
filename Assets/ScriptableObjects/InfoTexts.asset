@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c855c4fac915594488736902e5af2528, type: 3}
+  m_Name: InfoTexts
+  m_EditorClassIdentifier: Assembly-CSharp::LostControl.Config.InfoTexts
+  introductionTitle: Your shift starts
+  introduction: '<b>Your job</b>
+
+    Users send a ticket when their PC has a problem.
+    Fix every PC before too many users are lost.
+
+
+    <b>Connecting</b>
+
+    Click
+    a ticket in the list to connect to that PC. Connecting takes a few seconds, and
+    you can only work on one PC at a time. Disconnect with the button above the list.
+    When you fix a PC, its session closes by itself.
+
+
+    <b>The list goes stale</b>
+
+    While
+    you are connected, the other tickets stop updating: they are dimmed and show
+    how they were when you last switched. When a PC you can''t see takes damage,
+    you hear a beep and its ticket flashes red.
+
+
+    <b>Pressure and damage</b>
+
+    Every
+    PC has a pressure meter that fills while its problem is unsolved, also while
+    you are working on another PC. When it is full, the PC takes damage: Fine, Slightly
+    broken, More broken, Blackout. At Blackout the user is lost.
+
+
+    <b>How each
+    PC is fixed</b>
+
+    The ''i'' button on the remote PC explains the minigame
+    of the PC you are connected to.'
+  minigames:
+  - minigame: 0
+    text: 'One folder looks slightly different from the others: its file, the side
+      of its tab, a small tilt or its size. Click it to finish the round.
+
+
+      <b>Careful:</b>
+      clicking a wrong folder adds pressure.
+
+
+      The meter fills at a steady
+      speed until the round is done.'
+  - minigame: 1
+    text: 'All cards are face down, and every colour is on two cards. Click a card,
+      then the card with the same colour. Match every pair to fix the PC.
+
+
+      <b>Match:</b>
+      both cards stay up and the pressure drops.
+
+      <b>No match:</b> both turn
+      back after a moment.
+
+
+      Matched pairs stay when you leave.'
+  - minigame: 2
+    text: 'Packets travel along the cable into the PC. Block the packets with the
+      port named above the cable by clicking them, and let the others through.
+
+
+      <b>Each
+      block</b> lowers the pressure; enough blocks fix the PC.
+
+      <b>Blocking
+      a good packet</b> adds pressure.
+
+      <b>Every bad packet that gets in</b>
+      adds pressure, also while you are away.'
+  - minigame: 3
+    text: 'Hold the arrow buttons to steer the dot from the start (bottom left) to
+      the green exit (top right).
+
+
+      <b>Walls</b> bounce the dot back a little.
+
+      <b>Let
+      go</b> or leave this PC, and the dot slowly slides back the way it came.
+
+
+      The
+      meter fills at a steady speed until the round is done.'

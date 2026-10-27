@@ -231,11 +231,13 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Alternatives: merge the PC screen into the minigame area for more space; keep the PC screen; build puzzles that need the handbook straight away.
 - Reason (stated): no ideas for challenges inside an emulated OS; a handbook helps the player learn the game and gives them something to look things up in. Later it could become a core concept with puzzles that only make sense with the handbook.
 - Trade-off: the minigames keep the smaller bottom panel. Risk: puzzles solved with a manual are the core of Keep Talking and Nobody Explodes; the ECTS sheet fails games that present large parts of existing games as their own, so the later step must stay clearly different.
+- **Update 2026-10-27:** the handbook is removed (D62); the upper area stays empty.
 
 **D42 - The maze is steered with the keyboard (WASD/arrows).**
 - Alternatives: hold the mouse button and the dot follows the cursor; the dot always follows the cursor.
 - Reason to be written by designer.
 - Trade-off: the game is no longer mouse-only; going from the ticket list (mouse) to the maze (keys) costs a hand movement.
+- **Update 2026-10-27:** replaced by an on-screen d-pad (D61).
 
 **D43 - Match the colors is a memory game: face-down cards, the second pick must match the first or both flip back.**
 - Alternatives: all cards face-up with close shades; cards that reshuffle every few seconds.
@@ -337,6 +339,31 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 - Reason to be written by designer.
 - Trade-off: closed tickets look alike apart from one word; the end screen and the "lost users" counter still show the losses.
 
+## 2026-10-27 - Explaining the game in place; mouse-only maze
+
+Context: the designer found the experience stressful and unfair and the one-ticket-at-a-time view odd. Two session slots were discussed but not chosen (the coding agent advised tuning the pace first, or a "watch slot"). The decisions below are the designer's next step.
+
+**D60 - Each ticket list row shows a small pressure bar instead of "Round n/N".**
+- A stale row shows the pressure from when the player last switched (D58), like its damage level.
+- Reason to be written by designer.
+- Trade-off: the list shows how close each PC is to its next damage level instead of how far the player got; the round count is now only shown in the remote PC panel.
+
+**D61 - The maze is steered with an on-screen d-pad, so the whole game is played with the mouse.**
+- Holding an arrow moves the dot; letting go (or leaving the PC) lets it drift back. Replaces the keyboard steering of D42.
+- Reason (stated): the maze has to be played with the mouse.
+- Trade-off: no more switching between hand positions; steering by holding buttons is slower and less precise than keys, which the smaller maze (D55) helps with.
+
+**D62 - The handbook is removed; each minigame is explained in an info box in the remote PC panel. The upper area stays empty.**
+- An 'i' icon in the panel header folds the box away or back for every ticket. It is open by default, grey when closed and bright on hover. While open, the box takes about a third of the board and the minigame gets the rest.
+- Alternatives considered: info rows in the ticket list (rejected by the designer); keeping the handbook.
+- Reason to be written by designer. It is in line with the D41 idea of a reference, but placed where the player is already looking.
+- Trade-off: the minigame area is smaller while the info is open; the "puzzles that need the handbook" idea (D41) is dropped for now.
+
+**D63 - An introduction screen before the level starts.**
+- It is styled like the end screen. It explains the basics (job, connecting, the stale list, pressure and damage, the 'i' button), and the level waits until "Let's go!".
+- Reason to be written by designer.
+- Trade-off: the rules are stated up front instead of discovered; the loss tip (D36) partly repeats it.
+
 ---
 
 ## Open questions (from the build plan)
@@ -348,7 +375,7 @@ Not built yet. These decisions shape `BUILD_PLAN_2.md`, steps 11-17.
 Values the coding agent chose because the build plan left them open. All are in `Assets/ScriptableObjects/Level1Config.asset` unless noted.
 - Ticket arrival times 0, 8, 20, 30, 45, 55 s; descriptions for tickets #3-#6 are placeholders.
 - Minigame values (rounds, meter speed, wrong-click cost, ways the off-folder differs): every `[ASSUMPTION]` in `BUILD_PLAN_2.md` section 3, also marked in the Level1Config tooltips. Built so far: Find the off-folder (step 11), Match the colors (step 14, ticket #2), Packet filter (replaced the firewall, D53, tickets #3 and #6), Maze (step 16, ticket #4).
-- Handbook text in `Assets/ScriptableObjects/Handbook.asset` is a draft by the coding agent (step 13), written to avoid exact numbers so it stays true when values are tuned. To be rewritten by the designer.
+- The introduction and minigame texts in `Assets/ScriptableObjects/InfoTexts.asset` (they replace the handbook pages, D62) are drafts by the coding agent, written to avoid exact numbers so they stay true when values are tuned. To be rewritten by the designer. The introduction's title "Your shift starts" is a placeholder.
 - The minigame panel now holds the session messages of the old PC screen ("No remote session", "Connecting to #n...", "Ticket resolved", "#n blacked out") in the middle of the board, with the connection progress bar (step 13).
 - The virus-only assumptions (infected areas, dot size, spread clock) went with the dots (D37).
 

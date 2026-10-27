@@ -1,3 +1,4 @@
+using LostControl.Config;
 using LostControl.Model;
 using TMPro;
 using UnityEngine;
@@ -6,8 +7,10 @@ namespace LostControl.View
 {
     /// <summary>
     /// The minigame panel: the remote session. The header shows the connected ticket, its damage, minigame, round
-    /// and pressure meter; the board shows its minigame. Without a session (none yet, connecting, or closed because
-    /// the ticket was resolved or blacked out) the board shows a session message instead, with the connection progress bar.
+    /// and pressure meter; the board shows its minigame, with an info box beside it that explains the minigame (D62).
+    /// The 'i' icon folds the info box away or back for every ticket. Without a session (none yet, connecting, or
+    /// closed because the ticket was resolved or blacked out) the board shows a session message instead, with the
+    /// connection progress bar.
     /// </summary>
     public class MinigamePanelView : MonoBehaviour
     {
@@ -27,6 +30,16 @@ namespace LostControl.View
         [Tooltip("One view per minigame type.")]
         [SerializeField] MinigameView[] minigameViews;
 
+        [Header("Minigame info")]
+        [SerializeField] InfoTexts infoTexts;
+        [Tooltip("Box on the right of the board that explains the connected ticket's minigame.")]
+        [SerializeField] RectTransform infoBox;
+        [SerializeField] TMP_Text infoText;
+        [SerializeField] InfoToggleView infoToggle;
+        [Tooltip("[ASSUMPTION] Share of the board the open info box takes; the minigame gets the rest.")]
+        [Range(0.1f, 0.6f)]
+        [SerializeField] float infoWidth = 0.34f;
+
         [Header("Session message")]
         [Tooltip("Shown on the board whenever there is no minigame to play.")]
         [SerializeField] GameObject sessionMessage;
@@ -45,11 +58,17 @@ namespace LostControl.View
             new Color32(0x08, 0x08, 0x0A, 0xFF),
         };
 
+        // Open by default; one setting for every ticket.
+        bool infoOpen = true;
+
         /// <summary>The ticket in the panel, or null for an empty panel.</summary>
         public TicketModel Ticket { get; private set; }
 
         void Awake()
         {
+            infoBox.anchorMin = new Vector2(1f - infoWidth, infoBox.anchorMin.y);
+            infoToggle.Clicked += ToggleInfo;
+            infoToggle.SetOpen(infoOpen);
             Show(null);
         }
 
@@ -63,6 +82,7 @@ namespace LostControl.View
                 view.gameObject.SetActive(shown);
                 view.Show(shown ? ticket.Minigame : null);
             }
+            infoText.text = ticket != null ? infoTexts.For(ticket.Minigame.Type) : "";
         }
 
         void LateUpdate()
@@ -74,6 +94,16 @@ namespace LostControl.View
 
             progressBar.SetActive(connection.State == ConnectionState.Connecting);
             sessionMessage.SetActive(Ticket == null);
+
+            // The open info box takes the right part of the board; the minigame views shrink to the rest.
+            bool infoShown = Ticket != null && infoOpen;
+            infoBox.gameObject.SetActive(infoShown);
+            infoToggle.gameObject.SetActive(Ticket != null);
+            foreach (var view in minigameViews)
+            {
+                var rect = (RectTransform)view.transform;
+                rect.anchorMax = new Vector2(infoShown ? 1f - infoWidth : 1f, rect.anchorMax.y);
+            }
 
             if (Ticket == null)
             {
@@ -92,6 +122,12 @@ namespace LostControl.View
             meter.SetActive(true);
             meterFill.anchorMax = new Vector2(Ticket.Pressure, 1f);
             statusLabel.text = $"{MinigameText.Name(Ticket.Minigame.Type)}   Round {Ticket.RoundsDone + 1} / {Ticket.RoundsNeeded}";
+        }
+
+        void ToggleInfo()
+        {
+            infoOpen = !infoOpen;
+            infoToggle.SetOpen(infoOpen);
         }
 
         void ShowSessionMessage(ConnectionModel connection)

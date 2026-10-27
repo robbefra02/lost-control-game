@@ -1,18 +1,20 @@
 using System.Collections.Generic;
 using LostControl.Model;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace LostControl.View
 {
     /// <summary>
-    /// Draws the Maze (walls, start, exit and the dot) with square cells as large as the board allows, and passes
-    /// the held WASD/arrow keys to the model. Keys only reach the maze while this view is shown, i.e. while connected.
+    /// Draws the Maze (walls, start, exit and the dot) with square cells as large as its area allows, and passes the
+    /// held d-pad arrows to the model (D61: the maze is played with the mouse). The d-pad only exists while this view
+    /// is shown, i.e. while connected.
     /// </summary>
     public class MazeView : MinigameView
     {
         [Tooltip("Area the maze is fitted into.")]
         [SerializeField] RectTransform area;
+        [Tooltip("The d-pad arrows; the dot moves in the sum of the held arrows' directions.")]
+        [SerializeField] DPadButtonView[] dPad;
         [Tooltip("Sized to the maze and centred in the area; walls, markers and the dot use its normalized coordinates.")]
         [SerializeField] RectTransform maze;
         [Tooltip("Parent of the wall pieces, stretched over the maze.")]
@@ -53,15 +55,9 @@ namespace LostControl.View
         {
             if (model == null) return;
 
-            var keyboard = Keyboard.current;
             var direction = Vector2.zero;
-            if (keyboard != null)
-            {
-                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) direction.x -= 1f;
-                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) direction.x += 1f;
-                if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) direction.y -= 1f;
-                if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) direction.y += 1f;
-            }
+            foreach (var arrow in dPad)
+                if (arrow.IsHeld) direction += arrow.Direction;
             model.SetMove(direction);
         }
 

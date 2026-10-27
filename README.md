@@ -22,7 +22,7 @@ Assets/
   Scenes/       The single game scene
 ```
 
-All tunable values live in `Assets/ScriptableObjects/Level1Config.asset`; the handbook pages live in `Assets/ScriptableObjects/Handbook.asset`. Select it to edit them in the Inspector; fields marked `[ASSUMPTION]` in their tooltip are defaults still to be confirmed by the designer.
+All tunable values live in `Assets/ScriptableObjects/Level1Config.asset`; the introduction and minigame explanations live in `Assets/ScriptableObjects/InfoTexts.asset`. Select it to edit them in the Inspector; fields marked `[ASSUMPTION]` in their tooltip are defaults still to be confirmed by the designer.
 
 ## Status
 
@@ -41,7 +41,7 @@ After the first playtest the virus was replaced by minigames ([BUILD_PLAN_2.md](
 
 - [x] Step 11 - Minigame framework + Find the off-folder
 - [ ] Step 12 - Playtest logging (postponed)
-- [x] Step 13 - Handbook panel
+- [x] Step 13 - Handbook panel (later replaced by an introduction and an info box)
 - [x] Step 14 - Match the colors
 - [x] Step 15 - Packet filter (replaced Extinguish the firewall)
 - [x] Step 16 - Maze
