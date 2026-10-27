@@ -374,11 +374,27 @@ Context: the designer found the experience stressful and unfair and the one-tick
 - It is played on ticket #5, which was the second off-folder ticket (a coding-agent assumption).
 - Reason to be written by designer.
 - Trade-off: one more rule set to learn. A careful player clears it in about 13 s (model run); cutting too far costs about 30 s of regrowth for that end.
+- **Update 2026-10-27:** cutting is now done by drawing a line, and the meter takes 47 s (D67).
 
 **D66 - The introduction lets the player choose the minigame seed: type one, or tick "Random seed" (the box greys out).**
 - A random seed is shown in the box, so the same level can be replayed after a restart.
 - Reason to be written by designer.
 - Trade-off: playtests can use fresh levels each time, but results are only comparable between players when they use the same seed.
+- **Update 2026-10-27:** the tick box now just says "Random" (designer's request).
+
+## 2026-10-27 - After playing SSD trimming and the joystick maze
+
+**D67 - SSD trimming: the player draws a cutting line instead of clicking, and the meter takes 5 s longer (47 s).**
+- Clicking a block no longer cuts it. The player holds the mouse button and draws a line, at most just over twice the thickness of one block long. On release, every block whose middle the line crosses is cut off there.
+- Coding-agent assumptions: the length is 2.1 block thicknesses; crossing a block's middle counts as a cut, so one line reaches two blocks at most; the blocks a line would cut light up while it is drawn.
+- Reason (stated): clicking a block should not make it smaller. The designer found the rest of the minigame good.
+- Trade-off: precision now comes from where the line is drawn, not from timing a held click. A bot drawing one line every 1.5 s clears the stack in 7.5 s (model run). A line drawn inside the mark still over-cuts, and that end has to grow back.
+
+**D68 - The maze is one maze per ticket, a little longer, with up to 3 pellets that take pressure off.**
+- One round instead of two. Coding-agent assumption: 8x4 cells (was 6x4).
+- Pellets lie on the way to the exit or on a short detour; touching one with the dot removes it and lowers the meter. Coding-agent assumptions: always 3 when there is room, at most 2 cells off the way, never in the start or exit cell or next to each other, 0.15 off the meter each.
+- Reason to be written by designer.
+- Trade-off: the maze now rewards a small detour, and the player has to choose between the shortest way and relief. Model run: a bot that takes every pellet and then the exit finishes in about 11 s.
 
 ---
 

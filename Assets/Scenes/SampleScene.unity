@@ -287,6 +287,7 @@ RectTransform:
   - {fileID: 716157391}
   - {fileID: 1908489136}
   - {fileID: 821358142}
+  - {fileID: 1208567182}
   - {fileID: 1035106723}
   m_Father: {fileID: 1134652092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1704,11 +1705,13 @@ MonoBehaviour:
   joystick: {fileID: 466389928}
   maze: {fileID: 83796561}
   wallLayer: {fileID: 821358142}
+  pelletLayer: {fileID: 1208567182}
   startMarker: {fileID: 716157391}
   exitMarker: {fileID: 1908489136}
   dot: {fileID: 1035106724}
   wallColor: {r: 0.78431374, g: 0.8, b: 0.83137256, a: 1}
   dotColor: {r: 0.29803923, g: 0.54509807, b: 0.9607843, a: 1}
+  pelletColor: {r: 0.9490196, g: 0.75686276, b: 0.30588236, a: 1}
   hitColor: {r: 0.8980392, g: 0.28235295, b: 0.3019608, a: 1}
   hitFlashDuration: 0.4
   wallThickness: 4
@@ -4591,6 +4594,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203268497}
   m_CullTransparentMesh: 1
+--- !u!1 &1208567181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1208567182}
+  m_Layer: 5
+  m_Name: Pellets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1208567182
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208567181}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 83796561}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1209346395
 GameObject:
   m_ObjectHideFlags: 0
@@ -5419,6 +5457,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1377159474}
   - component: {fileID: 1377159475}
+  - component: {fileID: 1377159477}
+  - component: {fileID: 1377159476}
   m_Layer: 5
   m_Name: SsdTrim
   m_TagString: Untagged
@@ -5469,6 +5509,46 @@ MonoBehaviour:
   blockColor: {r: 0.41960785, g: 0.44705883, b: 0.5019608, a: 1}
   trimmedColor: {r: 0.27450982, g: 0.7019608, b: 0.3529412, a: 1}
   cuttingColor: {r: 0.56078434, g: 0.5921569, b: 0.6509804, a: 1}
+  cutLineColor: {r: 0.8980392, g: 0.28235295, b: 0.3019608, a: 1}
+  cutLineThickness: 3
+--- !u!114 &1377159476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377159473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1377159477
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377159473}
+  m_CullTransparentMesh: 1
 --- !u!1 &1378772611
 GameObject:
   m_ObjectHideFlags: 0
@@ -8056,7 +8136,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Random seed
+  m_text: Random
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8065,7 +8145,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4292136136
   m_fontColor: {r: 0.784, g: 0.8, b: 0.831, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -8078,7 +8158,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2

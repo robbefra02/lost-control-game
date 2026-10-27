@@ -9,7 +9,8 @@ namespace LostControl.Model
     /// The Maze: steer a dot with the joystick from the start cell (bottom left) to the exit cell (top right).
     /// Each round's maze is generated from the minigame seed. Touching a wall bounces the dot back a short way along
     /// the path it came; when nobody steers it (joystick released, or the player is on another PC) for driftDelay
-    /// seconds, it slides back that way too. Positions are in cells: (0, 0) is the bottom-left corner of the maze.
+    /// seconds, it slides back that way too. Pellets on the way to the exit (or on a short detour) take pressure off
+    /// when the dot touches them (D68). Positions are in cells: (0, 0) is the bottom-left corner of the maze.
     /// The meter fills on a clock.
     /// </summary>
     public class MazeModel : MinigameModel
@@ -19,6 +20,7 @@ namespace LostControl.Model
 
         readonly MazeSettings settings;
         readonly List<Vector2> trail = new List<Vector2>();
+        readonly List<Vector2Int> pellets = new List<Vector2Int>();
         bool[,] eastWalls = new bool[0, 0];
         bool[,] northWalls = new bool[0, 0];
         Vector2 moveDirection;
@@ -31,6 +33,10 @@ namespace LostControl.Model
         public Vector2Int Exit => new Vector2Int(Columns - 1, Rows - 1);
         public float DotRadius => settings.dotRadius;
         public Vector2 DotPosition { get; private set; }
+
+        /// <summary>Cells that still hold a pellet; a pellet sits in the middle of its cell.</summary>
+        public IReadOnlyList<Vector2Int> Pellets => pellets;
+        public float PelletRadius => settings.pelletRadius;
 
         /// <summary>The dot touched a wall and bounces back.</summary>
         public event Action WallHit;
@@ -93,6 +99,7 @@ namespace LostControl.Model
                 for (int y = 0; y < Rows; y++)
                     eastWalls[x, y] = northWalls[x, y] = true;
             CarvePassages(random);
+            PlacePellets(random);
             ResetDot();
         }
 
@@ -129,6 +136,66 @@ namespace LostControl.Model
             }
         }
 
+        // Pellets lie on the way from the start to the exit or at most pelletDetour cells off it, never in the start or
+        // exit cell and never next to each other.
+        void PlacePellets(SeededRandom random)
+        {
+            pellets.Clear();
+            StepsFrom(new[] { Vector2Int.zero }, out var cameFrom);
+            var way = new List<Vector2Int> { Exit };
+            while (way[way.Count - 1] != Vector2Int.zero) way.Add(cameFrom[way[way.Count - 1].x, way[way.Count - 1].y]);
+            var offWay = StepsFrom(way, out _);
+
+            var candidates = new List<Vector2Int>();
+            for (int x = 0; x < Columns; x++)
+                for (int y = 0; y < Rows; y++)
+                {
+                    var cell = new Vector2Int(x, y);
+                    if (offWay[x, y] <= settings.pelletDetour && cell != Vector2Int.zero && cell != Exit) candidates.Add(cell);
+                }
+
+            while (pellets.Count < settings.pellets && candidates.Count > 0)
+            {
+                int index = random.RangeInclusive(0, candidates.Count - 1);
+                var cell = candidates[index];
+                candidates.RemoveAt(index);
+                if (!pellets.Exists(pellet => Mathf.Abs(pellet.x - cell.x) + Mathf.Abs(pellet.y - cell.y) <= 1)) pellets.Add(cell);
+            }
+        }
+
+        // Steps through open passages from the nearest of the given cells to every cell; cameFrom is the cell each
+        // one is reached from.
+        int[,] StepsFrom(IEnumerable<Vector2Int> sources, out Vector2Int[,] cameFrom)
+        {
+            var steps = new int[Columns, Rows];
+            cameFrom = new Vector2Int[Columns, Rows];
+            for (int x = 0; x < Columns; x++)
+                for (int y = 0; y < Rows; y++)
+                    steps[x, y] = -1;
+
+            var queue = new Queue<Vector2Int>();
+            foreach (var source in sources)
+            {
+                steps[source.x, source.y] = 0;
+                cameFrom[source.x, source.y] = source;
+                queue.Enqueue(source);
+            }
+            while (queue.Count > 0)
+            {
+                var cell = queue.Dequeue();
+                foreach (var step in new[] { Vector2Int.left, Vector2Int.right, Vector2Int.down, Vector2Int.up })
+                {
+                    var next = cell + step;
+                    if (next.x < 0 || next.y < 0 || next.x >= Columns || next.y >= Rows || steps[next.x, next.y] >= 0) continue;
+                    if (step.x != 0 ? VerticalWall(Mathf.Max(cell.x, next.x), cell.y) : HorizontalWall(cell.x, Mathf.Max(cell.y, next.y))) continue;
+                    steps[next.x, next.y] = steps[cell.x, cell.y] + 1;
+                    cameFrom[next.x, next.y] = cell;
+                    queue.Enqueue(next);
+                }
+            }
+            return steps;
+        }
+
         void MoveForward(Vector2 direction, float deltaTime)
         {
             var next = DotPosition + direction * settings.dotSpeed * deltaTime;
@@ -141,7 +208,19 @@ namespace LostControl.Model
 
             DotPosition = next;
             if ((DotPosition - trail[trail.Count - 1]).sqrMagnitude >= CrumbSpacing * CrumbSpacing) trail.Add(DotPosition);
+            TakePellets();
             if (Mathf.FloorToInt(DotPosition.x) == Exit.x && Mathf.FloorToInt(DotPosition.y) == Exit.y) CompleteRound();
+        }
+
+        void TakePellets()
+        {
+            float reach = settings.dotRadius + settings.pelletRadius;
+            for (int i = pellets.Count - 1; i >= 0; i--)
+            {
+                if ((DotPosition - (pellets[i] + new Vector2(0.5f, 0.5f))).sqrMagnitude >= reach * reach) continue;
+                pellets.RemoveAt(i);
+                AddPressure(-settings.pelletRelief);
+            }
         }
 
         // Moves the dot back along the recorded path (drift and bounce); the path never touched a wall, so this never

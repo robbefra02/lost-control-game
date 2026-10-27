@@ -87,27 +87,30 @@ MonoBehaviour:
       left) to the green exit (top right).
 
 
-      <b>Walls</b> bounce the dot back
-      a little.
+      <b>Yellow pellets</b> on the way
+      take pressure off when the dot picks them up.
 
-      <b>Let go</b> or leave this PC for a moment, and the dot slowly
-      slides back the way it came.
+      <b>Walls</b> bounce the
+      dot back a little.
 
-
-      The meter fills at a steady speed until
-      the round is done.'
-  - minigame: 4
-    text: 'The blocks stick out on both sides. Click and hold on a part that sticks
-      out to cut it back; one cut can only be so long, so click again for the next
-      bit. Trim every side to the green marks.
-
-
-      <b>Cut too far</b> and you
-      have to wait for that side to grow back into the mark.
-
-      <b>The blocks</b>
-      slowly grow back, also while you are away.
+      <b>Let go</b> or leave this PC for a moment, and
+      the dot slowly slides back the way it came.
 
 
       The meter fills at a steady
-      speed until every side is trimmed.'
+      speed until the round is done.'
+  - minigame: 4
+    text: 'The blocks stick out on both sides. Hold the mouse button and draw a short
+      cutting line across a part that sticks out: the blocks are cut where the line
+      crosses them. A line reaches two blocks at most. Trim every side to the green
+      marks.
+
+
+      <b>Cut too far</b> and you have to wait for that side to grow
+      back into the mark.
+
+      <b>The blocks</b> slowly grow back, also while you
+      are away.
+
+
+      The meter fills at a steady speed until every side is trimmed.'

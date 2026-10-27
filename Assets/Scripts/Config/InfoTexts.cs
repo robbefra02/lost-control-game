@@ -53,12 +53,14 @@ namespace LostControl.Config
                 "<b>Every bad packet that gets in</b> adds pressure, also while you are away."),
             new MinigameInfo(MinigameType.Maze,
                 "Grab the joystick and drag it to steer the dot from the start (bottom left) to the green exit (top right).\n\n" +
+                "<b>Yellow pellets</b> on the way take pressure off when the dot picks them up.\n" +
                 "<b>Walls</b> bounce the dot back a little.\n" +
                 "<b>Let go</b> or leave this PC for a moment, and the dot slowly slides back the way it came.\n\n" +
                 "The meter fills at a steady speed until the round is done."),
             new MinigameInfo(MinigameType.SsdTrim,
-                "The blocks stick out on both sides. Click and hold on a part that sticks out to cut it back; " +
-                "one cut can only be so long, so click again for the next bit. Trim every side to the green marks.\n\n" +
+                "The blocks stick out on both sides. Hold the mouse button and draw a short cutting line across a part that " +
+                "sticks out: the blocks are cut where the line crosses them. A line reaches two blocks at most. " +
+                "Trim every side to the green marks.\n\n" +
                 "<b>Cut too far</b> and you have to wait for that side to grow back into the mark.\n" +
                 "<b>The blocks</b> slowly grow back, also while you are away.\n\n" +
                 "The meter fills at a steady speed until every side is trimmed."),

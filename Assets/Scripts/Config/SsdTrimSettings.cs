@@ -4,7 +4,7 @@ using UnityEngine;
 namespace LostControl.Config
 {
     /// <summary>
-    /// Tunables for SSD trimming (D65). Widths are fractions of the minigame's width; overhangs are measured
+    /// Tunables for SSD trimming (D65, D67). Widths are fractions of the minigame's width; overhangs are measured
     /// outwards from the edge of the marked target width.
     /// </summary>
     [Serializable]
@@ -28,16 +28,15 @@ namespace LostControl.Config
         [Tooltip("[ASSUMPTION] Longest overhang a side starts with.")]
         [Range(0f, 0.3f)] public float overhangMax = 0.22f;
 
-        [Tooltip("[ASSUMPTION] How fast a held cut trims, per second.")]
-        [Min(0.01f)] public float cutSpeed = 0.25f;
-
-        [Tooltip("[ASSUMPTION] Longest piece one cut can take; after that the player has to click again.")]
-        [Min(0.005f)] public float maxCut = 0.06f;
+        [Tooltip("Longest cutting line the player can draw, in block thicknesses (the designer asked for just over twice; " +
+                 "[ASSUMPTION] 2.1).")]
+        [Min(0.1f)] public float cutLineLength = 2.1f;
 
         [Tooltip("[ASSUMPTION] How fast every side grows back, per second, also while the player is away.")]
         [Min(0f)] public float regrowPerSecond = 0.0015f;
 
-        [Tooltip("Seconds for the pressure meter to fill from empty while a round is open (the designer asked for forty-something).")]
-        [Min(0.1f)] public float meterFillTime = 42f;
+        [Tooltip("Seconds for the pressure meter to fill from empty while a round is open (the designer asked for " +
+                 "forty-something, then 5 s more).")]
+        [Min(0.1f)] public float meterFillTime = 47f;
     }
 }

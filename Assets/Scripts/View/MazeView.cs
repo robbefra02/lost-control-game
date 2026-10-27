@@ -5,9 +5,9 @@ using UnityEngine;
 namespace LostControl.View
 {
     /// <summary>
-    /// Draws the Maze (walls, start, exit and the dot) with square cells as large as its area allows, and passes the
-    /// joystick to the model (D61, D64: the maze is played with the mouse). The joystick only exists while this view
-    /// is shown, i.e. while connected.
+    /// Draws the Maze (walls, start, exit, pellets and the dot) with square cells as large as its area allows, and
+    /// passes the joystick to the model (D61, D64: the maze is played with the mouse). The joystick only exists while
+    /// this view is shown, i.e. while connected.
     /// </summary>
     public class MazeView : MinigameView
     {
@@ -18,11 +18,15 @@ namespace LostControl.View
         [SerializeField] RectTransform maze;
         [Tooltip("Parent of the wall pieces, stretched over the maze.")]
         [SerializeField] RectTransform wallLayer;
+        [Tooltip("Parent of the pellets, stretched over the maze, below the dot.")]
+        [SerializeField] RectTransform pelletLayer;
         [SerializeField] RectTransform startMarker;
         [SerializeField] RectTransform exitMarker;
         [SerializeField] UnityEngine.UI.Image dot;
         [SerializeField] Color wallColor = new Color32(0xC8, 0xCC, 0xD4, 0xFF);
         [SerializeField] Color dotColor = new Color32(0x4C, 0x8B, 0xF5, 0xFF);
+        [Tooltip("[ASSUMPTION] Colour of the pellets that take pressure off.")]
+        [SerializeField] Color pelletColor = new Color32(0xF2, 0xC1, 0x4E, 0xFF);
         [Tooltip("Dot colour at the start of the flash after a wall hit.")]
         [SerializeField] Color hitColor = new Color32(0xE5, 0x48, 0x4D, 0xFF);
         [SerializeField] float hitFlashDuration = 0.4f;
@@ -30,6 +34,7 @@ namespace LostControl.View
         [SerializeField] float wallThickness = 4f;
 
         readonly List<UnityEngine.UI.Image> walls = new List<UnityEngine.UI.Image>();
+        readonly List<UnityEngine.UI.Image> pellets = new List<UnityEngine.UI.Image>();
         MazeModel model;
         int shownRound = -1;
         float flashTimer;
@@ -71,10 +76,10 @@ namespace LostControl.View
             }
 
             var size = new Vector2(model.Columns, model.Rows);
-            dot.rectTransform.anchorMin = model.DotPosition / size;
-            dot.rectTransform.anchorMax = model.DotPosition / size;
-            dot.rectTransform.anchoredPosition = Vector2.zero;
-            dot.rectTransform.sizeDelta = Vector2.one * (2f * model.DotRadius * cell);
+            PlaceCircle(dot.rectTransform, model.DotPosition, model.DotRadius, size, cell);
+            for (int i = 0; i < model.Pellets.Count; i++)
+                PlaceCircle(GetPellet(i).rectTransform, model.Pellets[i] + new Vector2(0.5f, 0.5f), model.PelletRadius, size, cell);
+            for (int i = model.Pellets.Count; i < pellets.Count; i++) pellets[i].gameObject.SetActive(false);
 
             flashTimer = Mathf.Max(flashTimer - Time.deltaTime, 0f);
             dot.color = Color.Lerp(dotColor, hitColor, hitFlashDuration > 0f ? flashTimer / hitFlashDuration : 0f);
@@ -121,6 +126,33 @@ namespace LostControl.View
             rect.anchorMax = to / size;
             rect.offsetMin = Vector2.one * (-wallThickness / 2f);
             rect.offsetMax = Vector2.one * (wallThickness / 2f);
+        }
+
+        UnityEngine.UI.Image GetPellet(int index)
+        {
+            while (pellets.Count <= index)
+            {
+                var go = new GameObject("Pellet " + pellets.Count, typeof(RectTransform), typeof(CanvasRenderer), typeof(UnityEngine.UI.Image));
+                go.layer = gameObject.layer;
+                go.transform.SetParent(pelletLayer, false);
+                var image = go.GetComponent<UnityEngine.UI.Image>();
+                image.raycastTarget = false;
+                image.sprite = dot.sprite;
+                pellets.Add(image);
+            }
+            var pellet = pellets[index];
+            pellet.gameObject.SetActive(true);
+            pellet.color = pelletColor;
+            return pellet;
+        }
+
+        // A round marker centred on a point in cells, with a radius in cells.
+        static void PlaceCircle(RectTransform rect, Vector2 position, float radius, Vector2 size, float cell)
+        {
+            rect.anchorMin = position / size;
+            rect.anchorMax = position / size;
+            rect.anchoredPosition = Vector2.zero;
+            rect.sizeDelta = Vector2.one * (2f * radius * cell);
         }
 
         static void SetCell(RectTransform rect, Vector2Int cell, Vector2 size)
