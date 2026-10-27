@@ -13,6 +13,7 @@ namespace LostControl.View
                 case MinigameType.MatchColors: return "Match the colors";
                 case MinigameType.PacketFilter: return "Packet filter";
                 case MinigameType.Maze: return "Maze";
+                case MinigameType.SsdTrim: return "SSD trimming";
                 default: return type.ToString();
             }
         }

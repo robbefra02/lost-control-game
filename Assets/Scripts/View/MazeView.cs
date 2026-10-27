@@ -6,15 +6,14 @@ namespace LostControl.View
 {
     /// <summary>
     /// Draws the Maze (walls, start, exit and the dot) with square cells as large as its area allows, and passes the
-    /// held d-pad arrows to the model (D61: the maze is played with the mouse). The d-pad only exists while this view
+    /// joystick to the model (D61, D64: the maze is played with the mouse). The joystick only exists while this view
     /// is shown, i.e. while connected.
     /// </summary>
     public class MazeView : MinigameView
     {
         [Tooltip("Area the maze is fitted into.")]
         [SerializeField] RectTransform area;
-        [Tooltip("The d-pad arrows; the dot moves in the sum of the held arrows' directions.")]
-        [SerializeField] DPadButtonView[] dPad;
+        [SerializeField] JoystickView joystick;
         [Tooltip("Sized to the maze and centred in the area; walls, markers and the dot use its normalized coordinates.")]
         [SerializeField] RectTransform maze;
         [Tooltip("Parent of the wall pieces, stretched over the maze.")]
@@ -55,10 +54,7 @@ namespace LostControl.View
         {
             if (model == null) return;
 
-            var direction = Vector2.zero;
-            foreach (var arrow in dPad)
-                if (arrow.IsHeld) direction += arrow.Direction;
-            model.SetMove(direction);
+            model.SetMove(joystick.Direction);
         }
 
         void LateUpdate()

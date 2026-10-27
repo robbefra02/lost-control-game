@@ -7,5 +7,6 @@ namespace LostControl.Model
         MatchColors = 1,
         PacketFilter = 2,
         Maze = 3,
+        SsdTrim = 4,
     }
 }

@@ -71,6 +71,7 @@ namespace LostControl.Model
                 case MinigameType.MatchColors: return new MatchColorsModel(config.matchColors, seed, ticketId);
                 case MinigameType.PacketFilter: return new PacketFilterModel(config.packetFilter, seed, ticketId);
                 case MinigameType.Maze: return new MazeModel(config.maze, seed, ticketId);
+                case MinigameType.SsdTrim: return new SsdTrimModel(config.ssdTrim, seed, ticketId);
                 default: throw new ArgumentOutOfRangeException(nameof(type), type, "No model for this minigame.");
             }
         }

@@ -21,14 +21,14 @@ namespace LostControl.Config
         [Header("Tickets")]
         [Tooltip("All tickets in this level. The level is won when every one is resolved. " +
                  "[ASSUMPTION] Arrival times 0, 8, 20, 30, 45, 55s; descriptions are placeholders. " +
-                 "[ASSUMPTION] Minigame mix: off-folder, colors, packet filter, maze, off-folder, packet filter.")]
+                 "[ASSUMPTION] Minigame mix: off-folder, colors, packet filter, maze, SSD trimming, packet filter.")]
         public List<TicketDefinition> tickets = new List<TicketDefinition>
         {
             new TicketDefinition("PC acts strange", 0f, MinigameType.OffFolder),
             new TicketDefinition("Virus warning shown", 8f, MinigameType.MatchColors),
             new TicketDefinition("Computer is really slow", 20f, MinigameType.PacketFilter),
             new TicketDefinition("Pop-ups everywhere", 30f, MinigameType.Maze),
-            new TicketDefinition("Files won't open", 45f, MinigameType.OffFolder),
+            new TicketDefinition("Files won't open", 45f, MinigameType.SsdTrim),
             new TicketDefinition("Fan is very loud", 55f, MinigameType.PacketFilter),
         };
 
@@ -67,6 +67,9 @@ namespace LostControl.Config
 
         [Header("Maze")]
         public MazeSettings maze = new MazeSettings();
+
+        [Header("SSD trimming")]
+        public SsdTrimSettings ssdTrim = new SsdTrimSettings();
 
         [Header("Economy")]
         [Tooltip("Cash paid when a ticket is resolved at Fine.")]
@@ -118,6 +121,7 @@ namespace LostControl.Config
                 case MinigameType.MatchColors: return matchColors.rounds;
                 case MinigameType.PacketFilter: return packetFilter.rounds;
                 case MinigameType.Maze: return maze.rounds;
+                case MinigameType.SsdTrim: return ssdTrim.rounds;
                 default: throw new ArgumentOutOfRangeException(nameof(type), type, "No settings for this minigame.");
             }
         }
@@ -130,6 +134,7 @@ namespace LostControl.Config
             if (matchColors.columns * matchColors.rows < 2) matchColors.columns = 2;
             // The packet filter needs at least one blocked and one allowed port.
             if (packetFilter.ports == null || packetFilter.ports.Length < 2) packetFilter.ports = new PacketFilterSettings().ports;
+            if (ssdTrim.overhangMax < ssdTrim.overhangMin) ssdTrim.overhangMax = ssdTrim.overhangMin;
         }
     }
 }

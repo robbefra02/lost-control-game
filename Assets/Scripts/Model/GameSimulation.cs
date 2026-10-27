@@ -8,7 +8,7 @@ namespace LostControl.Model
     public class GameSimulation
     {
         readonly LevelConfig config;
-        readonly MinigameSeed minigameSeed;
+        MinigameSeed minigameSeed;
         readonly List<TicketModel> tickets = new List<TicketModel>();
         readonly List<int> arrivalOrder = new List<int>();
         int nextArrival;
@@ -60,7 +60,7 @@ namespace LostControl.Model
         public GameSimulation(LevelConfig config)
         {
             this.config = config;
-            minigameSeed = new MinigameSeed(config.minigameSeed);
+            SetMinigameSeed(config.minigameSeed);
             Connection = new ConnectionModel(config.connectionTime);
 
             for (int i = 0; i < config.tickets.Count; i++) arrivalOrder.Add(i);
@@ -70,6 +70,17 @@ namespace LostControl.Model
                 int byTime = config.tickets[a].arrivalTime.CompareTo(config.tickets[b].arrivalTime);
                 return byTime != 0 ? byTime : a.CompareTo(b);
             });
+        }
+
+        /// <summary>The seed every minigame is generated from (the config's value until SetMinigameSeed).</summary>
+        public int MinigameSeedValue { get; private set; }
+
+        /// <summary>Replaces the minigame seed. Only works before the first ticket arrives.</summary>
+        public void SetMinigameSeed(int seed)
+        {
+            if (tickets.Count > 0) return;
+            MinigameSeedValue = seed;
+            minigameSeed = new MinigameSeed(seed);
         }
 
         public void Connect(TicketModel ticket)

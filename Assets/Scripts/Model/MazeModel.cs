@@ -6,10 +6,11 @@ using UnityEngine;
 namespace LostControl.Model
 {
     /// <summary>
-    /// The Maze: steer a dot with the keyboard from the start cell (bottom left) to the exit cell (top right).
+    /// The Maze: steer a dot with the joystick from the start cell (bottom left) to the exit cell (top right).
     /// Each round's maze is generated from the minigame seed. Touching a wall bounces the dot back a short way along
-    /// the path it came; whenever nobody steers it (no key held, or the player is on another PC) it slides back that way too.
-    /// Positions are in cells: (0, 0) is the bottom-left corner of the maze. The meter fills on a clock.
+    /// the path it came; when nobody steers it (joystick released, or the player is on another PC) for driftDelay
+    /// seconds, it slides back that way too. Positions are in cells: (0, 0) is the bottom-left corner of the maze.
+    /// The meter fills on a clock.
     /// </summary>
     public class MazeModel : MinigameModel
     {
@@ -22,6 +23,7 @@ namespace LostControl.Model
         bool[,] northWalls = new bool[0, 0];
         Vector2 moveDirection;
         float bounceLeft;
+        float idleTime;
 
         public override MinigameType Type => MinigameType.Maze;
         public int Columns { get; private set; }
@@ -38,7 +40,7 @@ namespace LostControl.Model
             this.settings = settings;
         }
 
-        /// <summary>The keys held this frame, as a direction; zero when none.</summary>
+        /// <summary>The joystick this frame: direction and how far it is pushed (length 0-1); zero when released.</summary>
         public void SetMove(Vector2 direction)
         {
             moveDirection = direction;
@@ -69,8 +71,15 @@ namespace LostControl.Model
             }
 
             var direction = connected ? moveDirection : Vector2.zero;
-            if (direction == Vector2.zero) Retrace(settings.driftSpeed * deltaTime);
-            else MoveForward(direction.normalized, deltaTime);
+            if (direction != Vector2.zero)
+            {
+                idleTime = 0f;
+                MoveForward(Vector2.ClampMagnitude(direction, 1f), deltaTime);
+                return;
+            }
+
+            idleTime += deltaTime;
+            if (idleTime >= settings.driftDelay) Retrace(settings.driftSpeed * deltaTime);
         }
 
         protected override void Generate(SeededRandom random, int round)
@@ -163,6 +172,7 @@ namespace LostControl.Model
             trail.Clear();
             trail.Add(DotPosition);
             bounceLeft = 0f;
+            idleTime = 0f;
         }
 
         bool TouchesWall(Vector2 position)

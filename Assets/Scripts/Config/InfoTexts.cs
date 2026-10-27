@@ -52,10 +52,16 @@ namespace LostControl.Config
                 "<b>Blocking a good packet</b> adds pressure.\n" +
                 "<b>Every bad packet that gets in</b> adds pressure, also while you are away."),
             new MinigameInfo(MinigameType.Maze,
-                "Hold the arrow buttons to steer the dot from the start (bottom left) to the green exit (top right).\n\n" +
+                "Grab the joystick and drag it to steer the dot from the start (bottom left) to the green exit (top right).\n\n" +
                 "<b>Walls</b> bounce the dot back a little.\n" +
-                "<b>Let go</b> or leave this PC, and the dot slowly slides back the way it came.\n\n" +
+                "<b>Let go</b> or leave this PC for a moment, and the dot slowly slides back the way it came.\n\n" +
                 "The meter fills at a steady speed until the round is done."),
+            new MinigameInfo(MinigameType.SsdTrim,
+                "The blocks stick out on both sides. Click and hold on a part that sticks out to cut it back; " +
+                "one cut can only be so long, so click again for the next bit. Trim every side to the green marks.\n\n" +
+                "<b>Cut too far</b> and you have to wait for that side to grow back into the mark.\n" +
+                "<b>The blocks</b> slowly grow back, also while you are away.\n\n" +
+                "The meter fills at a steady speed until every side is trimmed."),
         };
 
         /// <summary>The explanation for a minigame, or an empty string when there is none.</summary>

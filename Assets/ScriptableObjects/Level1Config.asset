@@ -28,7 +28,7 @@ MonoBehaviour:
     minigame: 3
   - description: Files won't open
     arrivalTime: 45
-    minigame: 0
+    minigame: 4
   - description: Fan is very loud
     arrivalTime: 55
     minigame: 2
@@ -74,9 +74,21 @@ MonoBehaviour:
     meterFillTime: 42.1
     dotSpeed: 2
     driftSpeed: 0.5
+    driftDelay: 2
     dotRadius: 0.2
     bounceDistance: 0.5
     bounceSpeed: 4
+  ssdTrim:
+    rounds: 1
+    blocks: 5
+    targetWidth: 0.4
+    tolerance: 0.03
+    overhangMin: 0.08
+    overhangMax: 0.22
+    cutSpeed: 0.25
+    maxCut: 0.06
+    regrowPerSecond: 0.0015
+    meterFillTime: 42
   payoutFine: 100
   payoutSlightlyBroken: 75
   payoutMoreBroken: 50

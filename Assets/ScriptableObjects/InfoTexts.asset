@@ -15,39 +15,35 @@ MonoBehaviour:
   introductionTitle: Your shift starts
   introduction: '<b>Your job</b>
 
-    Users send a ticket when their PC has a problem.
     Fix every PC before too many users are lost.
 
 
     <b>Connecting</b>
 
     Click
-    a ticket in the list to connect to that PC. Connecting takes a few seconds, and
-    you can only work on one PC at a time. Disconnect with the button above the list.
-    When you fix a PC, its session closes by itself.
+    a ticket in the list to connect to that PC. Disconnect with the button above
+    the list.
 
 
     <b>The list goes stale</b>
 
-    While
-    you are connected, the other tickets stop updating: they are dimmed and show
-    how they were when you last switched. When a PC you can''t see takes damage,
-    you hear a beep and its ticket flashes red.
+    While you are connected, the
+    other tickets stop updating. When a PC you can''t see takes damage, you hear
+    a beep and its ticket flashes red.
 
 
     <b>Pressure and damage</b>
 
     Every
-    PC has a pressure meter that fills while its problem is unsolved, also while
-    you are working on another PC. When it is full, the PC takes damage: Fine, Slightly
-    broken, More broken, Blackout. At Blackout the user is lost.
+    PC has a pressure meter that fills while its problem is unsolved. When it is
+    full, the PC takes damage: Fine, Slightly broken, More broken, Blackout. At Blackout,
+    the user is lost.
 
 
-    <b>How each
-    PC is fixed</b>
+    <b>How each PC is fixed</b>
 
-    The ''i'' button on the remote PC explains the minigame
-    of the PC you are connected to.'
+    The ''i'' button on
+    the remote PC explains the minigame of the PC you are connected to.'
   minigames:
   - minigame: 0
     text: 'One folder looks slightly different from the others: its file, the side
@@ -87,15 +83,31 @@ MonoBehaviour:
       <b>Every bad packet that gets in</b>
       adds pressure, also while you are away.'
   - minigame: 3
-    text: 'Hold the arrow buttons to steer the dot from the start (bottom left) to
-      the green exit (top right).
+    text: 'Grab the joystick and drag it to steer the dot from the start (bottom
+      left) to the green exit (top right).
 
 
-      <b>Walls</b> bounce the dot back a little.
+      <b>Walls</b> bounce the dot back
+      a little.
 
-      <b>Let
-      go</b> or leave this PC, and the dot slowly slides back the way it came.
+      <b>Let go</b> or leave this PC for a moment, and the dot slowly
+      slides back the way it came.
 
 
-      The
-      meter fills at a steady speed until the round is done.'
+      The meter fills at a steady speed until
+      the round is done.'
+  - minigame: 4
+    text: 'The blocks stick out on both sides. Click and hold on a part that sticks
+      out to cut it back; one cut can only be so long, so click again for the next
+      bit. Trim every side to the green marks.
+
+
+      <b>Cut too far</b> and you
+      have to wait for that side to grow back into the mark.
+
+      <b>The blocks</b>
+      slowly grow back, also while you are away.
+
+
+      The meter fills at a steady
+      speed until every side is trimmed.'

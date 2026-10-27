@@ -33,9 +33,11 @@ namespace LostControl.View
             if (Started) Simulation.Tick(Time.deltaTime);
         }
 
-        /// <summary>Starts the level clock (the player closed the introduction).</summary>
-        public void StartLevel()
+        /// <summary>Starts the level clock with this minigame seed (the player closed the introduction).</summary>
+        public void StartLevel(int minigameSeed)
         {
+            Simulation.SetMinigameSeed(minigameSeed);
+            Debug.Log($"Level started with minigame seed {minigameSeed}");
             Started = true;
         }
 

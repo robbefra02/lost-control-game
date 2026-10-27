@@ -364,6 +364,22 @@ Context: the designer found the experience stressful and unfair and the one-tick
 - Reason to be written by designer.
 - Trade-off: the rules are stated up front instead of discovered; the loss tip (D36) partly repeats it.
 
+**D64 - The maze is steered with an on-screen joystick (grab and drag in any direction), and the dot only starts drifting back after 2 s without steering.**
+- Replaces the d-pad of D61. How far the stick is pushed sets the dot's speed (a coding-agent assumption). The 2 s wait also applies when the player leaves the PC.
+- Reason (stated): joystick steering, and a pause before the dot moves backwards.
+- Trade-off: diagonal and fine steering are possible; a short break (under 2 s) costs nothing now, so the drift only punishes real absence.
+
+**D65 - A fifth minigame: SSD trimming.**
+- A stack of wide, low blocks sticks out left and right past a marked width. Click and hold an end to cut it back; one cut has a maximum length, so trimming takes several cuts. The marks have a tolerance, the blocks slowly grow back, and the meter fills in about 42 s.
+- It is played on ticket #5, which was the second off-folder ticket (a coding-agent assumption).
+- Reason to be written by designer.
+- Trade-off: one more rule set to learn. A careful player clears it in about 13 s (model run); cutting too far costs about 30 s of regrowth for that end.
+
+**D66 - The introduction lets the player choose the minigame seed: type one, or tick "Random seed" (the box greys out).**
+- A random seed is shown in the box, so the same level can be replayed after a restart.
+- Reason to be written by designer.
+- Trade-off: playtests can use fresh levels each time, but results are only comparable between players when they use the same seed.
+
 ---
 
 ## Open questions (from the build plan)

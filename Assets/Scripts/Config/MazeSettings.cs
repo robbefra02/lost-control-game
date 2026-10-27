@@ -16,11 +16,14 @@ namespace LostControl.Config
         [Tooltip("[ASSUMPTION] Seconds for the pressure meter to fill from empty while a round is open.")]
         [Min(0.1f)] public float meterFillTime = 30f;
 
-        [Tooltip("[ASSUMPTION] Speed of the dot while a movement key is held, in cells per second.")]
+        [Tooltip("[ASSUMPTION] Speed of the dot with the joystick pushed all the way, in cells per second.")]
         [Min(0.1f)] public float dotSpeed = 2f;
 
         [Tooltip("[ASSUMPTION] Speed at which the dot slides back along its path when nobody steers it, in cells per second.")]
         [Min(0f)] public float driftSpeed = 0.5f;
+
+        [Tooltip("Seconds without steering (or away from the PC) before the dot starts to slide back.")]
+        [Min(0f)] public float driftDelay = 2f;
 
         [Tooltip("[ASSUMPTION] Radius of the dot, in cells. Touching a wall with it bounces the dot back.")]
         [Range(0.05f, 0.45f)] public float dotRadius = 0.2f;

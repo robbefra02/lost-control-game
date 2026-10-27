@@ -45,6 +45,7 @@ After the first playtest the virus was replaced by minigames ([BUILD_PLAN_2.md](
 - [x] Step 14 - Match the colors
 - [x] Step 15 - Packet filter (replaced Extinguish the firewall)
 - [x] Step 16 - Maze
+- [x] Extra - SSD trimming (fifth minigame, D65)
 - [ ] Step 17 - Economy
 
 ## Build
