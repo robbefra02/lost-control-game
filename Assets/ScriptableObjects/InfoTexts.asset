@@ -24,12 +24,9 @@ MonoBehaviour:
     a ticket in the list to connect to that PC. Disconnect with the button above
     the list.
 
-
-    <b>The list goes stale</b>
-
-    While you are connected, the
-    other tickets stop updating. When a PC you can''t see takes damage, you hear
-    a beep and its ticket flashes red.
+    While connected, other tickets'' statuses do not update. They
+    do momentarily when connecting to a new ticket. When a PC you can''t see takes
+    damage, you hear a beep and its ticket flashes red.
 
 
     <b>Pressure and damage</b>
@@ -42,8 +39,9 @@ MonoBehaviour:
 
     <b>How each PC is fixed</b>
 
-    The ''i'' button on
-    the remote PC explains the minigame of the PC you are connected to.'
+    The info window to the
+    right of the current open ticket explains the minigame of the PC you are connected
+    to.'
   minigames:
   - minigame: 0
     text: 'One folder looks slightly different from the others: its file, the side

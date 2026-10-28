@@ -8,14 +8,14 @@ namespace LostControl.View
     /// <summary>
     /// The introduction shown before the level starts (D63). Its overlay blocks the game until the player clicks
     /// the start button; only then does the simulation begin to run. Under a divider the player can type a minigame
-    /// seed, or tick "Random", which greys the seed box out (D66). A random seed is written into the box, so it
-    /// can be replayed after a restart by unticking.
+    /// seed, or tick "Random", which greys the seed box out (D66); it starts ticked. A random seed is written into the
+    /// box, so it can be replayed after a restart by unticking.
     /// </summary>
     public class IntroView : MonoBehaviour
     {
         // Remembered across restarts (scene reloads) during one run of the game.
         static string lastSeedText;
-        static bool lastRandomSeed;
+        static bool lastRandomSeed = true;
 
         [SerializeField] GameController game;
         [SerializeField] InfoTexts texts;

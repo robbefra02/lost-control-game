@@ -381,6 +381,7 @@ Context: the designer found the experience stressful and unfair and the one-tick
 - Reason to be written by designer.
 - Trade-off: playtests can use fresh levels each time, but results are only comparable between players when they use the same seed.
 - **Update 2026-10-27:** the tick box now just says "Random" (designer's request).
+- **Update 2026-10-28:** "Random" starts ticked, so every new session plays a fresh level unless the player types a seed (designer's request).
 
 ## 2026-10-27 - After playing SSD trimming and the joystick maze
 
@@ -389,12 +390,20 @@ Context: the designer found the experience stressful and unfair and the one-tick
 - Coding-agent assumptions: the length is 2.1 block thicknesses; crossing a block's middle counts as a cut, so one line reaches two blocks at most; the blocks a line would cut light up while it is drawn.
 - Reason (stated): clicking a block should not make it smaller. The designer found the rest of the minigame good.
 - Trade-off: precision now comes from where the line is drawn, not from timing a held click. A bot drawing one line every 1.5 s clears the stack in 7.5 s (model run). A line drawn inside the mark still over-cuts, and that end has to grow back.
+- **Update 2026-10-28:** the designer tuned the line to 1.22 block thicknesses in the Inspector, so one line now reaches one block.
 
 **D68 - The maze is one maze per ticket, a little longer, with up to 3 pellets that take pressure off.**
 - One round instead of two. Coding-agent assumption: 8x4 cells (was 6x4).
 - Pellets lie on the way to the exit or on a short detour; touching one with the dot removes it and lowers the meter. Coding-agent assumptions: always 3 when there is room, at most 2 cells off the way, never in the start or exit cell or next to each other, 0.15 off the meter each.
 - Reason to be written by designer.
 - Trade-off: the maze now rewards a small detour, and the player has to choose between the shortest way and relief. Model run: a bot that takes every pellet and then the exit finishes in about 11 s.
+
+## 2026-10-28 - Five tickets
+
+**D69 - Level 1 has five tickets, one per minigame.**
+- The second packet filter ticket (#6, "Fan is very loud") is removed. The designer also renamed the tickets after their problems: "Weird icons in folders", "Virus warning shown", "Weird webpage on screen", "Can't connect to fileserver", "Drive is full".
+- Reason to be written by designer.
+- Trade-off: a shorter, less crowded level (the last ticket arrives at 45 s); each minigame is met exactly once, so there is no repeat of a minigame the player already knows.
 
 ---
 

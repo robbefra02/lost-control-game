@@ -67,7 +67,7 @@ With no session it shows "No remote session" or "#n blacked out", as the PC scre
 - A closed ticket's list entry shrinks to half height and shows only its number, title and "Resolved" or "Blackout" (D56, D59).
 - Each time the player switches to a ticket (starts connecting), every list entry takes its ticket's current state once, then stays stale (D58, `refreshListOnSwitch`).
 - `TicketDefinition.threat` and `infectedArea` are replaced by `minigame` (a `MinigameType`).
-- `[ASSUMPTION]` Level 1 mix: #1 Off-folder, #2 Match the colors, #3 Packet filter, #4 Maze, #5 SSD trimming, #6 Packet filter.
+- Level 1 has five tickets (D69): #1 Off-folder, #2 Match the colors, #3 Packet filter, #4 Maze, #5 SSD trimming. The designer wrote the ticket descriptions.
 - `[ASSUMPTION]` The ticket descriptions are placeholders that hint at the minigame. The designer writes the final text.
 - List entries show the damage level and a small pressure bar (D60, replaces "Round n/N"); a stale entry shows the last-known pressure.
 
@@ -151,7 +151,7 @@ Both firewall versions (step 15 and the D52 redesign) are removed.
 ### SSD trimming (D65)
 - A stack of wide, low blocks sticks out on the left and the right past a marked target width. The marks show the tolerance.
 - The player holds the mouse button and draws a cutting line (D67). On release, every block whose middle the line crosses is cut off there, on the side of the centre the crossing is on. A click without a line cuts nothing.
-  - The line has a maximum length of just over twice the thickness of one block (`[ASSUMPTION]` 2.1), so trimming takes several lines. With the gap between blocks, one line reaches two blocks at most.
+  - The designer asked for a maximum length of just over twice the thickness of one block, then tuned it to 1.22 thicknesses in the Inspector. With the gap between blocks, one line now reaches one block, so trimming takes a line per end.
   - The line follows the mouse while it is held; the blocks it would cut light up.
 - Every end grows back slowly, also while the player is away. An end cut past the tolerance has to grow back into the mark.
 - The round is done once every end is within the tolerance.
@@ -164,7 +164,7 @@ Both firewall versions (step 15 and the D52 redesign) are removed.
 The handbook built in step 13 is removed. Its upper right area stays empty.
 - **Introduction:** before the level starts, an overlay (styled like the end screen) shows the basics: tickets, connecting, the stale list, pressure and damage. The level clock and all tickets wait until the player clicks "Let's go!".
   - It shows again after a restart.
-  - Under a divider the player can type the minigame seed, or tick "Random", which greys the box out (D66). A random seed is written into the box. `[ASSUMPTION]` The box and the tick are remembered across restarts in one run, so a random level can be replayed by unticking.
+  - Under a divider the player can type the minigame seed, or tick "Random", which greys the box out (D66). "Random" starts ticked. A random seed is written into the box. `[ASSUMPTION]` The box and the tick are remembered across restarts in one run, so a random level can be replayed by unticking.
   - It can be switched off with `showIntroduction` in Level1Config.
 - **Info box:** the remote PC panel shows an info box on the right of the board that explains the connected ticket's minigame. The minigame gets the rest of the board.
   - `[ASSUMPTION]` The box takes 34% of the board.

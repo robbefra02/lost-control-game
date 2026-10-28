@@ -14,25 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LostControl.Config.LevelConfig
   minigameSeed: 12345
   tickets:
-  - description: PC acts strange
+  - description: Weird icons in folders
     arrivalTime: 0
     minigame: 0
   - description: Virus warning shown
     arrivalTime: 8
     minigame: 1
-  - description: Computer is really slow
+  - description: Weird webpage on screen
     arrivalTime: 20
     minigame: 2
-  - description: Pop-ups everywhere
+  - description: Can't connect to fileserver
     arrivalTime: 30
     minigame: 3
-  - description: Files won't open
+  - description: Drive is full
     arrivalTime: 45
     minigame: 4
-  - description: Fan is very loud
-    arrivalTime: 55
-    minigame: 2
-  connectionTime: 3
+  connectionTime: 2.1
   hiddenDamageCue: 1
   liveListWhenDisconnected: 1
   refreshListOnSwitch: 1
@@ -53,7 +50,7 @@ MonoBehaviour:
     rounds: 1
     columns: 4
     rows: 4
-    meterFillTime: 42.4
+    meterFillTime: 53
     matchPressureRelief: 0.25
     mismatchRevealTime: 0.75
   packetFilter:
@@ -61,9 +58,9 @@ MonoBehaviour:
     ports: 140000001500000016000000170000001900000035000000500000006e0000008f000000bb0100003d0d0000
     blockedPortsPerRound: 01000000
     blocksPerRound: 8
-    spawnInterval: 0.75
+    spawnInterval: 1.39
     badChance: 0.31892693
-    travelTime: 8.71
+    travelTime: 10.8
     blockPressureRelief: 0.15
     leakPressure: 0.15
     wrongBlockPressure: 0.2
@@ -77,20 +74,20 @@ MonoBehaviour:
     driftDelay: 2
     dotRadius: 0.2
     bounceDistance: 0.5
-    bounceSpeed: 4
+    bounceSpeed: 3
     pellets: 3
-    pelletDetour: 2
-    pelletRelief: 0.15
+    pelletDetour: 1
+    pelletRelief: 0.212
     pelletRadius: 0.15
   ssdTrim:
     rounds: 1
     blocks: 5
-    targetWidth: 0.4
-    tolerance: 0.03
+    targetWidth: 0.28410113
+    tolerance: 0.022
     overhangMin: 0.08
     overhangMax: 0.22
-    cutLineLength: 2.1
-    regrowPerSecond: 0.0015
+    cutLineLength: 1.22
+    regrowPerSecond: 0.0027
     meterFillTime: 47
   payoutFine: 100
   payoutSlightlyBroken: 75

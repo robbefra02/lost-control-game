@@ -20,16 +20,15 @@ namespace LostControl.Config
 
         [Header("Tickets")]
         [Tooltip("All tickets in this level. The level is won when every one is resolved. " +
-                 "[ASSUMPTION] Arrival times 0, 8, 20, 30, 45, 55s; descriptions are placeholders. " +
-                 "[ASSUMPTION] Minigame mix: off-folder, colors, packet filter, maze, SSD trimming, packet filter.")]
+                 "Five tickets (D69). [ASSUMPTION] Arrival times 0, 8, 20, 30, 45s. " +
+                 "[ASSUMPTION] Minigame mix: off-folder, colors, packet filter, maze, SSD trimming.")]
         public List<TicketDefinition> tickets = new List<TicketDefinition>
         {
-            new TicketDefinition("PC acts strange", 0f, MinigameType.OffFolder),
+            new TicketDefinition("Weird icons in folders", 0f, MinigameType.OffFolder),
             new TicketDefinition("Virus warning shown", 8f, MinigameType.MatchColors),
-            new TicketDefinition("Computer is really slow", 20f, MinigameType.PacketFilter),
-            new TicketDefinition("Pop-ups everywhere", 30f, MinigameType.Maze),
-            new TicketDefinition("Files won't open", 45f, MinigameType.SsdTrim),
-            new TicketDefinition("Fan is very loud", 55f, MinigameType.PacketFilter),
+            new TicketDefinition("Weird webpage on screen", 20f, MinigameType.PacketFilter),
+            new TicketDefinition("Can't connect to fileserver", 30f, MinigameType.Maze),
+            new TicketDefinition("Drive is full", 45f, MinigameType.SsdTrim),
         };
 
         [Header("Connecting")]
