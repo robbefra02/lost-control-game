@@ -59,7 +59,7 @@ namespace LostControl.Config
                 "The meter fills at a steady speed until the round is done."),
             new MinigameInfo(MinigameType.SsdTrim,
                 "The blocks stick out on both sides. Hold the mouse button and draw a short cutting line across a part that " +
-                "sticks out: the blocks are cut where the line crosses them. A line reaches two blocks at most. " +
+                "sticks out: the block is cut where the line crosses it. A line cuts one block at a time. " +
                 "Trim every side to the green marks.\n\n" +
                 "<b>Cut too far</b> and you have to wait for that side to grow back into the mark.\n" +
                 "<b>The blocks</b> slowly grow back, also while you are away.\n\n" +

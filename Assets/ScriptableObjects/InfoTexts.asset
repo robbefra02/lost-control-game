@@ -99,16 +99,16 @@ MonoBehaviour:
       speed until the round is done.'
   - minigame: 4
     text: 'The blocks stick out on both sides. Hold the mouse button and draw a short
-      cutting line across a part that sticks out: the blocks are cut where the line
-      crosses them. A line reaches two blocks at most. Trim every side to the green
-      marks.
+      cutting line across a part that sticks out: the block is cut where the line
+      crosses it. A line cuts one block at a time. Trim every side to the green marks.
 
 
-      <b>Cut too far</b> and you have to wait for that side to grow
-      back into the mark.
+      <b>Cut
+      too far</b> and you have to wait for that side to grow back into the mark.
 
-      <b>The blocks</b> slowly grow back, also while you
-      are away.
+      <b>The
+      blocks</b> slowly grow back, also while you are away.
 
 
-      The meter fills at a steady speed until every side is trimmed.'
+      The meter fills
+      at a steady speed until every side is trimmed.'
