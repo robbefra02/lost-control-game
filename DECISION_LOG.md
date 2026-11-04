@@ -405,6 +405,43 @@ Context: the designer found the experience stressful and unfair and the one-tick
 - Reason to be written by designer.
 - Trade-off: a shorter, less crowded level (the last ticket arrives at 45 s); each minigame is met exactly once, so there is no repeat of a minigame the player already knows.
 
+## 2026-11-04 - Final playtest build
+
+**D70 - The game as it stands is the final playtest build (main at 9c84bbf).**
+- The designer judged that the game looks, feels and plays as intended, and accepted the open items listed below for this playtest. This entry records that state. The "Open questions" and "Assumptions still to confirm" sections below were written earlier and are partly out of date; this entry and `Level1Config.asset` describe the build.
+- **Level:**
+  - Five tickets arrive at 0, 8, 20, 30 and 45 s, one per minigame (D69).
+  - Connecting takes 2.1 s, and the player works on one PC at a time.
+  - While connected, the other tickets go stale; the list refreshes on every switch (D58) and is live while disconnected. Damage on a PC the player can't see beeps and flashes its row (D28).
+  - A resolved ticket disconnects by itself (D51) and shrinks to a half-height row (D56); blacked-out tickets do too (D59). Every row shows a pressure bar (D60).
+- **Pressure and damage:** a full meter costs one damage level at once and drops back to half (D47): Fine, Slightly broken, More broken, Blackout. The level ends when every ticket is closed; 2 users lost (Blackouts) is a loss.
+- **Minigames, with the designer's tuning:**
+  - Find the off-folder (#1, "Weird icons in folders"): 6x6 folders; the odd one differs in shape only (D49). 3 rounds; meter 40.6 s; a wrong click adds 0.2.
+  - Match the colors (#2, "Virus warning shown"): 4x4 cards, solved once (D50). Each match takes 0.25 off; meter 53 s.
+  - Packet filter (#3, "Weird webpage on screen"): one round with one blocked port; block 8 bad packets.
+    - A packet every 1.39 s, 10.8 s along the cable, 32% bad.
+    - A block takes 0.15 off; a leak adds 0.15; a wrong block adds 0.2.
+  - Maze (#4, "Can't connect to fileserver"): one 8x4 maze steered with a joystick (D64, D68).
+    - The dot drifts back after 2 s without steering, and walls bounce it back.
+    - 3 pellets, at most 1 cell off the way, each take 0.212 off.
+    - Meter 42.1 s.
+  - SSD trimming (#5, "Drive is full"): 5 blocks cut with a drawn line (D65, D67).
+    - Target width 0.28 with a tolerance of ±0.022.
+    - A line is 1.22 block thicknesses, so it cuts one block.
+    - Regrowth 0.0027/s; meter 47 s.
+- **Around the game:**
+  - An introduction screen with a seed box; "Random" is ticked by default (D63, D66).
+  - An info box next to the minigame, with the 'i' toggle (D62).
+  - An end screen with Restart and the loss tip (D36).
+- **Build:** Windows, borderless fullscreen at the monitor's resolution. It is called "LostControl" by "Rezonate inc." and has its own icon and splash screen. The game pauses when its window loses focus.
+- **Not in this build (accepted by the designer):**
+  - No way to quit except Alt+F4.
+  - No playtest logging (step 12): only the minigame seed is written to `Player.log`.
+  - Both sounds (new ticket, hidden damage) are placeholder beeps.
+  - No economy (step 17): payouts, pause tokens and the shop have config values, but no code uses them.
+- Reason (stated): the game looks, feels and plays great.
+- Trade-off: playtest results come from watching and asking, not from logged data. With random seeds on by default, a session can only be replayed if its seed is noted (from the seed box after a restart, or from `Player.log`).
+
 ---
 
 ## Open questions (from the build plan)
